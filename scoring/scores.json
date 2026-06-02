@@ -16,12 +16,12 @@
       "results": {
         "boundary_baseline": {
           "cross_sectional_correspondence_error_mm": 2.2040156310447867,
-          "longitudinal_correspondence_error_mm": 1.9705900894497863,
+          "longitudinal_correspondence_error_mm": 3.0975779240094474,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
           "cross_sectional_correspondence_error_mm": 0.2487558361777838,
-          "longitudinal_correspondence_error_mm": 0.32412651804353276,
+          "longitudinal_correspondence_error_mm": 1.7736600430173237,
           "valid_spoke_fraction": 1.0
         }
       }

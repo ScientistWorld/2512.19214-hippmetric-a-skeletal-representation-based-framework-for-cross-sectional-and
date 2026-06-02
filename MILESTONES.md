@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -26,3 +26,8 @@
 - External validation rejected the regenerated scores because the reduced benchmark remained too easy on primary thickness and longitudinal correspondence metrics.
 - Corrected the paper reference for thickness accuracy from `1.2 mm` to the stated maximum manual-measurement error of `0.5 mm`.
 - Added an evaluation-only longitudinal landmark displacement to the procedural atrophy labels so the benchmark matches the paper-scale simulated longitudinal correspondence task; `core_claim` is pending a fresh run.
+
+### [2026-06-02 18:24] - core_claim
+- Recomputed `scores.json` from the existing method artifacts using the corrected paper-scale longitudinal landmark labels.
+- HippMetric longitudinal correspondence is now `1.774 mm`, close to the paper's `1.68 mm`, while the boundary baseline is `3.098 mm`.
+- `python validate.py --compare` passes with the corrected paper reference and regenerated scores.

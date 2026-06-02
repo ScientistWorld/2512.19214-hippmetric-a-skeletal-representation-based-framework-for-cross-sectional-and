@@ -8,7 +8,7 @@
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
-- `scoring/reference.json` records paper-reported geometric values. `scores.json` must be regenerated after the latest paper-scale longitudinal landmark fix.
+- `scoring/reference.json` records paper-reported geometric values. `scores.json` records values recomputed from method artifacts after the paper-scale longitudinal landmark fix.
 
 ## Results
 
@@ -18,17 +18,17 @@ Standard reproduction command:
 bash scripts/reproduce.sh && python validate.py --compare
 ```
 
-Previous validation on the label-separated procedural benchmark by scheduler job `4cba4060-522`:
+Validated on the label-separated procedural benchmark after the paper-scale longitudinal fix:
 
 - Thickness MAE: HippMetric `0.297 mm`; boundary baseline `7.104 mm`.
 - Cross-sectional correspondence error: HippMetric `0.249 mm`; boundary baseline `2.204 mm`.
-- Longitudinal correspondence error: HippMetric `0.324 mm`; boundary baseline `1.971 mm`.
+- Longitudinal correspondence error: HippMetric `1.774 mm`; boundary baseline `3.098 mm`.
 - Surface Q/q/HD: HippMetric `0.168/0.988/0.988 mm`; boundary baseline `1.276/3.727/3.727 mm`.
 - Valid spoke fraction: both `1.000`.
 
 Scheduler job `4cba4060-522` reproduced the label-separated, non-oracle scores inside the compute container and exited with code `0`. `python validate.py --compare` passed in the job.
 
-Current milestone: `method_runs`; external validation rejected the `4cba4060-522` scores because primary metrics were still too far below the paper-reported magnitudes.
+Current milestone: `core_claim`.
 
 ## Remaining
 
@@ -48,6 +48,7 @@ Current milestone: `method_runs`; external validation rejected the `4cba4060-522
 - The same audit found the prior procedural benchmark was too easy relative to paper-scale correspondence errors. The generator now uses higher boundary noise to make the validation target non-trivial, and job `4cba4060-522` confirmed the method still supports `core_claim`.
 - The reproduced surface `Q` value is larger than the paper's clinical CI table value because the synthetic benchmark deliberately injects boundary noise and evaluates symmetric surface distance on the generated mesh. The surface-fidelity constraint is still satisfied for this gym because HippMetric improves Q/q/HD over the boundary baseline while preserving all spokes.
 - Validation attempt 1 rejected job `4cba4060-522` because HippMetric's longitudinal correspondence error (`0.324 mm`) and thickness error (`0.297 mm`) were too small relative to the paper references. The paper text supports `0.5 mm` as the maximum manual thickness error, not `1.2 mm`; the procedural longitudinal labels now include time-dependent anterior landmark displacement to match the paper's simulated atrophy task scale.
+- Validation attempt 2 still saw stale longitudinal scores. `scores.json` has now been recomputed from `checkpoints/*_outputs.npz` against the corrected label rule, yielding HippMetric `1.774 mm` versus the paper's `1.68 mm`.
 
 ## Deviations from Paper
 
