@@ -51,11 +51,24 @@ def _rows(value: np.ndarray, mask: np.ndarray, name: str) -> np.ndarray:
     )
 
 
-def _valid_spoke_fraction(out: dict[str, np.ndarray], mask: np.ndarray) -> float:
+def _valid_spoke_fraction(
+    out: dict[str, np.ndarray],
+    mask: np.ndarray,
+    pred_t: np.ndarray,
+    pred_lm: np.ndarray,
+    recon: np.ndarray,
+) -> float:
     value = np.asarray(out["valid_spoke_fraction"])
     if value.ndim == 0:
-        return float(value)
-    return float(np.mean(_rows(value, mask, "valid_spoke_fraction")))
+        reported_validity = float(value)
+    else:
+        reported_validity = float(np.mean(_rows(value, mask, "valid_spoke_fraction")))
+    output_validity = float(
+        np.mean(np.isfinite(pred_t) & (pred_t >= 0.0))
+        * np.mean(np.all(np.isfinite(pred_lm), axis=(1, 2)))
+        * np.mean(np.all(np.isfinite(recon), axis=(1, 2)))
+    )
+    return min(reported_validity, output_validity)
 
 
 def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarray) -> dict[str, float]:
@@ -91,7 +104,7 @@ def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarr
         "surface_q_mm": float(surface[:, 1].mean()),
         "surface_HD_mm": float(surface[:, 2].mean()),
         "surface_p95_mm": float(surface[:, 3].mean()),
-        "valid_spoke_fraction": _valid_spoke_fraction(out, mask),
+        "valid_spoke_fraction": _valid_spoke_fraction(out, mask, pred_t, pred_lm, recon),
     }
 
 

@@ -6,11 +6,11 @@ This benchmark concerns hippocampal substructure morphometry from 3D shape data,
 
 ## Core Contribution
 
-The paper's contribution is an anatomy-aligned internal coordinate and spoke-based morphometry framework. Improvements should target geometric modeling, correspondence, local thickness estimation, or robustness of hippocampal shape measurements.
+The research goal is anatomically consistent local morphometry from hippocampal shape data. Improvements should target geometric modeling, correspondence, local thickness estimation, or robustness of hippocampal shape measurements.
 
 ## Approach Scope
 
-In-scope work includes improved skeletal templates, better spoke refinement, more robust surface matching, alternative internal coordinate parameterizations, and validity constraints for local morphometry. Methods may change the geometric optimization strategy as long as they still solve the same hippocampal morphometry and correspondence problem.
+In-scope work includes better shape parameterizations, more robust surface matching, improved local measurement validity, and stronger handling of longitudinal shape change. Methods may change the geometric optimization strategy as long as they still solve the same hippocampal morphometry and correspondence problem.
 
 ## Out of Bounds
 

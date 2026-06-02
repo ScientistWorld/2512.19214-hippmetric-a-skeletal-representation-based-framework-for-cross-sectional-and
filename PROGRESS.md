@@ -10,6 +10,8 @@
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
 - `scoring/reference.json` records paper-reported geometric values. `scores.json` records values recomputed from method artifacts after the paper-scale longitudinal landmark fix.
 - `eval/evaluate_outputs.py` now emits the same p95 tail metrics used by the train/test split evaluators, so `scores.json` covers the full metric set declared in `reference.json`.
+- Final-verification pass made `scripts/evaluate.sh` discover all `checkpoints/*_outputs.npz` artifacts, matching the train/test scoring interface for future methods.
+- The validity constraint is now capped by evaluator-observable finite/nonnegative output checks rather than relying entirely on a method-reported value.
 
 ## Results
 
@@ -38,6 +40,7 @@ Current milestone: `core_claim`.
 ## Issues
 
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. A CPU test job is being submitted to regenerate the expanded `scores.json` and run validation inside the reproducible container.
+- A final-verification CPU test job is pending to regenerate score files after the generic evaluator and validity-cap fixes.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
 - Job `9deda0b6-b07` validated the non-oracle code path but showed correspondence regression (`4.500 mm` longitudinal error versus `1.950 mm` baseline). The registration estimate was corrected by fixing the row-vector Procrustes rotation and initializing from preserved mesh vertex correspondence before ICP refinement.
 - Job `3ce052c3-dc6` validated the corrected registration and restored the core claim without reading procedural transforms.

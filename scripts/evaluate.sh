@@ -30,6 +30,5 @@ mkdir -p scoring
 python eval/evaluate_outputs.py \
   --dataset data/synthetic_hippocampus.npz \
   --labels data/synthetic_hippocampus_labels.npz \
-  --hippmetric checkpoints/hippmetric_outputs.npz \
-  --baseline checkpoints/boundary_baseline_outputs.npz \
+  --outputs-dir "${OUTPUTS_DIR:-checkpoints}" \
   --scores scoring/scores.json

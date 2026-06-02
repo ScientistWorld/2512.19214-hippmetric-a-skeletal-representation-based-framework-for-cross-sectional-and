@@ -3,4 +3,4 @@ action: submit
 gpus: 0
 test: true
 milestone: core_claim
-notes: "CPU smoke test: regenerate HippMetric and baseline outputs, write expanded scores.json with p95 metrics, run train/test evaluators, and validate against reference."
+notes: "Final-verification CPU smoke test: regenerate outputs, score all checkpoint artifacts with the generic evaluator and validity cap, write main/train/test scores, and run validate.py --compare."
