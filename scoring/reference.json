@@ -94,7 +94,7 @@
         "surface_q_mm": {
           "higher_is_better": false,
           "coefficient": 0.0,
-          "description": "Maximum bidirectional surface reconstruction distance retained as a reported diagnostic; zero-weighted because it is identical to surface_HD_mm in this point-cloud scorer."
+          "description": "Maximum bidirectional surface reconstruction distance retained as a reported diagnostic."
         },
         "surface_HD_mm": {
           "higher_is_better": false,

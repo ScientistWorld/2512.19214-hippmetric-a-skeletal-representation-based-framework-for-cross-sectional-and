@@ -20,7 +20,7 @@ def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, fl
     both = np.concatenate([fwd, rev])
     q_mean = float(np.sqrt(np.mean(both**2)))
     q_max = float(np.max(both))
-    hd = float(max(np.max(fwd), np.max(rev)))
+    hd = float(np.max(fwd) + np.max(rev))
     p95 = float(np.quantile(both, 0.95))
     return q_mean, q_max, hd, p95
 

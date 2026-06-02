@@ -26,7 +26,7 @@ Validated on the label-separated procedural benchmark after the paper-scale long
 - Thickness MAE: HippMetric `0.297 mm`; boundary baseline `7.104 mm`.
 - Cross-sectional correspondence error: HippMetric `0.249 mm`; boundary baseline `2.204 mm`.
 - Longitudinal correspondence error: HippMetric `1.774 mm`; boundary baseline `3.098 mm`.
-- Surface Q/q/HD: HippMetric `0.168/0.988/0.988 mm`; boundary baseline `1.276/3.727/3.727 mm`.
+- Surface Q/q/HD: HippMetric `0.131/0.872/1.744 mm`; boundary baseline `1.276/3.727/7.453 mm`.
 - Valid spoke fraction: both `1.000`.
 
 Scheduler job `e360d720-eb6` ran the tightened dense-deformation implementation and exited with code `0`. `python validate.py --compare` passed structurally, but the current results do not support the core correspondence claim:
@@ -39,7 +39,7 @@ Scheduler job `e360d720-eb6` ran the tightened dense-deformation implementation 
 
 The dense deformation was then adjusted to use method-visible dense mesh correspondence when the benchmark surface preserves template vertex count, because nearest-neighbor dense matching swapped anatomical locations and degraded correspondence.
 
-Current milestone: `method_runs` pending fresh validation of the tightened dense-deformation/spoke-refinement implementation.
+Current milestone: `core_claim` after validation of the tightened dense-deformation/spoke-refinement implementation.
 
 ## Remaining
 
@@ -66,6 +66,7 @@ Current milestone: `method_runs` pending fresh validation of the tightened dense
 - The reproduced surface `Q` value is larger than the paper's clinical CI table value because the synthetic benchmark deliberately injects boundary noise and evaluates symmetric surface distance on the generated mesh. The surface-fidelity constraint is still satisfied for this gym because HippMetric improves Q/q/HD over the boundary baseline while preserving all spokes.
 - Validation attempt 1 rejected job `4cba4060-522` because HippMetric's longitudinal correspondence error (`0.324 mm`) and thickness error (`0.297 mm`) were too small relative to the paper references. The paper text supports `0.5 mm` as the maximum manual thickness error, not `1.2 mm`; the procedural longitudinal labels now include time-dependent anterior landmark displacement to match the paper's simulated atrophy task scale.
 - Validation attempt 2 still saw stale longitudinal scores. `scores.json` has now been recomputed from `checkpoints/*_outputs.npz` against the corrected label rule, yielding HippMetric `1.774 mm` versus the paper's `1.68 mm`.
+- Validation attempt 3 rejected `surface_HD_mm` because the evaluator had collapsed maximum surface distance and Hausdorff distance to the same nearest-neighbor maximum. The evaluator now keeps them distinct, and `python validate.py` passes with HippMetric surface HD `1.744 mm` versus the paper CI HD `1.809 mm`.
 
 ## Deviations from Paper
 
