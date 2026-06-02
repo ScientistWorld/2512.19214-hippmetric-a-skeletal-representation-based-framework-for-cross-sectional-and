@@ -9,27 +9,27 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "thickness_mae_mm": 0.29612364877636316,
-          "thickness_p95_abs_error_mm": 0.7568940605211112,
-          "valid_spoke_fraction": 1.0
+          "thickness_mae_mm": 0.4025918861397931,
+          "thickness_p95_abs_error_mm": 1.0204424551409657,
+          "valid_spoke_fraction": 0.9999389051808407
         }
       }
     },
     "correspondence_stability": {
       "results": {
         "boundary_baseline": {
-          "cross_sectional_correspondence_error_mm": 2.110679672823478,
-          "cross_sectional_p95_correspondence_error_mm": 3.4580325604999302,
-          "longitudinal_correspondence_error_mm": 3.0489244270805584,
-          "longitudinal_p95_correspondence_error_mm": 4.709059563919517,
+          "cross_sectional_correspondence_error_mm": 1.9993338157496594,
+          "cross_sectional_p95_correspondence_error_mm": 3.3325457069322804,
+          "longitudinal_correspondence_error_mm": 2.572704125728393,
+          "longitudinal_p95_correspondence_error_mm": 4.251999662937867,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "cross_sectional_correspondence_error_mm": 0.23432629595753024,
-          "cross_sectional_p95_correspondence_error_mm": 0.43002719632701014,
-          "longitudinal_correspondence_error_mm": 1.7691905286667817,
-          "longitudinal_p95_correspondence_error_mm": 2.8604201003609497,
-          "valid_spoke_fraction": 1.0
+          "cross_sectional_correspondence_error_mm": 3.4272505712805006,
+          "cross_sectional_p95_correspondence_error_mm": 14.781098925822299,
+          "longitudinal_correspondence_error_mm": 5.655445330398212,
+          "longitudinal_p95_correspondence_error_mm": 17.027492394886856,
+          "valid_spoke_fraction": 0.9999389051808407
         }
       }
     },
@@ -43,11 +43,11 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "surface_Q_mm": 0.16802717944047654,
-          "surface_q_mm": 0.9961860662402189,
-          "surface_HD_mm": 0.9961860662402189,
-          "surface_p95_mm": 0.4749011443022008,
-          "valid_spoke_fraction": 1.0
+          "surface_Q_mm": 0.253840864555366,
+          "surface_q_mm": 1.5530195404880562,
+          "surface_HD_mm": 1.5530195404880562,
+          "surface_p95_mm": 0.6820885816802176,
+          "valid_spoke_fraction": 0.9999389051808407
         }
       }
     }

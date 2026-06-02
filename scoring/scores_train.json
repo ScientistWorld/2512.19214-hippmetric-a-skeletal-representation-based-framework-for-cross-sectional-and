@@ -9,8 +9,8 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "thickness_mae_mm": 0.2976264259716816,
-          "thickness_p95_abs_error_mm": 0.7591034692735179,
+          "thickness_mae_mm": 0.40230491547923536,
+          "thickness_p95_abs_error_mm": 1.042189672538389,
           "valid_spoke_fraction": 1.0
         }
       }
@@ -18,17 +18,17 @@
     "correspondence_stability": {
       "results": {
         "boundary_baseline": {
-          "cross_sectional_correspondence_error_mm": 2.297351589266095,
-          "cross_sectional_p95_correspondence_error_mm": 3.723972658854621,
-          "longitudinal_correspondence_error_mm": 3.146231420938336,
-          "longitudinal_p95_correspondence_error_mm": 4.40926910143868,
+          "cross_sectional_correspondence_error_mm": 2.077916283080876,
+          "cross_sectional_p95_correspondence_error_mm": 3.66972322680508,
+          "longitudinal_correspondence_error_mm": 2.6365601992205137,
+          "longitudinal_p95_correspondence_error_mm": 3.7517294516062707,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "cross_sectional_correspondence_error_mm": 0.26318537639803735,
-          "cross_sectional_p95_correspondence_error_mm": 0.5279296639624137,
-          "longitudinal_correspondence_error_mm": 1.7781295573678657,
-          "longitudinal_p95_correspondence_error_mm": 2.8348264837678507,
+          "cross_sectional_correspondence_error_mm": 4.370260889091361,
+          "cross_sectional_p95_correspondence_error_mm": 15.306723589437931,
+          "longitudinal_correspondence_error_mm": 6.804051157638306,
+          "longitudinal_p95_correspondence_error_mm": 17.186746692585306,
           "valid_spoke_fraction": 1.0
         }
       }
@@ -43,10 +43,10 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "surface_Q_mm": 0.16861333511980212,
-          "surface_q_mm": 0.9790339264090502,
-          "surface_HD_mm": 0.9790339264090502,
-          "surface_p95_mm": 0.4766308355561923,
+          "surface_Q_mm": 0.2556774962160517,
+          "surface_q_mm": 1.4940942555408048,
+          "surface_HD_mm": 1.4940942555408048,
+          "surface_p95_mm": 0.6886331480365374,
           "valid_spoke_fraction": 1.0
         }
       }
