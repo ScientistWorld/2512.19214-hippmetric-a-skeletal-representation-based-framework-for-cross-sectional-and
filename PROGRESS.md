@@ -25,18 +25,17 @@ Measured on the procedural benchmark:
 - Surface HD: HippMetric `0.645 mm`; boundary baseline `3.647 mm`.
 - Valid spoke fraction: both `1.000`.
 
-These results show the implementation runs and produces the expected effect on a scaled benchmark. The next submitted job will verify the same path inside the scheduler/container environment before promoting to `core_claim`.
+Scheduler job `078ea881-f47` reproduced the same scores inside the compute container and exited with code `0`. `python validate.py --compare` passed in the job.
 
 ## Remaining
 
-- Confirm the full reproduction path in a submitted CPU test job.
-- After job success, update milestone to `core_claim` if the scheduler-produced `scores.json` preserves the same method-vs-baseline gap.
 - Higher milestones would require public ADNI preprocessing assets, paper template assets, or the upstream HippMetric example data/manual landmarks.
 
 ## Issues
 
 - ADNI access is controlled and GHABS is not public. The paper's manual landmarks and supplemental per-subfield tables are not included in the workspace.
 - The reproduction therefore uses a procedural dataset that preserves the geometric correspondence and atrophy phenomena but does not reproduce clinical classification AUCs.
+- The scheduler log path reported in the notification was not mounted directly, but the job logs were available at `/home/user/jobs/078ea881-f47/` and confirmed successful execution.
 
 ## Deviations from Paper
 
