@@ -2,4 +2,5 @@
 action: done
 gpus: 0
 test: false
-notes: "Subject-level 50/50 train/test split; 26 train metrics and 26 test metrics populated for boundary_baseline and hippmetric; hippmetric train/test gaps are small (about 0.2% to 10.4% on primary mean metrics); surface_q_mm zero-weighted because it duplicates surface_HD_mm here; valid_spoke_fraction is saturated at 1.0 for existing methods but retained as a constraint."
+milestone: core_claim
+notes: "Core claim is supported on the reduced procedural benchmark: scripts/reproduce.sh and validate.py passed in scheduler job 4cba4060-522, with HippMetric beating boundary_baseline on thickness MAE (0.297 vs 7.104 mm), cross-sectional correspondence (0.249 vs 2.204 mm), longitudinal correspondence (1.774 vs 3.098 mm), and surface HD (0.988 vs 3.727 mm). Split scoring is also populated for train/test: 26 metrics each for boundary_baseline and hippmetric."
