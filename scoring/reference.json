@@ -5,8 +5,21 @@
       "weight": 0.25,
       "primary_metric": "thickness_mae_mm",
       "metrics": {
-        "thickness_mae_mm": {"higher_is_better": false, "coefficient": -1.0},
-        "valid_spoke_fraction": {"higher_is_better": true, "coefficient": 0.4}
+        "thickness_mae_mm": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Mean absolute error between predicted and reference subfield thickness values."
+        },
+        "thickness_p95_abs_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Ninety-fifth percentile absolute thickness error, penalizing localized failures hidden by the mean."
+        },
+        "valid_spoke_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.4,
+          "description": "Fraction of anatomical spokes that remain valid, preventing thickness gains from invalid geometry."
+        }
       },
       "results": {
         "boundary_baseline": {"type": "baseline"},
@@ -18,9 +31,31 @@
       "weight": 0.50,
       "primary_metric": "longitudinal_correspondence_error_mm",
       "metrics": {
-        "cross_sectional_correspondence_error_mm": {"higher_is_better": false, "coefficient": -0.8},
-        "longitudinal_correspondence_error_mm": {"higher_is_better": false, "coefficient": -1.0},
-        "valid_spoke_fraction": {"higher_is_better": true, "coefficient": 0.3}
+        "cross_sectional_correspondence_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.8,
+          "description": "Mean landmark localization error on baseline cross-sectional subjects."
+        },
+        "cross_sectional_p95_correspondence_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.35,
+          "description": "Ninety-fifth percentile cross-sectional landmark error, catching methods tuned only to average landmarks."
+        },
+        "longitudinal_correspondence_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Mean landmark localization error on longitudinal atrophy-like follow-up subjects."
+        },
+        "longitudinal_p95_correspondence_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.45,
+          "description": "Ninety-fifth percentile longitudinal landmark error, exposing unstable follow-up correspondences."
+        },
+        "valid_spoke_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.3,
+          "description": "Fraction of anatomical spokes that remain valid while preserving landmark correspondence."
+        }
       },
       "results": {
         "boundary_baseline": {"type": "baseline"},
@@ -51,10 +86,31 @@
       "weight": 0.25,
       "primary_metric": "surface_HD_mm",
       "metrics": {
-        "surface_Q_mm": {"higher_is_better": false, "coefficient": -0.7},
-        "surface_q_mm": {"higher_is_better": false, "coefficient": -0.4},
-        "surface_HD_mm": {"higher_is_better": false, "coefficient": -1.0},
-        "valid_spoke_fraction": {"higher_is_better": true, "coefficient": 0.3}
+        "surface_Q_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.7,
+          "description": "Root-mean-square bidirectional surface reconstruction distance."
+        },
+        "surface_q_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "Maximum bidirectional surface reconstruction distance retained for comparability with the first-pass scorer."
+        },
+        "surface_HD_mm": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Hausdorff surface reconstruction distance, guarding against severe geometric outliers."
+        },
+        "surface_p95_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.45,
+          "description": "Ninety-fifth percentile bidirectional surface distance, adding a tail metric less brittle than the maximum."
+        },
+        "valid_spoke_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.3,
+          "description": "Fraction of anatomical spokes that remain valid under reconstructed surface geometry."
+        }
       },
       "results": {
         "boundary_baseline": {"type": "baseline"},

@@ -15,14 +15,15 @@ SPLIT_SEED = 25121914
 OUTPUT_SUFFIX = "_outputs.npz"
 
 
-def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, float]:
+def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, float, float]:
     fwd = cKDTree(gt).query(pred)[0]
     rev = cKDTree(pred).query(gt)[0]
     both = np.concatenate([fwd, rev])
     q_mean = float(np.sqrt(np.mean(both**2)))
     q_max = float(np.max(both))
     hd = float(max(np.max(fwd), np.max(rev)))
-    return q_mean, q_max, hd
+    p95 = float(np.quantile(both, 0.95))
+    return q_mean, q_max, hd, p95
 
 
 def _test_mask(subjects: np.ndarray) -> np.ndarray:
@@ -67,17 +68,25 @@ def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarr
     if not np.any(cross) or not np.any(longitudinal):
         raise ValueError("Test slice must contain both cross-sectional and longitudinal rows.")
 
-    thickness_mae = float(np.mean(np.abs(pred_t - gt_t)))
-    cross_error = float(np.mean(np.linalg.norm(pred_lm[cross, :10] - gt_lm[cross, :10], axis=2)))
-    long_error = float(np.mean(np.linalg.norm(pred_lm[longitudinal, 10:] - gt_lm[longitudinal, 10:], axis=2)))
+    thickness_abs = np.abs(pred_t - gt_t)
+    cross_errors = np.linalg.norm(pred_lm[cross, :10] - gt_lm[cross, :10], axis=2)
+    long_errors = np.linalg.norm(pred_lm[longitudinal, 10:] - gt_lm[longitudinal, 10:], axis=2)
+    thickness_mae = float(np.mean(thickness_abs))
+    thickness_p95 = float(np.quantile(thickness_abs, 0.95))
+    cross_error = float(np.mean(cross_errors))
+    long_error = float(np.mean(long_errors))
     surface = np.array([_surface_metrics(recon[i], gt_surface[i]) for i in range(len(recon))])
     return {
         "thickness_mae_mm": thickness_mae,
+        "thickness_p95_abs_error_mm": thickness_p95,
         "cross_sectional_correspondence_error_mm": cross_error,
+        "cross_sectional_p95_correspondence_error_mm": float(np.quantile(cross_errors, 0.95)),
         "longitudinal_correspondence_error_mm": long_error,
+        "longitudinal_p95_correspondence_error_mm": float(np.quantile(long_errors, 0.95)),
         "surface_Q_mm": float(surface[:, 0].mean()),
         "surface_q_mm": float(surface[:, 1].mean()),
         "surface_HD_mm": float(surface[:, 2].mean()),
+        "surface_p95_mm": float(surface[:, 3].mean()),
         "valid_spoke_fraction": _valid_spoke_fraction(out, mask),
     }
 
@@ -142,10 +151,14 @@ def main() -> None:
     outputs = _select_outputs(Path(args.outputs_dir), Path(args.methods_from))
     blocks = _score_methods(dataset, labels, outputs, mask)
     scores = {
+        "_slice": "test",
         "experiments": {
             "subfield_thickness_accuracy": {
                 "results": {
-                    method: _keep(block, ("thickness_mae_mm", "valid_spoke_fraction"))
+                    method: _keep(
+                        block,
+                        ("thickness_mae_mm", "thickness_p95_abs_error_mm", "valid_spoke_fraction"),
+                    )
                     for method, block in blocks.items()
                 }
             },
@@ -155,7 +168,9 @@ def main() -> None:
                         block,
                         (
                             "cross_sectional_correspondence_error_mm",
+                            "cross_sectional_p95_correspondence_error_mm",
                             "longitudinal_correspondence_error_mm",
+                            "longitudinal_p95_correspondence_error_mm",
                             "valid_spoke_fraction",
                         ),
                     )
@@ -166,7 +181,7 @@ def main() -> None:
                 "results": {
                     method: _keep(
                         block,
-                        ("surface_Q_mm", "surface_q_mm", "surface_HD_mm", "valid_spoke_fraction"),
+                        ("surface_Q_mm", "surface_q_mm", "surface_HD_mm", "surface_p95_mm", "valid_spoke_fraction"),
                     )
                     for method, block in blocks.items()
                 }
