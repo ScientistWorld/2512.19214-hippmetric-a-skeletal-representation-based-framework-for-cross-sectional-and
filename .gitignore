@@ -7,6 +7,8 @@ checkpoints/
 *.bin
 *.npy
 *.npz
+!data/synthetic_hippocampus.npz
+!data/synthetic_hippocampus_labels.npz
 *.h5
 *.hdf5
 *.pkl

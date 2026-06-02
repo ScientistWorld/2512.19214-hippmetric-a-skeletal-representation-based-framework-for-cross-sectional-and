@@ -3,7 +3,8 @@
 
 set -e
 
-cd /home/user
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
 
-bash scripts/evaluate_train.sh /home/user/checkpoints
-bash scripts/evaluate_test.sh /home/user/checkpoints
+bash scripts/evaluate_train.sh
+bash scripts/evaluate_test.sh

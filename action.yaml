@@ -3,4 +3,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Validation passes after refreshing the generated labels to the tracked paper-scale longitudinal rule and recomputing split scores: HippMetric longitudinal correspondence is 1.778 mm on train and 1.769 mm on test versus paper 1.68 mm, with boundary_baseline at 3.146/3.049 mm; core_claim remains supported."
+notes: "Made shell entrypoints repo-relative and tracked the small synthetic benchmark archives so fresh clones do not need external downloads."
