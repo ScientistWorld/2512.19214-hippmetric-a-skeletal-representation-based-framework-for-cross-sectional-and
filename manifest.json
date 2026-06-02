@@ -1,0 +1,127 @@
+{
+  "paper": {
+    "arxiv_id": "2512.19214",
+    "title": "HippMetric: A skeletal-representation-based framework for cross-sectional and longitudinal hippocampal substructural morphometry",
+    "date": "",
+    "topics": [
+      "paper-type-metric-method",
+      "domain-medical-imaging",
+      "area-medical-ai",
+      "category-morphometry",
+      "method-skeletal-representation",
+      "secondary-domain-bioinformatics",
+      "secondary-area-medical-ai",
+      "secondary-category-shape-analysis",
+      "secondary-method-deformable-models",
+      "selection-category-others"
+    ]
+  },
+  "reproduction": {
+    "milestone": "core_claim",
+    "status": "done",
+    "error": null,
+    "scaffold": "codex",
+    "model": "gpt-5.5",
+    "profile": "gpt-5.5-medium",
+    "effort": "medium",
+    "gpu_hours_used": 0.0,
+    "current_iteration_gpu_budget": 30,
+    "current_iteration_gpu_hours_used": 0.0,
+    "total_gpu_hours_used": 0.0,
+    "current_iteration_cpu_hours_used": 0.014,
+    "total_cpu_hours_used": 0.014,
+    "gpu_budget": 30,
+    "duration_sec": 480.3,
+    "cost_usd": null,
+    "input_tokens": 2873213,
+    "output_tokens": 19201,
+    "cached_input_tokens": 2706176,
+    "cache_creation_tokens": null,
+    "reasoning_tokens": 0,
+    "total_input_tokens": 2873213,
+    "num_turns": 51,
+    "duration_api_ms": null,
+    "num_runs": 1,
+    "iteration_count": 0,
+    "workflow": "standard",
+    "workflow_step": 0,
+    "total_gpu_jobs": 1,
+    "time_breakdown": {
+      "working": 348.82323384284973,
+      "building": 0.08464527130126953,
+      "installing": 1.3085734844207764,
+      "waiting": 51.227508544921875
+    }
+  },
+  "agents": [
+    {
+      "scaffold": "codex",
+      "model": "gpt-5.5",
+      "profile": "gpt-5.5-medium",
+      "effort": "medium",
+      "role": "reproducer",
+      "is_iteration": false,
+      "iteration": 1,
+      "workflow": "standard",
+      "workflow_step": 0,
+      "started_at": 1780422811.3755102,
+      "finished_at": 1780423291.6514792,
+      "duration_sec": 480.3,
+      "blocked_sec": 0.0,
+      "status": "done",
+      "error": null,
+      "milestone": "core_claim",
+      "gpu_budget": 30,
+      "gpu_hours_used": 0.0,
+      "total_gpu_hours_used": 0.0,
+      "cpu_hours_used": 0.014,
+      "time_breakdown": {
+        "working": 348.82323384284973,
+        "building": 0.08464527130126953,
+        "installing": 1.3085734844207764,
+        "waiting": 51.227508544921875
+      },
+      "cost_usd": null,
+      "input_tokens": 2873213,
+      "output_tokens": 19201,
+      "cached_input_tokens": 2706176,
+      "cache_creation_tokens": null,
+      "reasoning_tokens": 0,
+      "total_input_tokens": 2873213,
+      "num_turns": 51,
+      "duration_api_ms": null,
+      "tool_uses": {
+        "shell": 41,
+        "file_edit": 10
+      },
+      "gpu_jobs": [
+        {
+          "run_id": "078ea881-f47",
+          "command": "bash /home/user/scripts/run.sh",
+          "num_gpus": 0,
+          "num_cpus": 1,
+          "resource": "gpu-cpu",
+          "hive_job_id": "68358522",
+          "status": "completed",
+          "returncode": 0,
+          "duration_sec": 48.8,
+          "submitted_at": 1780423168.0441682,
+          "started_at": 1780423169.9833698,
+          "completed_at": 1780423218.7755287
+        }
+      ],
+      "progress_log": "### [2026-06-02 00:00] - none\n- Started reproduction work from an empty scaffold.\n- Read the HippMetric paper and identified the central computable claim: skeletal/lamellar correspondence with geometry-preserving spoke refinement improves local morphometry and longitudinal stability.\n\n### [2026-06-02 00:00] - method_runs\n- Implemented a scaled HippMetric pipeline with lamellar skeleton coordinates, paired superior/inferior spokes, boundary convergence, normal alignment, baseline-anchored longitudinal spoke optimization, and local thickness extraction.\n- Added a method-independent synthetic hippocampal benchmark and boundary-driven baseline.\n- Ran `bash scripts/reproduce.sh && python validate.py --compare` locally; all validation checks passed.\n\n### [2026-06-02 00:00] - core_claim\n- Scheduler job `078ea881-f47` completed with exit code `0`.\n- The job regenerated the synthetic benchmark, ran the boundary baseline and HippMetric implementation, wrote `scoring/scores.json`, and passed `python validate.py --compare`.\n- HippMetric improved the central correspondence/morphometry metrics over the boundary baseline while preserving valid local measurements: thickness MAE `0.121 mm` vs `7.090 mm`, longitudinal correspondence `0.148 mm` vs `1.950 mm`, surface HD `0.645 mm` vs `3.647 mm`, and valid spoke fraction `1.000`."
+    }
+  ],
+  "components": {
+    "has_container": true,
+    "has_method_code": true,
+    "has_evaluation": true,
+    "has_download_script": true,
+    "has_reproduce_script": true,
+    "has_method_script": true,
+    "has_baseline": true,
+    "has_reference": true,
+    "has_data": true
+  }
+}
