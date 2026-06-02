@@ -3,11 +3,11 @@
     "subfield_thickness_accuracy": {
       "results": {
         "boundary_baseline": {
-          "thickness_mae_mm": 7.090259905195169,
+          "thickness_mae_mm": 7.104074661998458,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "thickness_mae_mm": 0.12330956060318483,
+          "thickness_mae_mm": 0.2968750373740224,
           "valid_spoke_fraction": 1.0
         }
       }
@@ -15,13 +15,13 @@
     "correspondence_stability": {
       "results": {
         "boundary_baseline": {
-          "cross_sectional_correspondence_error_mm": 2.196270294472969,
-          "longitudinal_correspondence_error_mm": 1.9499228284522798,
+          "cross_sectional_correspondence_error_mm": 2.2040156310447867,
+          "longitudinal_correspondence_error_mm": 1.9705900894497863,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "cross_sectional_correspondence_error_mm": 0.07484664756048612,
-          "longitudinal_correspondence_error_mm": 0.15294630457684089,
+          "cross_sectional_correspondence_error_mm": 0.2487558361777838,
+          "longitudinal_correspondence_error_mm": 0.32412651804353276,
           "valid_spoke_fraction": 1.0
         }
       }
@@ -29,15 +29,15 @@
     "surface_robustness": {
       "results": {
         "boundary_baseline": {
-          "surface_Q_mm": 1.2997046805792152,
-          "surface_q_mm": 3.647393672182126,
-          "surface_HD_mm": 3.647393672182126,
+          "surface_Q_mm": 1.2759107512404062,
+          "surface_q_mm": 3.726528229363055,
+          "surface_HD_mm": 3.726528229363055,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "surface_Q_mm": 0.05835316518277744,
-          "surface_q_mm": 0.6600464242114578,
-          "surface_HD_mm": 0.6600464242114578,
+          "surface_Q_mm": 0.16832025728013936,
+          "surface_q_mm": 0.9876099963246346,
+          "surface_HD_mm": 0.9876099963246346,
           "valid_spoke_fraction": 1.0
         }
       }
