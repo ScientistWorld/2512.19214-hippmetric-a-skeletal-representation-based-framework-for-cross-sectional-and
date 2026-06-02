@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
-gpus: 1
-test: false
-milestone: core_claim
-notes: "Core claim reproduced on the packaged procedural hippocampal benchmark; compute-container job 078ea881-f47 ran reproduce and validate successfully."
+action: submit
+gpus: 0
+test: true
+milestone: method_runs
+notes: "Audit fix: rerun reproduce and validate after replacing oracle procedural transforms with estimated template-to-surface ICP alignment."
