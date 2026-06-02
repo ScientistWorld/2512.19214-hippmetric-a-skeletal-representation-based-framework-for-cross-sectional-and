@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -11,7 +12,7 @@ import numpy as np
 from scipy.spatial import cKDTree
 
 
-SPLIT_SEED = 25121914
+SPLIT_SALT = "25121914"
 OUTPUT_SUFFIX = "_outputs.npz"
 
 
@@ -28,8 +29,11 @@ def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, fl
 
 def _train_mask(subjects: np.ndarray) -> np.ndarray:
     subject_ids = np.array(sorted(np.unique(subjects[:, 0])))
-    shuffled = np.random.default_rng(SPLIT_SEED).permutation(subject_ids)
-    train_subjects = set(shuffled[: len(shuffled) // 2].tolist())
+    ranked = sorted(
+        subject_ids.tolist(),
+        key=lambda sid: hashlib.blake2b(f"{SPLIT_SALT}:{int(sid)}".encode(), digest_size=8).digest(),
+    )
+    train_subjects = set(ranked[: len(ranked) // 2])
     return np.array([row[0] in train_subjects for row in subjects], dtype=bool)
 
 

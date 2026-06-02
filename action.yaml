@@ -1,6 +1,6 @@
 # The system reads this file after every turn.
-action: done
+action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Core claim is supported on the reduced procedural benchmark: scripts/reproduce.sh and validate.py passed in scheduler job 4cba4060-522, with HippMetric beating boundary_baseline on thickness MAE (0.297 vs 7.104 mm), cross-sectional correspondence (0.249 vs 2.204 mm), longitudinal correspondence (1.774 vs 3.098 mm), and surface HD (0.988 vs 3.727 mm). Split scoring is also populated for train/test: 26 metrics each for boundary_baseline and hippmetric."
+notes: "Regenerate split scores against current labels after replacing RNG split with deterministic hash-ranked subject split."
