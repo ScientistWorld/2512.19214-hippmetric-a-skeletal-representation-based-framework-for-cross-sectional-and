@@ -1,5 +1,5 @@
 # The system reads this file after every turn.
-action: submit
+action: done
 gpus: 0
 test: false
-notes: "Retry split scoring after fixing *_outputs.npz discovery in train/test evaluators."
+notes: "Subject-level 50/50 train/test split; 26 train metrics and 26 test metrics populated for boundary_baseline and hippmetric; hippmetric train/test gaps are small (about 0.2% to 10.4% on primary mean metrics); surface_q_mm zero-weighted because it duplicates surface_HD_mm here; valid_spoke_fraction is saturated at 1.0 for existing methods but retained as a constraint."
