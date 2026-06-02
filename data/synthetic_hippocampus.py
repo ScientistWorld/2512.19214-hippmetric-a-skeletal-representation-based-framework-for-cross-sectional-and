@@ -66,7 +66,7 @@ def _rotation(rng: np.random.Generator) -> np.ndarray:
     return rz @ ry @ rx
 
 
-def make_dataset(output: Path, n_subjects: int, n_timepoints: int, seed: int) -> None:
+def make_dataset(output: Path, labels_output: Path, n_subjects: int, n_timepoints: int, seed: int) -> None:
     rng = np.random.default_rng(seed)
     tpl = template_grid()
     n = tpl["skeleton"].shape[0]
@@ -91,7 +91,11 @@ def make_dataset(output: Path, n_subjects: int, n_timepoints: int, seed: int) ->
             inf_dir = -sup_dir
             sup = skel + sup_dir * (0.5 * thickness[:, None])
             inf = skel + inf_dir * (0.5 * thickness[:, None])
-            noise = rng.normal(0.0, 0.045 + 0.015 * tid, size=sup.shape)
+            # Keep the procedural benchmark non-trivial: boundaries are noisy
+            # enough that correspondence errors are on the same millimeter scale
+            # as the paper's reported landmark task, but the lamellar skeleton is
+            # still recoverable from the observed surface geometry.
+            noise = rng.normal(0.0, 0.15 + 0.025 * tid, size=sup.shape)
             vertices = np.concatenate([sup + noise, inf - noise], axis=0)
             normals = np.concatenate([sup_dir, inf_dir], axis=0)
             surfaces.append(vertices)
@@ -113,23 +117,29 @@ def make_dataset(output: Path, n_subjects: int, n_timepoints: int, seed: int) ->
         template_u=tpl["u"],
         template_v=tpl["v"],
         subfield_id=tpl["subfield_id"],
-        gt_thickness=np.asarray(gt_thickness),
-        gt_landmarks=np.asarray(gt_landmarks),
         landmark_idx=landmark_idx,
         long_idx=long_idx,
-        transforms=np.asarray(transforms),
         subfields=np.asarray(SUBFIELDS),
+    )
+    labels_output.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(
+        labels_output,
+        subjects=np.asarray(subjects, dtype=np.int64),
+        gt_thickness=np.asarray(gt_thickness),
+        gt_landmarks=np.asarray(gt_landmarks),
+        transforms=np.asarray(transforms),
     )
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="data/synthetic_hippocampus.npz")
+    parser.add_argument("--labels-output", default="data/synthetic_hippocampus_labels.npz")
     parser.add_argument("--subjects", type=int, default=24)
     parser.add_argument("--timepoints", type=int, default=4)
     parser.add_argument("--seed", type=int, default=13)
     args = parser.parse_args()
-    make_dataset(Path(args.output), args.subjects, args.timepoints, args.seed)
+    make_dataset(Path(args.output), Path(args.labels_output), args.subjects, args.timepoints, args.seed)
 
 
 if __name__ == "__main__":

@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: core_claim
-notes: "CPU test job to rerun the packaged HippMetric reproduction after aligning reference.json with paper-reported geometric targets."
+milestone: method_runs
+notes: "CPU validation job after separating evaluation labels from method inputs and increasing procedural benchmark difficulty; expected to regenerate scores through scripts/reproduce.sh."

@@ -21,12 +21,12 @@ def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, fl
     return q_mean, q_max, hd
 
 
-def _metric_block(dataset: dict, output_file: Path) -> dict[str, float]:
+def _metric_block(dataset: dict, labels: dict, output_file: Path) -> dict[str, float]:
     out = np.load(output_file, allow_pickle=True)
     pred_t = out["pred_thickness"]
-    gt_t = dataset["gt_thickness"]
+    gt_t = labels["gt_thickness"]
     pred_lm = out["pred_landmarks"]
-    gt_lm = dataset["gt_landmarks"]
+    gt_lm = labels["gt_landmarks"]
     subjects = dataset["subjects"]
     gt_surface = dataset["surface_vertices"]
     recon = out["recon_vertices"]
@@ -50,13 +50,17 @@ def _metric_block(dataset: dict, output_file: Path) -> dict[str, float]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default="data/synthetic_hippocampus.npz")
+    parser.add_argument("--labels", default="data/synthetic_hippocampus_labels.npz")
     parser.add_argument("--hippmetric", default="checkpoints/hippmetric_outputs.npz")
     parser.add_argument("--baseline", default="checkpoints/boundary_baseline_outputs.npz")
     parser.add_argument("--scores", default="scoring/scores.json")
     args = parser.parse_args()
     dataset = dict(np.load(args.dataset, allow_pickle=True))
-    baseline = _metric_block(dataset, Path(args.baseline))
-    hippmetric = _metric_block(dataset, Path(args.hippmetric))
+    labels = dict(np.load(args.labels, allow_pickle=True))
+    if not np.array_equal(dataset["subjects"], labels["subjects"]):
+        raise ValueError("Dataset and label files describe different subject/timepoint rows.")
+    baseline = _metric_block(dataset, labels, Path(args.baseline))
+    hippmetric = _metric_block(dataset, labels, Path(args.hippmetric))
 
     def keep(block: dict[str, float], names: tuple[str, ...]) -> dict[str, float]:
         return {name: block[name] for name in names}
