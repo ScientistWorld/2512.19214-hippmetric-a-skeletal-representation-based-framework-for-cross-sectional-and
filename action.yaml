@@ -1,6 +1,6 @@
 # The system reads this file after every turn.
-action: submit
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "Final-verification CPU smoke test: regenerate outputs, score all checkpoint artifacts with the generic evaluator and validity cap, write main/train/test scores, and run validate.py --compare."
+notes: "Final verification passed after CPU job 01b6d854-37c regenerated scores and validate.py --compare succeeded. Workspace is ready as a core_claim gym."

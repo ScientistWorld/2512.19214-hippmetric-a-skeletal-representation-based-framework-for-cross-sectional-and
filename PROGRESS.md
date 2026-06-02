@@ -41,6 +41,7 @@ Current milestone: `core_claim`.
 
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. A CPU test job is being submitted to regenerate the expanded `scores.json` and run validation inside the reproducible container.
 - A final-verification CPU test job is pending to regenerate score files after the generic evaluator and validity-cap fixes.
+- Final-verification CPU job `01b6d854-37c` completed with exit code `0`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
 - Job `9deda0b6-b07` validated the non-oracle code path but showed correspondence regression (`4.500 mm` longitudinal error versus `1.950 mm` baseline). The registration estimate was corrected by fixing the row-vector Procrustes rotation and initializing from preserved mesh vertex correspondence before ICP refinement.
 - Job `3ce052c3-dc6` validated the corrected registration and restored the core claim without reading procedural transforms.
