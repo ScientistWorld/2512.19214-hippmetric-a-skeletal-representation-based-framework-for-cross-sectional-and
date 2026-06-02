@@ -1,6 +1,6 @@
 # The system reads this file after every turn.
-action: done
+action: submit
 gpus: 0
-test: false
-milestone: core_claim
-notes: "Final verification passed after CPU job 01b6d854-37c regenerated scores and validate.py --compare succeeded. Workspace is ready as a core_claim gym."
+test: true
+milestone: method_runs
+notes: "CPU validation for tightened HippMetric implementation: dense Gaussian-kernel template deformation, paired E0/E1/E2 spoke refinement, stricter boundary baseline, and regenerated scores."
