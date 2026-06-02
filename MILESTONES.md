@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -19,5 +19,10 @@
 - Fixed registration by correcting the Procrustes SVD convention and using preserved mesh vertex correspondence for initialization before ICP.
 - Resubmitting a CPU test job to recompute scores.
 
+### [2026-06-02 18:07] - core_claim
+- CPU job `3ce052c3-dc6` passed `scripts/reproduce.sh` and `python validate.py --compare` with the non-oracle registration implementation.
+- HippMetric achieved `0.153 mm` longitudinal correspondence error versus `1.950 mm` for the boundary baseline.
+- HippMetric achieved `0.123 mm` thickness MAE and `0.660 mm` surface HD while preserving `valid_spoke_fraction = 1.000`.
+
 ## Stop Justification
-- Not stopped. The corrected registration implementation is pending another compute-container validation.
+- Completed at milestone `core_claim`. Further clinical reproduction would require unavailable ADNI/GHABS cohort assets, manual landmarks, or the paper's private template data.
