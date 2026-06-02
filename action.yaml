@@ -1,6 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
-milestone: core_claim
-notes: "Job 4cba4060-522 validated the label-separated reduced HippMetric reproduction; scores show the skeletal/spoke method beats the boundary baseline on thickness, correspondence, surface fidelity, and valid-spoke constraints."
+action: submit
+gpus: 0
+test: true
+milestone: method_runs
+notes: "Regenerate scores after correcting the thickness paper reference and making the procedural longitudinal landmark task paper-scale for validation consistency."

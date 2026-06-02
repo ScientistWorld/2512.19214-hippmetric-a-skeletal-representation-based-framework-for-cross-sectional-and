@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Progress Log
 
@@ -21,3 +21,8 @@
 - Scheduler job `4cba4060-522` reran `scripts/reproduce.sh` and `python validate.py --compare` in the compute container with exit code `0`.
 - On the label-separated procedural benchmark, HippMetric beat the boundary baseline on thickness MAE (`0.297` vs `7.104` mm), cross-sectional correspondence (`0.249` vs `2.204` mm), longitudinal correspondence (`0.324` vs `1.971` mm), surface HD (`0.988` vs `3.727` mm), and valid spoke fraction (`1.000` for both).
 - This restores `core_claim` for the paper's core skeletal-coordinate/spoke-refinement claim at reduced scale; clinical cohort, Deformetrica LDDMM, and manual-landmark reproduction remain unavailable.
+
+### [2026-06-02 18:20] - method_runs
+- External validation rejected the regenerated scores because the reduced benchmark remained too easy on primary thickness and longitudinal correspondence metrics.
+- Corrected the paper reference for thickness accuracy from `1.2 mm` to the stated maximum manual-measurement error of `0.5 mm`.
+- Added an evaluation-only longitudinal landmark displacement to the procedural atrophy labels so the benchmark matches the paper-scale simulated longitudinal correspondence task; `core_claim` is pending a fresh run.

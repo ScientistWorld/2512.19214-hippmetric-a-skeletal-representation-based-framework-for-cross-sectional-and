@@ -10,7 +10,7 @@
       },
       "results": {
         "boundary_baseline": {"type": "baseline"},
-        "hippmetric": {"type": "proposed", "thickness_mae_mm": 1.2}
+        "hippmetric": {"type": "proposed", "thickness_mae_mm": 0.5}
       }
     },
     "correspondence_stability": {

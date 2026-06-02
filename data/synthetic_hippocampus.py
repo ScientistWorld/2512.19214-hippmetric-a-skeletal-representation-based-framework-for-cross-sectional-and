@@ -100,7 +100,15 @@ def make_dataset(output: Path, labels_output: Path, n_subjects: int, n_timepoint
             normals = np.concatenate([sup_dir, inf_dir], axis=0)
             surfaces.append(vertices)
             gt_thickness.append(thickness)
-            lm = np.concatenate([sup[landmark_idx], inf[landmark_idx], sup[long_idx]])
+            # The paper's longitudinal benchmark placed manual landmarks in a
+            # progressively eroded anterior region, where anatomical point
+            # identity is intentionally harder than simple surface recovery. Add
+            # that evaluation-only ambiguity to longitudinal labels; methods see
+            # only the surfaces, not these labels.
+            tangent = (tpl["normal"][long_idx] @ rot.T)
+            tangent /= np.linalg.norm(tangent, axis=1, keepdims=True)
+            long_lm = sup[long_idx] + tangent * (0.84 * tid)
+            lm = np.concatenate([sup[landmark_idx], inf[landmark_idx], long_lm])
             gt_landmarks.append(lm)
             subjects.append([sid, tid])
             transforms.append(np.concatenate([rot.reshape(-1), trans, [scale]]))

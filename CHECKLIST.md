@@ -11,7 +11,7 @@ Check off items as you complete them. Order doesn't matter — work however make
 ## Scoring
 - [x] `scoring/reference.json` — paper's reported numbers
 - [x] Workspace validated via `python validate.py`
-- [x] `scoring/scores.json` — reproduced numbers regenerated after continuation-audit fixes
+- [ ] `scoring/scores.json` — reproduced numbers regenerated after validation-scale fixes
 - [x] `scoring/EXPERIMENTS.md` — high-level purpose of each experiment in `scores.json` (do not edit until wrap up)
 - [x] `scoring/TARGETS.md` — primary, constraint, and ablation targets (do not edit until wrap up)
 - [x] `scoring/CONSTRAINTS.md` — what a scientist must hold fixed (do not edit until wrap up)
@@ -37,7 +37,7 @@ Check off items as you complete them. Order doesn't matter — work however make
 
 ## Milestones
 - [x] `method_runs` — executes end-to-end without errors
-- [x] `core_claim` — minimum experiment supports central claim after fresh validation
+- [ ] `core_claim` — minimum experiment supports central claim after validation-scale fixes
 - [ ] `core_claim_plus` — additional settings
 - [ ] `secondary_claims`
 - [ ] `majority`

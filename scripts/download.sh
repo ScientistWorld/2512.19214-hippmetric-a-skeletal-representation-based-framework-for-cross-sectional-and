@@ -19,7 +19,10 @@ set -e
 
 cd /home/user
 
-if [ ! -e data/synthetic_hippocampus.npz ] || [ ! -e data/synthetic_hippocampus_labels.npz ]; then
+if [ ! -e data/synthetic_hippocampus.npz ] || \
+   [ ! -e data/synthetic_hippocampus_labels.npz ] || \
+   [ data/synthetic_hippocampus.py -nt data/synthetic_hippocampus.npz ] || \
+   [ data/synthetic_hippocampus.py -nt data/synthetic_hippocampus_labels.npz ]; then
   python data/synthetic_hippocampus.py \
     --output data/synthetic_hippocampus.npz \
     --labels-output data/synthetic_hippocampus_labels.npz
