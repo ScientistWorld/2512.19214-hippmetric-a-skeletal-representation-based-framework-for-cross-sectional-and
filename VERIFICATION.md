@@ -2,28 +2,25 @@
 
 ## Initial Assessment
 
-The workspace entered final verification at `core_claim`. The claimed milestone was justified at reduced scale: the implemented method runs end to end on the packaged procedural hippocampal benchmark and outperforms the boundary-driven baseline on thickness, cross-sectional correspondence, longitudinal correspondence, and surface fidelity. The main limitation is that the clinical ADNI/GHABS data, manual landmarks, full template assets, and upstream repository are unavailable, so this is a procedural benchmark rather than a full clinical reproduction.
+The workspace entered this final-verification turn with `action.yaml` set to submit a CPU validation job and `MILESTONES.md` set to `method_runs`. This is appropriate for the current repository state: the method implementation was tightened after the last successful score generation, so the checked-in `scores.json`, `scores_train.json`, and `scores_test.json` are stale relative to the current `method/hippmetric.py`.
+
+The earlier `core_claim` result is documented in the progress log, but it applies to the previous implementation. The current implementation must be rerun before the milestone can be restored.
 
 ## Issues Found
 
-- **Minor**: `scripts/evaluate.sh` originally hardcoded the paper method and baseline artifact paths. This would make future methods harder to score without editing evaluator code.
-- **Minor**: The main `scores.json` evaluator did not emit the p95 tail metrics already declared in `reference.json` and used by the train/test evaluators.
-- **Minor**: `valid_spoke_fraction` was purely method-reported, making the validity constraint easy to game.
-- **Cosmetic**: `briefing/evaluation.md` and `scoring/DIRECTION.md` named the paper method and mechanism more directly than needed for method-safe, from-scratch guidance.
+- **Critical**: Current scores are stale. `method/hippmetric.py` now uses a reduced dense Gaussian-kernel deformation and paired E0/E1/E2 spoke refinement, while the score files still contain results from the previous implementation.
+- **Minor**: `VERIFICATION.md` previously stated the workspace was finalized at `core_claim`, which no longer matched the active milestone or pending validation action.
 
 ## Fixes Applied
 
-- Made `eval/evaluate_outputs.py` discover and score every `checkpoints/*_outputs.npz` artifact, matching the train/test evaluator interface.
-- Added p95 thickness, correspondence, and surface metrics to the main `scores.json` output.
-- Capped reported validity by evaluator-observable checks for finite, nonnegative thickness and finite landmark/surface outputs in the main, train, and test evaluators.
-- Reworded method-safe documentation to describe the problem and allowed research direction without over-specifying the paper's implementation.
-- Submitted CPU job `01b6d854-37c`, which regenerated `scores.json`, `scores_train.json`, and `scores_test.json` and passed `python validate.py --compare` inside the container.
+- Replaced the stale final-verification report with this pending-verification report.
+- Kept `MILESTONES.md` and `action.yaml` at `method_runs` pending a CPU validation job.
 
 ## Final Judgment
 
-The workspace is ready to serve as a research gym at `core_claim`. Improve-mode agents can build on the reproduced method, and from-scratch agents can use the data/eval/problem files without importing or depending on `method/`. The gym has meaningful train/test slices and a reusable evaluator, but it remains a reduced procedural benchmark rather than a full reproduction on the paper's private/controlled clinical cohorts.
+The workspace is not ready for final `done` signaling in this turn because current scores have not yet been regenerated from the current method implementation. The next step is the already configured CPU test job, which runs `scripts/run.sh` to regenerate scores and validate them inside the container.
 
-- Milestone: core_claim
-- Ready for gym use: yes
+- Milestone: method_runs
+- Ready for gym use: partial
 - Confidence: medium
-- Key limitation: synthetic procedural data only, because the paper's clinical cohorts and upstream example assets were unavailable.
+- Key limitation: current score files are stale until the pending CPU validation job completes.
