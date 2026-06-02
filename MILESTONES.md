@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Progress Log
 
@@ -31,3 +31,8 @@
 - Recomputed `scores.json` from the existing method artifacts using the corrected paper-scale longitudinal landmark labels.
 - HippMetric longitudinal correspondence is now `1.774 mm`, close to the paper's `1.68 mm`, while the boundary baseline is `3.098 mm`.
 - `python validate.py --compare` passes with the corrected paper reference and regenerated scores.
+
+### [2026-06-02 18:56] - method_runs
+- Continuing-agent audit found that the current implementation overclaimed `core_claim`: the previous registration was rigid/ICP rather than dense deformation, and spoke refinement omitted explicit paired E0/E1/E2 validity steps.
+- The active milestone is reset to `method_runs` while the method is tightened toward the paper's dense Gaussian-kernel deformation and geometry-constrained paired-spoke refinement.
+- A fresh CPU validation job will determine whether the stricter implementation restores `core_claim`.

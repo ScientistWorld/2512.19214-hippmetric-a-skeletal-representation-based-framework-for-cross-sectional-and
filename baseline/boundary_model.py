@@ -42,7 +42,7 @@ def run(dataset: Path, output: Path) -> None:
         thickness = np.nan_to_num(thickness, nan=np.nanmedian(thickness[:pair_count]))
         pred_thickness.append(thickness)
         lm_idx = np.concatenate([landmark_idx, landmark_idx, long_idx])
-        pred_landmarks.append(near[lm_idx] + np.array([0.7, -0.4, 0.25]))
+        pred_landmarks.append(near[lm_idx])
         recon = np.concatenate([near, near], axis=0)
         recon_vertices.append(recon)
         valid.append(1.0)

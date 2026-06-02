@@ -4,7 +4,7 @@
 
 - Paper-specific briefing, scoring targets, constraints, and direction documents are filled in.
 - `data/synthetic_hippocampus.py` generates a small procedural hippocampal subfield benchmark. Method-visible geometry is written to `data/synthetic_hippocampus.npz`; evaluation-only thickness, landmark, and transform labels are written separately to `data/synthetic_hippocampus_labels.npz`.
-- `method/hippmetric.py` runs the paper's core computation at reduced scale: internal skeletal coordinates, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton.
+- `method/hippmetric.py` runs a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton.
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
@@ -31,7 +31,7 @@ Validated on the label-separated procedural benchmark after the paper-scale long
 
 Scheduler job `4cba4060-522` reproduced the label-separated, non-oracle scores inside the compute container and exited with code `0`. `python validate.py --compare` passed in the job.
 
-Current milestone: `core_claim`.
+Current milestone: `method_runs` pending fresh validation of the tightened dense-deformation/spoke-refinement implementation.
 
 ## Remaining
 
@@ -40,6 +40,8 @@ Current milestone: `core_claim`.
 ## Issues
 
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. A CPU test job is being submitted to regenerate the expanded `scores.json` and run validation inside the reproducible container.
+- Continuing-agent audit in iteration 9 found that the prior implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The active milestone has been reset to `method_runs` until the tightened implementation is rerun.
+- Iteration 9 removes a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. A fresh CPU validation job is being submitted to regenerate `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.
 - A final-verification CPU test job is pending to regenerate score files after the generic evaluator and validity-cap fixes.
 - Final-verification CPU job `01b6d854-37c` completed with exit code `0`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
@@ -60,4 +62,4 @@ Current milestone: `core_claim`.
 
 - **Data**: The paper used ADNI/GHABS FreeSurfer FS60 segmentations, manual landmarks, and simulated atrophy on ADNI surfaces. This workspace uses a tracked procedural generator because the clinical cohorts, manual annotations, and supplemental assets are unavailable in the repository.
 - **Scale**: The paper used 549 skeletal points, 1,098 thickness measurements, and large clinical cohorts. This reproduction uses a smaller lamellar grid and 24 synthetic subjects with 4 time points to fit a quick reusable benchmark.
-- **Registration**: The paper used Deformetrica LDDMM. This reproduction uses estimated rigid+scale ICP to test the skeletal/spoke refinement and longitudinal-coordinate computation without relying on unavailable clinical surfaces or oracle procedural transforms.
+- **Registration**: The paper used Deformetrica LDDMM. This reproduction now uses a reduced dense Gaussian-kernel deformation after rigid initialization, with the paper's 7-to-3 mm kernel-width refinement pattern, to test skeletal/spoke refinement and longitudinal-coordinate computation without relying on unavailable clinical surfaces or oracle procedural transforms.
