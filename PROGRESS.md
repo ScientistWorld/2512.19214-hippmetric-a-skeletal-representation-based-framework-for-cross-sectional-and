@@ -27,7 +27,7 @@ Measured on the procedural benchmark:
 
 Scheduler job `078ea881-f47` reproduced the same scores inside the compute container and exited with code `0`. `python validate.py --compare` passed in the job.
 
-Current milestone: `core_claim`.
+Current milestone: `method_runs` pending rerun after registration correction.
 
 ## Remaining
 
@@ -35,7 +35,8 @@ Current milestone: `core_claim`.
 
 ## Issues
 
-- Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted. `method/hippmetric.py` now estimates a rigid+scale ICP alignment from the observed surface instead; updated scores are pending compute-container validation.
+- Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
+- Job `9deda0b6-b07` validated the non-oracle code path but showed correspondence regression (`4.500 mm` longitudinal error versus `1.950 mm` baseline). The registration estimate was corrected by fixing the row-vector Procrustes rotation and initializing from preserved mesh vertex correspondence before ICP refinement.
 - ADNI access is controlled and GHABS is not public. The paper's manual landmarks and supplemental per-subfield tables are not included in the workspace.
 - The reproduction therefore uses a procedural dataset that preserves the geometric correspondence and atrophy phenomena but does not reproduce clinical classification AUCs.
 - The scheduler log path reported in the notification was not mounted directly, but the job logs were available at `/home/user/jobs/078ea881-f47/` and confirmed successful execution.

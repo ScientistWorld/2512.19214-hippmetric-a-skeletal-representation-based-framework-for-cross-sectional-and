@@ -14,5 +14,10 @@
 - Compute-container job `078ea881-f47` ran `scripts/reproduce.sh` and `python validate.py --compare` successfully.
 - HippMetric reduced longitudinal correspondence error from `1.950 mm` for the boundary baseline to `0.148 mm` while preserving `valid_spoke_fraction = 1.000`.
 
+### [2026-06-02 18:06] - method_runs
+- CPU job `9deda0b6-b07` passed structurally but did not support the core claim after removing oracle transforms.
+- Fixed registration by correcting the Procrustes SVD convention and using preserved mesh vertex correspondence for initialization before ICP.
+- Resubmitting a CPU test job to recompute scores.
+
 ## Stop Justification
-- Not stopped. The corrected registration implementation is pending compute-container validation.
+- Not stopped. The corrected registration implementation is pending another compute-container validation.
