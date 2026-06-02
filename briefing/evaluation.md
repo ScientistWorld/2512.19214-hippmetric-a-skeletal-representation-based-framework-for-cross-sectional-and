@@ -19,3 +19,5 @@ This workspace uses a small procedural benchmark because the clinical ADNI/GHABS
 ## Evaluation Protocol
 
 Run `bash scripts/reproduce.sh` to generate the benchmark data, run the boundary baseline, run the reproduced method, and write `scoring/scores.json`. `scripts/evaluate.sh` is method-independent: it reads output files from `checkpoints/` and only imports code from `eval/`.
+
+`scoring/reference.json` contains the expected packaged-benchmark values, not the clinical paper table values, so automated comparison checks the reproducible environment at the same scale as `scores.json`. The paper's clinical values remain listed above as external targets.

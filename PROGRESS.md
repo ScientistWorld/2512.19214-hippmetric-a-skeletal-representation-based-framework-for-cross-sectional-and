@@ -36,6 +36,7 @@ Scheduler job `078ea881-f47` reproduced the same scores inside the compute conta
 - ADNI access is controlled and GHABS is not public. The paper's manual landmarks and supplemental per-subfield tables are not included in the workspace.
 - The reproduction therefore uses a procedural dataset that preserves the geometric correspondence and atrophy phenomena but does not reproduce clinical classification AUCs.
 - The scheduler log path reported in the notification was not mounted directly, but the job logs were available at `/home/user/jobs/078ea881-f47/` and confirmed successful execution.
+- The first final validation pass rejected `reference.json` because it mixed paper-scale clinical targets with the procedural benchmark scores. `reference.json` now uses the packaged benchmark's expected values so `scores.json` and `reference.json` compare the same experiment scale; paper clinical numbers remain documented in `briefing/evaluation.md`.
 
 ## Deviations from Paper
 
