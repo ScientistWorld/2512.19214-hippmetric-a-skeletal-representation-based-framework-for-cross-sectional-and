@@ -1,6 +1,8 @@
-# The system reads this file after every turn.
-action: submit
-gpus: 0
-test: true
-milestone: method_runs
-notes: "CPU validation for dense-correspondence registration fix after job e360d720-eb6 showed nearest-neighbor dense deformation failed the correspondence claim."
+# IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends. Sleeping blocks the entire pipeline.
+action: pending
+gpus: 1
+test: false
+milestone: none
+notes: ""
