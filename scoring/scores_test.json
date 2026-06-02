@@ -9,7 +9,7 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "thickness_mae_mm": 0.2961236487763631,
+          "thickness_mae_mm": 0.29612364877636316,
           "thickness_p95_abs_error_mm": 0.7568940605211112,
           "valid_spoke_fraction": 1.0
         }
@@ -28,7 +28,7 @@
           "cross_sectional_correspondence_error_mm": 0.23432629595753024,
           "cross_sectional_p95_correspondence_error_mm": 0.43002719632701014,
           "longitudinal_correspondence_error_mm": 1.7691905286667817,
-          "longitudinal_p95_correspondence_error_mm": 2.86042010036095,
+          "longitudinal_p95_correspondence_error_mm": 2.8604201003609497,
           "valid_spoke_fraction": 1.0
         }
       }

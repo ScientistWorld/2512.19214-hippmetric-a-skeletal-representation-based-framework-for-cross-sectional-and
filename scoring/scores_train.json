@@ -20,7 +20,7 @@
         "boundary_baseline": {
           "cross_sectional_correspondence_error_mm": 2.297351589266095,
           "cross_sectional_p95_correspondence_error_mm": 3.723972658854621,
-          "longitudinal_correspondence_error_mm": 3.1462314209383355,
+          "longitudinal_correspondence_error_mm": 3.146231420938336,
           "longitudinal_p95_correspondence_error_mm": 4.40926910143868,
           "valid_spoke_fraction": 1.0
         },
@@ -39,14 +39,14 @@
           "surface_Q_mm": 1.2495738133650622,
           "surface_q_mm": 3.7332074657167165,
           "surface_HD_mm": 3.7332074657167165,
-          "surface_p95_mm": 2.8202216910006026,
+          "surface_p95_mm": 2.820221691000602,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
           "surface_Q_mm": 0.16861333511980212,
           "surface_q_mm": 0.9790339264090502,
           "surface_HD_mm": 0.9790339264090502,
-          "surface_p95_mm": 0.47663083555619234,
+          "surface_p95_mm": 0.4766308355561923,
           "valid_spoke_fraction": 1.0
         }
       }
