@@ -4,13 +4,13 @@
     "subfield_thickness_accuracy": {
       "results": {
         "boundary_baseline": {
-          "thickness_mae_mm": 6.947515204543533,
-          "thickness_p95_abs_error_mm": 8.406705413062737,
+          "thickness_mae_mm": 7.110032891472897,
+          "thickness_p95_abs_error_mm": 8.652755759208926,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "thickness_mae_mm": 0.2995290604488017,
-          "thickness_p95_abs_error_mm": 0.7587515240667752,
+          "thickness_mae_mm": 0.2961236487763631,
+          "thickness_p95_abs_error_mm": 0.7568940605211112,
           "valid_spoke_fraction": 1.0
         }
       }
@@ -18,17 +18,17 @@
     "correspondence_stability": {
       "results": {
         "boundary_baseline": {
-          "cross_sectional_correspondence_error_mm": 2.1546522081589243,
-          "cross_sectional_p95_correspondence_error_mm": 3.5750875249423397,
-          "longitudinal_correspondence_error_mm": 1.7902545808079866,
-          "longitudinal_p95_correspondence_error_mm": 3.083339792247354,
+          "cross_sectional_correspondence_error_mm": 2.110679672823478,
+          "cross_sectional_p95_correspondence_error_mm": 3.4580325604999302,
+          "longitudinal_correspondence_error_mm": 3.0489244270805584,
+          "longitudinal_p95_correspondence_error_mm": 4.709059563919517,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "cross_sectional_correspondence_error_mm": 0.2510483945551814,
-          "cross_sectional_p95_correspondence_error_mm": 0.46136071271853213,
-          "longitudinal_correspondence_error_mm": 0.34020464976223624,
-          "longitudinal_p95_correspondence_error_mm": 0.5190709878265491,
+          "cross_sectional_correspondence_error_mm": 0.23432629595753024,
+          "cross_sectional_p95_correspondence_error_mm": 0.43002719632701014,
+          "longitudinal_correspondence_error_mm": 1.7691905286667817,
+          "longitudinal_p95_correspondence_error_mm": 2.86042010036095,
           "valid_spoke_fraction": 1.0
         }
       }
@@ -36,17 +36,17 @@
     "surface_robustness": {
       "results": {
         "boundary_baseline": {
-          "surface_Q_mm": 1.315659672001413,
-          "surface_q_mm": 3.7117776858710556,
-          "surface_HD_mm": 3.7117776858710556,
-          "surface_p95_mm": 2.9219156275772646,
+          "surface_Q_mm": 1.3022476891157497,
+          "surface_q_mm": 3.7198489930093928,
+          "surface_HD_mm": 3.7198489930093928,
+          "surface_p95_mm": 2.908882844540052,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "surface_Q_mm": 0.16845937746563933,
-          "surface_q_mm": 0.979936873218917,
-          "surface_HD_mm": 0.979936873218917,
-          "surface_p95_mm": 0.4748395086640278,
+          "surface_Q_mm": 0.16802717944047654,
+          "surface_q_mm": 0.9961860662402189,
+          "surface_HD_mm": 0.9961860662402189,
+          "surface_p95_mm": 0.4749011443022008,
           "valid_spoke_fraction": 1.0
         }
       }
