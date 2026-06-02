@@ -401,12 +401,17 @@ Run `bash scripts/reproduce.sh` to generate the benchmark data, run the boundary
 
 </details>
 
+### Iteration 2: gpt-5.5
+- **Milestone**: `none` | **Status**: error
+- **Working time**: 30m | **GPU**: 0.0h
+- **Jobs**: 9 total (8 completed, 1 failed)
+
 
 ---
 
 # Reproduction Milestones
 
-**Current: none**
+**Current: core_claim**
 
 ## Stop Justification
 - Completed at milestone `none`.
