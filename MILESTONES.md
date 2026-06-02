@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -16,3 +16,8 @@
 - Continuing-agent audit reset the active milestone to `method_runs` pending a fresh validation job.
 - Fixed evaluation label leakage risk by separating method-visible geometry inputs from evaluation-only ground truth labels.
 - Increased procedural surface noise so the benchmark correspondence errors are not an order of magnitude easier than the paper-scale landmark task; `core_claim` will be restored only after recomputed scores still support the skeletal-coordinate method over the boundary baseline.
+
+### [2026-06-02 18:17] - core_claim
+- Scheduler job `4cba4060-522` reran `scripts/reproduce.sh` and `python validate.py --compare` in the compute container with exit code `0`.
+- On the label-separated procedural benchmark, HippMetric beat the boundary baseline on thickness MAE (`0.297` vs `7.104` mm), cross-sectional correspondence (`0.249` vs `2.204` mm), longitudinal correspondence (`0.324` vs `1.971` mm), surface HD (`0.988` vs `3.727` mm), and valid spoke fraction (`1.000` for both).
+- This restores `core_claim` for the paper's core skeletal-coordinate/spoke-refinement claim at reduced scale; clinical cohort, Deformetrica LDDMM, and manual-landmark reproduction remain unavailable.
