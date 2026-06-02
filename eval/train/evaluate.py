@@ -93,11 +93,11 @@ def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarr
 
 def _discover_methods(outputs_dir: Path) -> dict[str, Path]:
     outputs = {}
-    for path in sorted(outputs_dir.glob(f"*{OUTPUT_SUFFIX}.npz")):
-        method_name = path.name[: -len(f"{OUTPUT_SUFFIX}.npz")]
+    for path in sorted(outputs_dir.glob(f"*{OUTPUT_SUFFIX}")):
+        method_name = path.name[: -len(OUTPUT_SUFFIX)]
         outputs[method_name] = path
     if not outputs:
-        raise FileNotFoundError(f"No method output files matching *{OUTPUT_SUFFIX}.npz in {outputs_dir}.")
+        raise FileNotFoundError(f"No method output files matching *{OUTPUT_SUFFIX} in {outputs_dir}.")
     return outputs
 
 

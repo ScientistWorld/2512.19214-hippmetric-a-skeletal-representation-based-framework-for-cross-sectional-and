@@ -2,4 +2,4 @@
 action: submit
 gpus: 0
 test: false
-notes: "Run evaluate_train.sh and evaluate_test.sh over existing final outputs; produce split score files."
+notes: "Retry split scoring after fixing *_outputs.npz discovery in train/test evaluators."
