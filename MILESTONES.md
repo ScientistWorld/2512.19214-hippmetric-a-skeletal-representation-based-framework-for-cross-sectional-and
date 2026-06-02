@@ -25,4 +25,4 @@
 - HippMetric achieved `0.123 mm` thickness MAE and `0.660 mm` surface HD while preserving `valid_spoke_fraction = 1.000`.
 
 ## Stop Justification
-- Completed at milestone `core_claim`. Further clinical reproduction would require unavailable ADNI/GHABS cohort assets, manual landmarks, or the paper's private template data.
+- Completed at milestone `core_claim`.
