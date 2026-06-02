@@ -1,0 +1,56 @@
+{
+  "experiments": {
+    "synthetic_subfield_thickness": {
+      "description": "Subfield thickness accuracy on a procedural hippocampal benchmark with known ground-truth thickness.",
+      "weight": 0.34,
+      "primary_metric": "thickness_mae_mm",
+      "metrics": {
+        "thickness_mae_mm": {"higher_is_better": false, "coefficient": -1.0},
+        "valid_spoke_fraction": {"higher_is_better": true, "coefficient": 0.4}
+      },
+      "results": {
+        "boundary_baseline": {"type": "baseline", "thickness_mae_mm": 0.8, "valid_spoke_fraction": 1.0},
+        "hippmetric": {"type": "proposed", "thickness_mae_mm": 0.5, "valid_spoke_fraction": 1.0}
+      }
+    },
+    "synthetic_correspondence": {
+      "description": "Cross-sectional and longitudinal point correspondence under shape variation and simulated anterior atrophy.",
+      "weight": 0.43,
+      "primary_metric": "longitudinal_correspondence_error_mm",
+      "metrics": {
+        "cross_sectional_correspondence_error_mm": {"higher_is_better": false, "coefficient": -0.8},
+        "longitudinal_correspondence_error_mm": {"higher_is_better": false, "coefficient": -1.0},
+        "valid_spoke_fraction": {"higher_is_better": true, "coefficient": 0.3}
+      },
+      "results": {
+        "boundary_baseline": {
+          "type": "baseline",
+          "cross_sectional_correspondence_error_mm": 3.41,
+          "longitudinal_correspondence_error_mm": 3.56,
+          "valid_spoke_fraction": 1.0
+        },
+        "hippmetric": {
+          "type": "proposed",
+          "cross_sectional_correspondence_error_mm": 1.66,
+          "longitudinal_correspondence_error_mm": 1.68,
+          "valid_spoke_fraction": 1.0
+        }
+      }
+    },
+    "synthetic_surface_robustness": {
+      "description": "Reconstructed surface agreement with the observed shape under control-like and atrophy-like conditions.",
+      "weight": 0.23,
+      "primary_metric": "surface_HD_mm",
+      "metrics": {
+        "surface_Q_mm": {"higher_is_better": false, "coefficient": -0.7},
+        "surface_q_mm": {"higher_is_better": false, "coefficient": -0.4},
+        "surface_HD_mm": {"higher_is_better": false, "coefficient": -1.0},
+        "valid_spoke_fraction": {"higher_is_better": true, "coefficient": 0.3}
+      },
+      "results": {
+        "boundary_baseline": {"type": "baseline", "surface_Q_mm": 0.144, "surface_q_mm": 9.386, "surface_HD_mm": 11.265, "valid_spoke_fraction": 1.0},
+        "hippmetric": {"type": "proposed", "surface_Q_mm": 0.003, "surface_q_mm": 0.759, "surface_HD_mm": 1.809, "valid_spoke_fraction": 1.0}
+      }
+    }
+  }
+}

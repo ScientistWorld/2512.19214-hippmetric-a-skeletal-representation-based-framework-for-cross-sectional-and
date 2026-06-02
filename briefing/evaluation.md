@@ -1,15 +1,21 @@
 # Evaluation
 
-How success is measured. Describe only the metrics, targets, and evaluation procedure — do NOT describe the paper's method or how they achieved these results. Think of this as a general evaluation protocal for other scientists trying to solve the same problem, where they should not see this paper's solution.
-
 ## Metrics
 
-<!-- What metrics are used? How are they computed? What does higher/lower mean? -->
+The evaluation uses millimeter-scale geometric errors and a validity constraint:
+
+- `thickness_mae_mm`: mean absolute error between predicted and reference local subfield thickness. Lower is better.
+- `cross_sectional_correspondence_error_mm`: Euclidean error between predicted and reference landmarks for baseline scans. Lower is better.
+- `longitudinal_correspondence_error_mm`: Euclidean error between predicted and reference landmarks under follow-up atrophy. Lower is better.
+- `surface_Q_mm`, `surface_q_mm`, `surface_HD_mm`: mean, maximum, and Hausdorff nearest-surface distances between reconstructed and observed surfaces. Lower is better.
+- `valid_spoke_fraction`: fraction of local measurements that remain geometrically valid. Higher is better.
 
 ## Baselines and Targets
 
-<!-- What performance levels exist as reference points? Include the paper's reported numbers as targets, and any standard baselines. A scientist agent should know what "good" looks like. -->
+The paper reports HippMetric correspondence errors of about `1.66 mm` cross-sectionally and `1.68 mm` longitudinally, with competing shape models ranging from `3.41 mm` to `9.97 mm` cross-sectionally and `3.56 mm` to `10.57 mm` longitudinally. It also reports subfield thickness errors below `0.5 mm` and robust reconstruction under pathology, with HippMetric CI `HD` around `1.809 mm`.
+
+This workspace uses a small procedural benchmark because the clinical ADNI/GHABS labels, manual landmarks, and supplemental tables are not packaged. The same metric definitions are retained, and the evaluator compares method outputs against known procedural ground truth.
 
 ## Evaluation Protocol
 
-<!-- How should evaluation be run? What data split, what conditions? Any important details about how to compare fairly (e.g., fixed seeds, specific test sets, averaging over runs). -->
+Run `bash scripts/reproduce.sh` to generate the benchmark data, run the boundary baseline, run the reproduced method, and write `scoring/scores.json`. `scripts/evaluate.sh` is method-independent: it reads output files from `checkpoints/` and only imports code from `eval/`.

@@ -10,5 +10,7 @@ set -e
 
 cd /home/user
 
-# TODO: run the paper's method
-# TODO: call scripts/evaluate.sh to score
+mkdir -p checkpoints
+python method/hippmetric.py \
+  --dataset data/synthetic_hippocampus.npz \
+  --output checkpoints/hippmetric_outputs.npz

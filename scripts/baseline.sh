@@ -17,4 +17,7 @@ set -e
 
 cd /home/user
 
-# TODO: run baseline
+mkdir -p checkpoints
+python baseline/boundary_model.py \
+  --dataset data/synthetic_hippocampus.npz \
+  --output checkpoints/boundary_baseline_outputs.npz

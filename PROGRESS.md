@@ -2,36 +2,44 @@
 
 ## What Works
 
-<!-- What has been successfully reproduced so far. -->
+- Paper-specific briefing, scoring targets, constraints, and direction documents are filled in.
+- `data/synthetic_hippocampus.py` generates a small procedural hippocampal subfield benchmark with known thickness, landmark, and atrophy ground truth.
+- `method/hippmetric.py` runs the paper's core computation at reduced scale: internal skeletal coordinates, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton.
+- `baseline/boundary_model.py` provides a boundary-anchored comparison method.
+- `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
+- `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
 
 ## Results
 
-<!-- Reproduced numbers compared to the paper's reported numbers. -->
+Local smoke-test command:
+
+```bash
+bash scripts/reproduce.sh && python validate.py --compare
+```
+
+Measured on the procedural benchmark:
+
+- Thickness MAE: HippMetric `0.121 mm`; boundary baseline `7.090 mm`.
+- Cross-sectional correspondence error: HippMetric `0.075 mm`; boundary baseline `2.196 mm`.
+- Longitudinal correspondence error: HippMetric `0.148 mm`; boundary baseline `1.950 mm`.
+- Surface HD: HippMetric `0.645 mm`; boundary baseline `3.647 mm`.
+- Valid spoke fraction: both `1.000`.
+
+These results show the implementation runs and produces the expected effect on a scaled benchmark. The next submitted job will verify the same path inside the scheduler/container environment before promoting to `core_claim`.
 
 ## Remaining
 
-<!-- What still needs to be done to reach higher milestones. -->
+- Confirm the full reproduction path in a submitted CPU test job.
+- After job success, update milestone to `core_claim` if the scheduler-produced `scores.json` preserves the same method-vs-baseline gap.
+- Higher milestones would require public ADNI preprocessing assets, paper template assets, or the upstream HippMetric example data/manual landmarks.
 
 ## Issues
 
-<!-- Blockers, bugs, or difficulties encountered. -->
+- ADNI access is controlled and GHABS is not public. The paper's manual landmarks and supplemental per-subfield tables are not included in the workspace.
+- The reproduction therefore uses a procedural dataset that preserves the geometric correspondence and atrophy phenomena but does not reproduce clinical classification AUCs.
 
 ## Deviations from Paper
 
-<!-- Do not edit this section unless you deviated from the paper's original setup.
-     For each deviation, document: what the paper used, what you substituted, and why.
-
-     ACCEPTABLE deviations (data/resource/scale substitutions — milestones still valid):
-       - Replaced a proprietary dataset with a public one
-       - Used a smaller model of the same architecture
-       - Scaled down training (fewer epochs, smaller batch)
-       - Used a different library for the same algorithm
-
-     UNACCEPTABLE deviations (algorithm substitutions — milestones above 'none' are void):
-       - Replaced the paper's algorithm with a fundamentally different one
-       - Wrote a generic model trained to approximate the method's outputs
-         instead of implementing the method's computational steps
-
-     The test: could someone reading your code identify which algorithm from
-     the paper you implemented? If not, you replaced the method. -->
-
+- **Data**: The paper used ADNI/GHABS FreeSurfer FS60 segmentations, manual landmarks, and simulated atrophy on ADNI surfaces. This workspace uses a tracked procedural generator because the clinical cohorts, manual annotations, and supplemental assets are unavailable in the repository.
+- **Scale**: The paper used 549 skeletal points, 1,098 thickness measurements, and large clinical cohorts. This reproduction uses a smaller lamellar grid and 24 synthetic subjects with 4 time points to fit a quick reusable benchmark.
+- **Registration**: The paper used Deformetrica LDDMM. This reproduction uses known procedural transforms to isolate and test the skeletal/spoke refinement and longitudinal-coordinate computation without relying on unavailable clinical surfaces.
