@@ -1,6 +1,6 @@
 # The system reads this file after every turn.
-action: done
+action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim
-notes: "Made shell entrypoints repo-relative and tracked the small synthetic benchmark archives so fresh clones do not need external downloads."
+notes: "CPU smoke test: regenerate HippMetric and baseline outputs, write expanded scores.json with p95 metrics, run train/test evaluators, and validate against reference."
