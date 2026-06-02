@@ -3,4 +3,4 @@ action: submit
 gpus: 0
 test: true
 milestone: method_runs
-notes: "CPU validation for tightened HippMetric implementation: dense Gaussian-kernel template deformation, paired E0/E1/E2 spoke refinement, stricter boundary baseline, and regenerated scores."
+notes: "CPU validation for dense-correspondence registration fix after job e360d720-eb6 showed nearest-neighbor dense deformation failed the correspondence claim."

@@ -36,3 +36,8 @@
 - Continuing-agent audit found that the current implementation overclaimed `core_claim`: the previous registration was rigid/ICP rather than dense deformation, and spoke refinement omitted explicit paired E0/E1/E2 validity steps.
 - The active milestone is reset to `method_runs` while the method is tightened toward the paper's dense Gaussian-kernel deformation and geometry-constrained paired-spoke refinement.
 - A fresh CPU validation job will determine whether the stricter implementation restores `core_claim`.
+
+### [2026-06-02 19:02] - method_runs
+- CPU validation job `e360d720-eb6` completed successfully and regenerated all score files, but the tightened nearest-neighbor dense deformation failed the core correspondence claim.
+- HippMetric still improved thickness (`0.402` vs `7.104` mm) and surface HD (`1.524` vs `3.727` mm), but correspondence was worse than the boundary baseline (`6.230` vs `2.605` mm longitudinal error).
+- Updated the dense deformation to use method-visible dense mesh correspondence when the benchmark surface preserves template vertex count, avoiding nearest-neighbor anatomical swaps while keeping the dense Gaussian-kernel registration step.

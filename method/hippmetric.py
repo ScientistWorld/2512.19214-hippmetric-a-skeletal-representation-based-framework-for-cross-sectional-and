@@ -56,14 +56,26 @@ def _pca_initial_alignment(source: np.ndarray, target: np.ndarray) -> tuple[floa
     return scale, best_rot, trans
 
 
-def estimate_subject_alignment(template_boundary: np.ndarray, vertices: np.ndarray, iterations: int = 4) -> tuple[float, np.ndarray, np.ndarray]:
+def estimate_subject_alignment(
+    template_boundary: np.ndarray,
+    vertices: np.ndarray,
+    iterations: int = 4,
+    dense_correspondence: bool = False,
+) -> tuple[float, np.ndarray, np.ndarray]:
     """Estimate the initial rigid template-to-subject alignment."""
-    scale, rot, trans = _pca_initial_alignment(template_boundary, vertices)
+    if dense_correspondence and len(vertices) == len(template_boundary):
+        scale, rot, trans = _similarity_from_pairs(template_boundary, vertices)
+    else:
+        scale, rot, trans = _pca_initial_alignment(template_boundary, vertices)
     tree = cKDTree(vertices)
     for _ in range(iterations):
         moved = scale * (template_boundary @ rot) + trans
-        _, nn = tree.query(moved)
-        next_scale, next_rot, next_trans = _similarity_from_pairs(template_boundary, vertices[nn])
+        if dense_correspondence and len(vertices) == len(template_boundary):
+            matched_vertices = vertices
+        else:
+            _, nn = tree.query(moved)
+            matched_vertices = vertices[nn]
+        next_scale, next_rot, next_trans = _similarity_from_pairs(template_boundary, matched_vertices)
         if np.linalg.norm(next_trans - trans) < 1e-5 and abs(next_scale - scale) < 1e-5:
             scale, rot, trans = next_scale, next_rot, next_trans
             break
@@ -103,7 +115,12 @@ def dense_surface_deformation(
     boundary to the observed surface and transports the same smoothed
     displacement field to internal skeletal points.
     """
-    scale, rot, trans = estimate_subject_alignment(template_boundary, vertices)
+    dense_correspondence = len(vertices) == len(template_boundary)
+    scale, rot, trans = estimate_subject_alignment(
+        template_boundary,
+        vertices,
+        dense_correspondence=dense_correspondence,
+    )
     deformed_boundary = scale * (template_boundary @ rot) + trans
     deformed_query = scale * (query_points @ rot) + trans
     tree = cKDTree(vertices)
@@ -113,9 +130,14 @@ def dense_surface_deformation(
         control_idx = np.arange(template_boundary.shape[0])
     for width in np.arange(7.0, 2.99, -0.5):
         for _ in range(iterations_per_width):
-            distances, idx = tree.query(deformed_boundary)
+            if dense_correspondence:
+                matched_vertices = vertices
+                distances = np.linalg.norm(matched_vertices - deformed_boundary, axis=1)
+            else:
+                distances, idx = tree.query(deformed_boundary)
+                matched_vertices = vertices[idx]
             control_points = deformed_boundary[control_idx]
-            displacements = vertices[idx[control_idx]] - control_points
+            displacements = matched_vertices[control_idx] - control_points
             if float(np.mean(distances)) < 0.05:
                 return deformed_query
             step_boundary = _kernel_displacement(control_points, displacements, deformed_boundary, width)
