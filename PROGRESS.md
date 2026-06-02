@@ -27,9 +27,11 @@ Measured on the procedural benchmark:
 
 Scheduler job `078ea881-f47` reproduced the same scores inside the compute container and exited with code `0`. `python validate.py --compare` passed in the job.
 
+Current milestone: `core_claim`.
+
 ## Remaining
 
-- Higher milestones would require public ADNI preprocessing assets, paper template assets, or the upstream HippMetric example data/manual landmarks.
+- Higher milestones would require public ADNI preprocessing assets, paper template assets, or the upstream HippMetric example data/manual landmarks. No public code release or clinical benchmark assets were available in the workspace.
 
 ## Issues
 
