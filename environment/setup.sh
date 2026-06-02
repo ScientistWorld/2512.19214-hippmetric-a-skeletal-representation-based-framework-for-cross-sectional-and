@@ -16,4 +16,8 @@
 
 set -e
 
+if ! command -v uv >/dev/null 2>&1; then
+    python -m pip install uv
+fi
+
 uv pip install --system numpy scipy scikit-learn

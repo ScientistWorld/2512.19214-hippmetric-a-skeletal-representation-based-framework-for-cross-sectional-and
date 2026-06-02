@@ -8,6 +8,7 @@
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
+- `scoring/reference.json` records paper-reported geometric values; `scores.json` records reproduced values on the packaged procedural benchmark.
 
 ## Results
 
@@ -31,7 +32,7 @@ Current milestone: `core_claim`.
 
 ## Remaining
 
-- Higher milestones would require public ADNI preprocessing assets, paper template assets, or the upstream HippMetric example data/manual landmarks. No public code release or clinical benchmark assets were available in the workspace.
+- Higher milestones would require public ADNI preprocessing assets, paper template assets, or the upstream HippMetric example data/manual landmarks. No clinical benchmark assets were available in the workspace.
 
 ## Issues
 
@@ -39,9 +40,10 @@ Current milestone: `core_claim`.
 - Job `9deda0b6-b07` validated the non-oracle code path but showed correspondence regression (`4.500 mm` longitudinal error versus `1.950 mm` baseline). The registration estimate was corrected by fixing the row-vector Procrustes rotation and initializing from preserved mesh vertex correspondence before ICP refinement.
 - Job `3ce052c3-dc6` validated the corrected registration and restored the core claim without reading procedural transforms.
 - ADNI access is controlled and GHABS is not public. The paper's manual landmarks and supplemental per-subfield tables are not included in the workspace.
+- The paper's stated GitHub repository (`https://github.com/calliegao/HippMetric-case-by-case`) returned "Repository not found" when checked with `git ls-remote` on 2026-06-02, and the stated ReadTheDocs URL returned HTTP 404.
 - The reproduction therefore uses a procedural dataset that preserves the geometric correspondence and atrophy phenomena but does not reproduce clinical classification AUCs.
 - The scheduler log path reported in the notification was not mounted directly, but the job logs were available at `/home/user/jobs/078ea881-f47/` and confirmed successful execution.
-- The first final validation pass rejected `reference.json` because it mixed paper-scale clinical targets with the procedural benchmark scores. `reference.json` now uses the packaged benchmark's expected values so `scores.json` and `reference.json` compare the same experiment scale; paper clinical numbers remain documented in `briefing/evaluation.md`.
+- The first final validation pass rejected `reference.json` because it mixed paper-scale clinical targets with the procedural benchmark scores. `reference.json` now uses paper-reported values for the corresponding geometric targets, while `scores.json` contains only values computed by `scripts/evaluate.sh`.
 
 ## Deviations from Paper
 

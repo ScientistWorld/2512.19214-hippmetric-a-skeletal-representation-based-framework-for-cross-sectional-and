@@ -1,6 +1,6 @@
 # Evaluation Targets
 
-## Primary: synthetic_subfield_thickness
+## Primary: subfield_thickness_accuracy
 
 Tests whether local hippocampal subfield thickness can be estimated accurately from 3D surfaces.
 
@@ -8,7 +8,7 @@ Tests whether local hippocampal subfield thickness can be estimated accurately f
 - **Constraint**: `valid_spoke_fraction` (higher is better)
 - **How to run**: `bash scripts/evaluate.sh` after producing outputs in `checkpoints/`.
 
-## Primary: synthetic_correspondence
+## Primary: correspondence_stability
 
 Tests whether anatomical landmarks remain consistently localized across baseline subjects and longitudinal atrophy-like follow-ups.
 
@@ -17,7 +17,7 @@ Tests whether anatomical landmarks remain consistently localized across baseline
 - **Constraint**: `valid_spoke_fraction` (higher is better)
 - **How to run**: `bash scripts/evaluate.sh` after producing outputs in `checkpoints/`.
 
-## Constraint: synthetic_surface_robustness
+## Constraint: surface_robustness
 
 Tests whether improved correspondence is achieved while maintaining geometric agreement with the observed surface.
 

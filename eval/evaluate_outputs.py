@@ -63,13 +63,13 @@ def main() -> None:
 
     scores = {
         "experiments": {
-            "synthetic_subfield_thickness": {
+            "subfield_thickness_accuracy": {
                 "results": {
                     "boundary_baseline": keep(baseline, ("thickness_mae_mm", "valid_spoke_fraction")),
                     "hippmetric": keep(hippmetric, ("thickness_mae_mm", "valid_spoke_fraction")),
                 }
             },
-            "synthetic_correspondence": {
+            "correspondence_stability": {
                 "results": {
                     "boundary_baseline": keep(
                         baseline,
@@ -89,7 +89,7 @@ def main() -> None:
                     ),
                 }
             },
-            "synthetic_surface_robustness": {
+            "surface_robustness": {
                 "results": {
                     "boundary_baseline": keep(
                         baseline,

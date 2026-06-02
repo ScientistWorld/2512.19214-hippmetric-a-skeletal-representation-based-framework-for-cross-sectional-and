@@ -1,6 +1,6 @@
 {
   "experiments": {
-    "synthetic_subfield_thickness": {
+    "subfield_thickness_accuracy": {
       "results": {
         "boundary_baseline": {
           "thickness_mae_mm": 7.090259905195169,
@@ -12,7 +12,7 @@
         }
       }
     },
-    "synthetic_correspondence": {
+    "correspondence_stability": {
       "results": {
         "boundary_baseline": {
           "cross_sectional_correspondence_error_mm": 2.196270294472969,
@@ -26,7 +26,7 @@
         }
       }
     },
-    "synthetic_surface_robustness": {
+    "surface_robustness": {
       "results": {
         "boundary_baseline": {
           "surface_Q_mm": 1.2997046805792152,
