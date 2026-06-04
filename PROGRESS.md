@@ -62,6 +62,7 @@ Current milestone: `core_claim` after validation of the tightened dense-deformat
 - Job `3ce052c3-dc6` validated the corrected registration and restored the core claim without reading procedural transforms.
 - ADNI access is controlled and GHABS is not public. The paper's manual landmarks and supplemental per-subfield tables are not included in the workspace.
 - The paper's stated GitHub repository (`https://github.com/calliegao/HippMetric-case-by-case`) returned "Repository not found" when checked with `git ls-remote` on 2026-06-02, and the stated ReadTheDocs URL returned HTTP 404.
+- The stated GitHub repository was rechecked with `git ls-remote` on 2026-06-04 and still returned "Repository not found."
 - The reproduction therefore uses a procedural dataset that preserves the geometric correspondence and atrophy phenomena but does not reproduce clinical classification AUCs.
 - The scheduler log path reported in the notification was not mounted directly, but the job logs were available at `/home/user/jobs/078ea881-f47/` and confirmed successful execution.
 - The first final validation pass rejected `reference.json` because it mixed paper-scale clinical targets with the procedural benchmark scores. `reference.json` now uses paper-reported values for the corresponding geometric targets, while `scores.json` contains only values computed by `scripts/evaluate.sh`.

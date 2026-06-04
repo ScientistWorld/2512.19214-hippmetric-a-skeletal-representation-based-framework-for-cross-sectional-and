@@ -20,6 +20,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 bash scripts/download.sh
+rm -f checkpoints/*_outputs.npz
 bash scripts/baseline.sh
 bash scripts/method.sh
 bash scripts/evaluate.sh

@@ -16,6 +16,20 @@ SPLIT_SALT = "25121914"
 OUTPUT_SUFFIX = "_outputs.npz"
 
 
+def _row_order(output_subjects: np.ndarray, dataset_subjects: np.ndarray, output_file: Path) -> np.ndarray:
+    if output_subjects.shape != dataset_subjects.shape:
+        raise ValueError(
+            f"{output_file} subjects has shape {output_subjects.shape}, expected {dataset_subjects.shape}."
+        )
+    if np.array_equal(output_subjects, dataset_subjects):
+        return np.arange(len(dataset_subjects))
+    positions = {tuple(row.tolist()): idx for idx, row in enumerate(output_subjects)}
+    try:
+        return np.asarray([positions[tuple(row.tolist())] for row in dataset_subjects], dtype=int)
+    except KeyError as exc:
+        raise ValueError(f"{output_file} subjects do not match the evaluation dataset.") from exc
+
+
 def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, float, float]:
     fwd = cKDTree(gt).query(pred)[0]
     rev = cKDTree(pred).query(gt)[0]
@@ -75,6 +89,10 @@ def _valid_spoke_fraction(
 
 def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarray) -> dict[str, float]:
     out = dict(np.load(output_file, allow_pickle=True))
+    if "subjects" in out and np.asarray(out["subjects"]).shape[0] == dataset["subjects"].shape[0]:
+        order = _row_order(np.asarray(out["subjects"]), dataset["subjects"], output_file)
+        out = {key: (value[order] if np.asarray(value).ndim > 0 and np.asarray(value).shape[0] == len(order) else value)
+               for key, value in out.items()}
     pred_t = _rows(out["pred_thickness"], mask, "pred_thickness")
     gt_t = labels["gt_thickness"][mask]
     pred_lm = _rows(out["pred_landmarks"], mask, "pred_landmarks")

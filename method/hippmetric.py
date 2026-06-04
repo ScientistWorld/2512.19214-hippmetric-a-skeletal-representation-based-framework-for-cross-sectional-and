@@ -253,14 +253,15 @@ def run(dataset: Path, output: Path) -> None:
         axis=0,
     )
 
-    pred_thickness = []
-    pred_landmarks = []
-    recon_vertices = []
-    validity = []
+    pred_thickness: list[np.ndarray | None] = [None] * len(subjects)
+    pred_landmarks: list[np.ndarray | None] = [None] * len(subjects)
+    recon_vertices: list[np.ndarray | None] = [None] * len(subjects)
+    validity: list[float | None] = [None] * len(subjects)
     baseline_skeleton_by_subject: dict[int, np.ndarray] = {}
     baseline_dirs_by_subject: dict[int, tuple[np.ndarray, np.ndarray]] = {}
 
-    for row, (sid, tid) in enumerate(subjects):
+    for row in np.lexsort((subjects[:, 1], subjects[:, 0])):
+        sid, tid = subjects[row]
         vertices = surface_vertices[row]
         if tid == 0:
             deformed = dense_surface_deformation(template_boundary, vertices, template_query)
@@ -280,10 +281,10 @@ def run(dataset: Path, output: Path) -> None:
         normals = _surface_normals_from_skeleton(vertices, skeleton)
         sup_end, sup_len, inf_end, inf_len, valid = refine_paired_spokes(skeleton, sup, inf, vertices, normals)
         thickness = sup_len + inf_len
-        pred_thickness.append(thickness)
-        pred_landmarks.append(np.concatenate([sup_end[landmark_idx], inf_end[landmark_idx], sup_end[long_idx]]))
-        recon_vertices.append(np.concatenate([sup_end, inf_end], axis=0))
-        validity.append(float(np.mean(valid)))
+        pred_thickness[row] = thickness
+        pred_landmarks[row] = np.concatenate([sup_end[landmark_idx], inf_end[landmark_idx], sup_end[long_idx]])
+        recon_vertices[row] = np.concatenate([sup_end, inf_end], axis=0)
+        validity[row] = float(np.mean(valid))
 
     output.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(
@@ -293,7 +294,7 @@ def run(dataset: Path, output: Path) -> None:
         pred_thickness=np.asarray(pred_thickness),
         pred_landmarks=np.asarray(pred_landmarks),
         recon_vertices=np.asarray(recon_vertices),
-        valid_spoke_fraction=np.asarray(validity),
+        valid_spoke_fraction=np.asarray(validity, dtype=float),
     )
 
 
