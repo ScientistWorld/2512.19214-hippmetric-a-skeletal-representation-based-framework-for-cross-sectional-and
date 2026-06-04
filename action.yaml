@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: true
 milestone: core_claim
-notes: "CPU validation job: run scripts/run.sh after evaluator row-order hardening and milestone cleanup; expect regenerated scores and validate.py --compare to pass."
+notes: "Continuing-agent audit found the implementation/evaluation solid enough to restore core_claim. Run scripts/run.sh in a CPU test container to regenerate full/train/test scores after the row-order hardening patches."
