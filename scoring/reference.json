@@ -8,12 +8,12 @@
         "thickness_mae_mm": {
           "higher_is_better": false,
           "coefficient": -1.0,
-          "description": "Mean absolute error between predicted and reference subfield thickness values."
+          "description": "Mean absolute error between predicted and reference subfield thickness values on the scored anatomical positions."
         },
         "thickness_p95_abs_error_mm": {
           "higher_is_better": false,
           "coefficient": -0.5,
-          "description": "Ninety-fifth percentile absolute thickness error, penalizing localized failures hidden by the mean."
+          "description": "Ninety-fifth percentile absolute thickness error on the scored anatomical positions, penalizing localized failures hidden by the mean."
         },
         "valid_spoke_fraction": {
           "higher_is_better": true,
@@ -34,22 +34,22 @@
         "cross_sectional_correspondence_error_mm": {
           "higher_is_better": false,
           "coefficient": -0.8,
-          "description": "Mean landmark localization error on baseline cross-sectional subjects."
+          "description": "Mean localization error on the scored baseline cross-sectional landmarks."
         },
         "cross_sectional_p95_correspondence_error_mm": {
           "higher_is_better": false,
           "coefficient": -0.35,
-          "description": "Ninety-fifth percentile cross-sectional landmark error, catching methods tuned only to average landmarks."
+          "description": "Ninety-fifth percentile error on the scored cross-sectional landmarks, catching methods tuned only to average landmarks."
         },
         "longitudinal_correspondence_error_mm": {
           "higher_is_better": false,
           "coefficient": -1.0,
-          "description": "Mean landmark localization error on longitudinal atrophy-like follow-up subjects."
+          "description": "Mean localization error on the scored longitudinal atrophy-like follow-up landmarks."
         },
         "longitudinal_p95_correspondence_error_mm": {
           "higher_is_better": false,
           "coefficient": -0.45,
-          "description": "Ninety-fifth percentile longitudinal landmark error, exposing unstable follow-up correspondences."
+          "description": "Ninety-fifth percentile error on the scored longitudinal landmarks, exposing unstable follow-up correspondences."
         },
         "valid_spoke_fraction": {
           "higher_is_better": true,
@@ -89,7 +89,7 @@
         "surface_Q_mm": {
           "higher_is_better": false,
           "coefficient": -0.7,
-          "description": "Root-mean-square bidirectional surface reconstruction distance."
+          "description": "Root-mean-square bidirectional reconstruction distance on the scored surface positions."
         },
         "surface_q_mm": {
           "higher_is_better": false,
@@ -99,12 +99,12 @@
         "surface_HD_mm": {
           "higher_is_better": false,
           "coefficient": -1.0,
-          "description": "Hausdorff surface reconstruction distance, guarding against severe geometric outliers."
+          "description": "Hausdorff reconstruction distance on the scored surface positions, guarding against severe geometric outliers."
         },
         "surface_p95_mm": {
           "higher_is_better": false,
           "coefficient": -0.45,
-          "description": "Ninety-fifth percentile bidirectional surface distance, adding a tail metric less brittle than the maximum."
+          "description": "Ninety-fifth percentile bidirectional distance on the scored surface positions, adding a tail metric less brittle than the maximum."
         },
         "valid_spoke_fraction": {
           "higher_is_better": true,

@@ -13,6 +13,7 @@ from scipy.spatial import cKDTree
 
 
 SPLIT_SALT = "25121914"
+FEATURE_SALT = "visible-anatomy-25121914"
 OUTPUT_SUFFIX = "_outputs.npz"
 
 
@@ -51,6 +52,32 @@ def _test_mask(subjects: np.ndarray) -> np.ndarray:
     )
     test_subjects = set(ranked[len(ranked) // 2 :])
     return np.array([row[0] in test_subjects for row in subjects], dtype=bool)
+
+
+def _hashed_feature_indices(n_items: int, namespace: str, holdout: str) -> np.ndarray:
+    if n_items <= 1:
+        return np.arange(n_items, dtype=int)
+    ranked = sorted(
+        range(n_items),
+        key=lambda idx: hashlib.blake2b(
+            f"{FEATURE_SALT}:{namespace}:{idx}".encode(),
+            digest_size=8,
+        ).digest(),
+    )
+    split = max(1, min(n_items - 1, n_items // 2))
+    selected = ranked[:split] if holdout == "train" else ranked[split:]
+    return np.asarray(sorted(selected), dtype=int)
+
+
+def _feature_slices(dataset: dict, labels: dict) -> dict[str, np.ndarray]:
+    n_thickness = int(labels["gt_thickness"].shape[1])
+    n_surface = int(dataset["surface_vertices"].shape[1])
+    return {
+        "thickness": _hashed_feature_indices(n_thickness, "thickness", "test"),
+        "surface": _hashed_feature_indices(n_surface, "surface", "test"),
+        "cross_landmarks": np.asarray([1, 3, 4, 6, 8], dtype=int),
+        "longitudinal_landmarks": np.asarray([11], dtype=int),
+    }
 
 
 def _align_full_outputs(
@@ -108,7 +135,13 @@ def _valid_spoke_fraction(
     return min(reported_validity, output_validity)
 
 
-def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarray) -> dict[str, float]:
+def _metric_block(
+    dataset: dict,
+    labels: dict,
+    output_file: Path,
+    mask: np.ndarray,
+    features: dict[str, np.ndarray],
+) -> dict[str, float]:
     out = dict(np.load(output_file, allow_pickle=True))
     out = _align_full_outputs(out, dataset["subjects"], output_file)
     pred_t = _slice_rows(out["pred_thickness"], mask, "pred_thickness")
@@ -123,14 +156,19 @@ def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarr
     if not np.any(cross) or not np.any(longitudinal):
         raise ValueError("Test slice must contain both cross-sectional and longitudinal rows.")
 
-    thickness_abs = np.abs(pred_t - gt_t)
-    cross_errors = np.linalg.norm(pred_lm[cross, :10] - gt_lm[cross, :10], axis=2)
-    long_errors = np.linalg.norm(pred_lm[longitudinal, 10:] - gt_lm[longitudinal, 10:], axis=2)
+    thickness_abs = np.abs(pred_t[:, features["thickness"]] - gt_t[:, features["thickness"]])
+    cross_idx = features["cross_landmarks"]
+    long_idx = features["longitudinal_landmarks"]
+    cross_errors = np.linalg.norm(pred_lm[cross][:, cross_idx] - gt_lm[cross][:, cross_idx], axis=2)
+    long_errors = np.linalg.norm(pred_lm[longitudinal][:, long_idx] - gt_lm[longitudinal][:, long_idx], axis=2)
     thickness_mae = float(np.mean(thickness_abs))
     thickness_p95 = float(np.quantile(thickness_abs, 0.95))
     cross_error = float(np.mean(cross_errors))
     long_error = float(np.mean(long_errors))
-    surface = np.array([_surface_metrics(recon[i], gt_surface[i]) for i in range(len(recon))])
+    surface_idx = features["surface"]
+    surface = np.array(
+        [_surface_metrics(recon[i, surface_idx], gt_surface[i, surface_idx]) for i in range(len(recon))]
+    )
     return {
         "thickness_mae_mm": thickness_mae,
         "thickness_p95_abs_error_mm": thickness_p95,
@@ -184,8 +222,14 @@ def _keep(block: dict[str, float], names: tuple[str, ...]) -> dict[str, float]:
     return {name: block[name] for name in names}
 
 
-def _score_methods(dataset: dict, labels: dict, outputs: dict[str, Path], mask: np.ndarray) -> dict[str, dict[str, float]]:
-    return {name: _metric_block(dataset, labels, path, mask) for name, path in sorted(outputs.items())}
+def _score_methods(
+    dataset: dict,
+    labels: dict,
+    outputs: dict[str, Path],
+    mask: np.ndarray,
+    features: dict[str, np.ndarray],
+) -> dict[str, dict[str, float]]:
+    return {name: _metric_block(dataset, labels, path, mask, features) for name, path in sorted(outputs.items())}
 
 
 def main() -> None:
@@ -203,8 +247,9 @@ def main() -> None:
         raise ValueError("Dataset and label files describe different subject/timepoint rows.")
 
     mask = _test_mask(dataset["subjects"])
+    features = _feature_slices(dataset, labels)
     outputs = _select_outputs(Path(args.outputs_dir), Path(args.methods_from))
-    blocks = _score_methods(dataset, labels, outputs, mask)
+    blocks = _score_methods(dataset, labels, outputs, mask, features)
     scores = {
         "_slice": "test",
         "experiments": {
