@@ -1,0 +1,55 @@
+{
+  "_slice": "train",
+  "experiments": {
+    "subfield_thickness_accuracy": {
+      "results": {
+        "boundary_baseline": {
+          "thickness_mae_mm": 7.118810690672552,
+          "thickness_p95_abs_error_mm": 8.583506921908155,
+          "valid_spoke_fraction": 1.0
+        },
+        "hippmetric": {
+          "thickness_mae_mm": 0.29202975818316745,
+          "thickness_p95_abs_error_mm": 0.7379827173404684,
+          "valid_spoke_fraction": 1.0
+        }
+      }
+    },
+    "correspondence_stability": {
+      "results": {
+        "boundary_baseline": {
+          "cross_sectional_correspondence_error_mm": 1.9336407315318662,
+          "cross_sectional_p95_correspondence_error_mm": 3.6703206143538174,
+          "longitudinal_correspondence_error_mm": 2.7111757386419164,
+          "longitudinal_p95_correspondence_error_mm": 3.902654187517016,
+          "valid_spoke_fraction": 1.0
+        },
+        "hippmetric": {
+          "cross_sectional_correspondence_error_mm": 0.27264923740407987,
+          "cross_sectional_p95_correspondence_error_mm": 0.5827285074129609,
+          "longitudinal_correspondence_error_mm": 1.7345995303479471,
+          "longitudinal_p95_correspondence_error_mm": 2.8490847923985645,
+          "valid_spoke_fraction": 1.0
+        }
+      }
+    },
+    "surface_robustness": {
+      "results": {
+        "boundary_baseline": {
+          "surface_Q_mm": 1.306578910123287,
+          "surface_q_mm": 3.6544169085042966,
+          "surface_HD_mm": 7.308833817008593,
+          "surface_p95_mm": 2.845186717456443,
+          "valid_spoke_fraction": 1.0
+        },
+        "hippmetric": {
+          "surface_Q_mm": 0.23803350774993023,
+          "surface_q_mm": 1.0004402695686432,
+          "surface_HD_mm": 2.0008805391372864,
+          "surface_p95_mm": 0.5961505127752712,
+          "valid_spoke_fraction": 1.0
+        }
+      }
+    }
+  }
+}
