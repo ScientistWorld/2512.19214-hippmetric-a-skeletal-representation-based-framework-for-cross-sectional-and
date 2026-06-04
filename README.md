@@ -406,6 +406,26 @@ Run `bash scripts/reproduce.sh` to generate the benchmark data, run the boundary
 - **Working time**: 30m | **GPU**: 0.0h
 - **Jobs**: 9 total (8 completed, 1 failed)
 
+### Iteration 2: gpt-5.5
+- **Milestone**: `core_claim` | **Status**: done
+- **Working time**: 2m | **GPU**: 0.0h
+- **Jobs**: 10 total (9 completed, 1 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-04 12:15] - core_claim
+- Continuing-agent audit reran the packaged CPU reproduction job `3133904a-3c8`; it exited with code `0`.
+- `scripts/run.sh` regenerated method and baseline artifacts, full/train/test scores, and passed `python validate.py --compare` inside the container.
+- Fresh results support the core claim: HippMetric beats the boundary baseline on thickness, cross-sectional correspondence, longitudinal correspondence, and surface robustness while preserving valid spokes.
+
+### [2026-06-02 00:00] - core_claim
+- Validated the reduced-scale HippMetric implementation on the procedural hippocampal benchmark.
+- `python validate.py` passes with independently evaluated method outputs and surface `q`/`HD` reported as distinct diagnostics.
+- HippMetric improves over the boundary baseline on thickness, correspondence, and surface robustness while preserving valid spokes.
+
+</details>
+
 
 ---
 
@@ -414,4 +434,4 @@ Run `bash scripts/reproduce.sh` to generate the benchmark data, run the boundary
 **Current: core_claim**
 
 ## Stop Justification
-- Completed at milestone `method_runs`.
+- Completed at milestone `core_claim`.
