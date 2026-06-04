@@ -15,4 +15,4 @@
 - Final milestone remains `core_claim`; higher milestones need unavailable clinical/template/manual landmark resources.
 
 ## Stop Justification
-- Current packaged environment supports the paper's core geometric correspondence claim on the procedural benchmark. Higher milestones require unavailable ADNI/GHABS assets or the paper's private template/manual landmark resources.
+- Completed at milestone `core_claim`.
