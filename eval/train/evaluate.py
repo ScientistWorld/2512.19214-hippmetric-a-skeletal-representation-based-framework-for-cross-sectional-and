@@ -53,17 +53,39 @@ def _train_mask(subjects: np.ndarray) -> np.ndarray:
     return np.array([row[0] in train_subjects for row in subjects], dtype=bool)
 
 
-def _rows(value: np.ndarray, mask: np.ndarray, name: str) -> np.ndarray:
+def _align_full_outputs(
+    out: dict[str, np.ndarray],
+    dataset_subjects: np.ndarray,
+    output_file: Path,
+) -> dict[str, np.ndarray]:
+    if "subjects" not in out:
+        raise ValueError(
+            f"{output_file} must contain a subjects array for split-safe evaluation. "
+            "Write full-dataset outputs using the same row contract as scripts/evaluate.sh."
+        )
+    output_subjects = np.asarray(out["subjects"])
+    order = _row_order(output_subjects, dataset_subjects, output_file)
+    n_rows = len(order)
+    aligned: dict[str, np.ndarray] = {}
+    for key, value in out.items():
+        arr = np.asarray(value)
+        if arr.ndim > 0 and arr.shape[0] == n_rows:
+            aligned[key] = arr[order]
+        else:
+            aligned[key] = arr
+    return aligned
+
+
+def _slice_rows(value: np.ndarray, mask: np.ndarray, name: str) -> np.ndarray:
     arr = np.asarray(value)
     if arr.ndim == 0:
         return arr
     if arr.shape[0] == mask.shape[0]:
         return arr[mask]
-    if arr.shape[0] == int(mask.sum()):
-        return arr
     raise ValueError(
-        f"{name} has {arr.shape[0]} rows, expected full dataset length "
-        f"{mask.shape[0]} or train-slice length {int(mask.sum())}."
+        f"{name} has {arr.shape[0]} rows, expected full dataset length {mask.shape[0]}. "
+        "Train-slice-only artifacts are not accepted because the held-out test scorer "
+        "must rescore the same full method outputs."
     )
 
 
@@ -78,7 +100,7 @@ def _valid_spoke_fraction(
     if value.ndim == 0:
         reported_validity = float(value)
     else:
-        reported_validity = float(np.mean(_rows(value, mask, "valid_spoke_fraction")))
+        reported_validity = float(np.mean(_slice_rows(value, mask, "valid_spoke_fraction")))
     output_validity = float(
         np.mean(np.isfinite(pred_t) & (pred_t >= 0.0))
         * np.mean(np.all(np.isfinite(pred_lm), axis=(1, 2)))
@@ -89,17 +111,14 @@ def _valid_spoke_fraction(
 
 def _metric_block(dataset: dict, labels: dict, output_file: Path, mask: np.ndarray) -> dict[str, float]:
     out = dict(np.load(output_file, allow_pickle=True))
-    if "subjects" in out and np.asarray(out["subjects"]).shape[0] == dataset["subjects"].shape[0]:
-        order = _row_order(np.asarray(out["subjects"]), dataset["subjects"], output_file)
-        out = {key: (value[order] if np.asarray(value).ndim > 0 and np.asarray(value).shape[0] == len(order) else value)
-               for key, value in out.items()}
-    pred_t = _rows(out["pred_thickness"], mask, "pred_thickness")
+    out = _align_full_outputs(out, dataset["subjects"], output_file)
+    pred_t = _slice_rows(out["pred_thickness"], mask, "pred_thickness")
     gt_t = labels["gt_thickness"][mask]
-    pred_lm = _rows(out["pred_landmarks"], mask, "pred_landmarks")
+    pred_lm = _slice_rows(out["pred_landmarks"], mask, "pred_landmarks")
     gt_lm = labels["gt_landmarks"][mask]
     subjects = dataset["subjects"][mask]
     gt_surface = dataset["surface_vertices"][mask]
-    recon = _rows(out["recon_vertices"], mask, "recon_vertices")
+    recon = _slice_rows(out["recon_vertices"], mask, "recon_vertices")
     cross = subjects[:, 1] == 0
     longitudinal = subjects[:, 1] > 0
     if not np.any(cross) or not np.any(longitudinal):
