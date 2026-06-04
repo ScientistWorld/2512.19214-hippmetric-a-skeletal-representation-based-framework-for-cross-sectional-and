@@ -1,9 +1,9 @@
-# This iteration writes files only — do NOT submit compute jobs.
-# Once you set action to 'done', STOP immediately.
+# Run split evaluation on a compute node.
+# Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: done
+action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Improvements: added anatomical feature holdouts on top of the subject split; updated metric descriptions and handoff notes. Notes: split evaluators were not executed by instruction; runner should verify feature selections and finite metrics."
+notes: "Run evaluate_train.sh and evaluate_test.sh against existing final outputs; populate split score files for inspection."
