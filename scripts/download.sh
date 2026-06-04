@@ -4,8 +4,8 @@
 # Run on a node with internet access BEFORE building the container
 # or submitting compute jobs.
 #
-# This script should be idempotent — safe to run multiple times.
-# It should skip files that already exist.
+# This script is idempotent: the procedural generator is deterministic with
+# default arguments, so rerunning it recreates the same benchmark files.
 #
 # Update the storage estimate below as you add downloads.
 #
