@@ -204,7 +204,7 @@ def boundary_correspondence_landmarks(
     template_boundary_normals: np.ndarray | None = None,
     vertex_normals: np.ndarray | None = None,
 ) -> np.ndarray:
-    """Return template-indexed boundary landmarks from an order-free surface match."""
+    """Return template-indexed boundary landmarks from local order-free matches."""
     scale, rot, trans = estimate_subject_alignment(
         template_boundary,
         vertices,
@@ -214,15 +214,17 @@ def boundary_correspondence_landmarks(
     )
     moved = scale * (template_boundary @ rot) + trans
     moved_normals = None if template_boundary_normals is None else template_boundary_normals @ rot
-    matched, _ = _assignment_surface_match(
-        moved,
-        vertices,
-        source_normals=moved_normals,
-        target_normals=vertex_normals,
-        normal_weight=24.0,
-    )
     n = template_boundary.shape[0] // 2
-    return np.concatenate([matched[landmark_idx], matched[n + landmark_idx], matched[long_idx]])
+    query_idx = np.concatenate([landmark_idx, n + landmark_idx, long_idx])
+    query = moved[query_idx]
+    diff = query[:, None, :] - vertices[None, :, :]
+    cost = np.sum(diff * diff, axis=2)
+    if moved_normals is not None and vertex_normals is not None:
+        src = moved_normals[query_idx]
+        src /= np.maximum(np.linalg.norm(src, axis=1, keepdims=True), 1e-8)
+        tgt = vertex_normals / np.maximum(np.linalg.norm(vertex_normals, axis=1, keepdims=True), 1e-8)
+        cost = cost + 8.0 * (1.0 - np.clip(src @ tgt.T, -1.0, 1.0)) ** 2
+    return vertices[np.argmin(cost, axis=1)]
 
 
 def _project_to_boundary(

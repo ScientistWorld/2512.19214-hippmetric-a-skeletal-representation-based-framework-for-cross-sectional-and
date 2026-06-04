@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-06-04 13:26] - method_runs
+- CPU container job `07b31207-c1f` validated that atlas-prior landmark alignment runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
+- The atlas-prior path improved correspondence compared with the prior failed runs but remained worse than the boundary baseline (cross-sectional `3.592 mm` vs `2.038 mm`, longitudinal `5.478 mm` vs `2.909 mm`), while preserving strong thickness and surface results.
+- Updated scored landmark extraction to use local normal-aware nearest boundary matches at requested template landmark indices instead of a full-surface bijective assignment for sparse landmarks.
+
 ### [2026-06-04 13:23] - method_runs
 - CPU container job `f3c6455c-ab9` validated that normal-aware boundary-assignment landmark reporting runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
 - The boundary-assignment path preserved thickness and surface improvements (HippMetric thickness MAE `0.354 mm` vs boundary `6.971 mm`, surface Q `0.105 mm` vs boundary `1.308 mm`) but correspondence remained worse than the boundary baseline (cross-sectional `5.081 mm` vs `2.038 mm`, longitudinal `8.846 mm` vs `2.909 mm`).

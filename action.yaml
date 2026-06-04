@@ -6,4 +6,4 @@ action: submit
 gpus: 0
 test: true
 milestone: method_runs
-notes: "Validate atlas-prior landmark alignment: regenerate data, run baseline and method, evaluate full/train/test scores, and compare correspondence against the boundary baseline."
+notes: "Validate sparse local normal-aware landmark matching: regenerate data, run baseline and method, evaluate full/train/test scores, and compare correspondence against the boundary baseline."
