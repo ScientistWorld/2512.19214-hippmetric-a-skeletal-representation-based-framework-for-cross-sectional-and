@@ -27,7 +27,12 @@ def _similarity_from_pairs(source: np.ndarray, target: np.ndarray) -> tuple[floa
     return scale, rot, trans
 
 
-def _pca_initial_alignment(source: np.ndarray, target: np.ndarray) -> tuple[float, np.ndarray, np.ndarray]:
+def _pca_initial_alignment(
+    source: np.ndarray,
+    target: np.ndarray,
+    source_normals: np.ndarray | None = None,
+    target_normals: np.ndarray | None = None,
+) -> tuple[float, np.ndarray, np.ndarray]:
     src_center = source.mean(axis=0)
     tgt_center = target.mean(axis=0)
     src0 = source - src_center
@@ -45,10 +50,18 @@ def _pca_initial_alignment(source: np.ndarray, target: np.ndarray) -> tuple[floa
         ],
         dtype=float,
     )
+    target_tree = cKDTree(tgt0)
     for sign in signs:
         rot = src_vt.T @ np.diag(sign) @ tgt_vt
         aligned = src0 @ rot
-        score = cKDTree(tgt0).query(aligned)[0].mean()
+        distances, nn = target_tree.query(aligned)
+        score = distances.mean()
+        if source_normals is not None and target_normals is not None:
+            aligned_normals = source_normals @ rot
+            aligned_normals /= np.maximum(np.linalg.norm(aligned_normals, axis=1, keepdims=True), 1e-8)
+            observed_normals = target_normals[nn]
+            observed_normals /= np.maximum(np.linalg.norm(observed_normals, axis=1, keepdims=True), 1e-8)
+            score += 1.5 * np.mean((1.0 - np.sum(aligned_normals * observed_normals, axis=1)) ** 2)
         if score < best_score:
             best_score = score
             best_rot = rot
@@ -57,16 +70,28 @@ def _pca_initial_alignment(source: np.ndarray, target: np.ndarray) -> tuple[floa
     return scale, best_rot, trans
 
 
-def _assignment_surface_match(source_points: np.ndarray, target_vertices: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+def _assignment_surface_match(
+    source_points: np.ndarray,
+    target_vertices: np.ndarray,
+    source_normals: np.ndarray | None = None,
+    target_normals: np.ndarray | None = None,
+    normal_weight: float = 12.0,
+) -> tuple[np.ndarray, np.ndarray]:
     """Bijectively match a deformed template surface to an unordered target surface.
 
     Nearest-neighbor matching is many-to-one and can collapse nearby anatomical
     locations onto the same observed vertex. The benchmark deliberately shuffles
     mesh rows, so the reduced LDDMM stage needs an order-free but one-to-one
-    correspondence estimate.
+    correspondence estimate. When oriented surface normals are available, they
+    regularize the assignment toward anatomically consistent sheet locations.
     """
     diff = source_points[:, None, :] - target_vertices[None, :, :]
     cost = np.sum(diff * diff, axis=2)
+    if source_normals is not None and target_normals is not None:
+        src = source_normals / np.maximum(np.linalg.norm(source_normals, axis=1, keepdims=True), 1e-8)
+        tgt = target_normals / np.maximum(np.linalg.norm(target_normals, axis=1, keepdims=True), 1e-8)
+        normal_cost = (1.0 - np.clip(src @ tgt.T, -1.0, 1.0)) ** 2
+        cost = cost + normal_weight * normal_cost
     rows, cols = linear_sum_assignment(cost)
     matched = np.empty_like(source_points)
     distances = np.empty(source_points.shape[0], dtype=float)
@@ -78,13 +103,16 @@ def _assignment_surface_match(source_points: np.ndarray, target_vertices: np.nda
 def estimate_subject_alignment(
     template_boundary: np.ndarray,
     vertices: np.ndarray,
+    template_boundary_normals: np.ndarray | None = None,
+    vertex_normals: np.ndarray | None = None,
     iterations: int = 4,
 ) -> tuple[float, np.ndarray, np.ndarray]:
     """Estimate the initial rigid template-to-subject alignment."""
-    scale, rot, trans = _pca_initial_alignment(template_boundary, vertices)
+    scale, rot, trans = _pca_initial_alignment(template_boundary, vertices, template_boundary_normals, vertex_normals)
     for _ in range(iterations):
         moved = scale * (template_boundary @ rot) + trans
-        matched_vertices, _ = _assignment_surface_match(moved, vertices)
+        moved_normals = None if template_boundary_normals is None else template_boundary_normals @ rot
+        matched_vertices, _ = _assignment_surface_match(moved, vertices, moved_normals, vertex_normals)
         next_scale, next_rot, next_trans = _similarity_from_pairs(template_boundary, matched_vertices)
         if np.linalg.norm(next_trans - trans) < 1e-5 and abs(next_scale - scale) < 1e-5:
             scale, rot, trans = next_scale, next_rot, next_trans
@@ -114,6 +142,8 @@ def dense_surface_deformation(
     template_boundary: np.ndarray,
     vertices: np.ndarray,
     query_points: np.ndarray,
+    template_boundary_normals: np.ndarray | None = None,
+    vertex_normals: np.ndarray | None = None,
     iterations_per_width: int = 2,
     max_control_points: int = 180,
 ) -> np.ndarray:
@@ -125,16 +155,27 @@ def dense_surface_deformation(
     boundary to the observed surface and transports the same smoothed
     displacement field to internal skeletal points.
     """
-    scale, rot, trans = estimate_subject_alignment(template_boundary, vertices)
+    scale, rot, trans = estimate_subject_alignment(
+        template_boundary,
+        vertices,
+        template_boundary_normals=template_boundary_normals,
+        vertex_normals=vertex_normals,
+    )
     deformed_boundary = scale * (template_boundary @ rot) + trans
     deformed_query = scale * (query_points @ rot) + trans
+    deformed_normals = None if template_boundary_normals is None else template_boundary_normals @ rot
     if template_boundary.shape[0] > max_control_points:
         control_idx = np.linspace(0, template_boundary.shape[0] - 1, max_control_points, dtype=int)
     else:
         control_idx = np.arange(template_boundary.shape[0])
     for width in np.arange(7.0, 2.99, -0.5):
         for _ in range(iterations_per_width):
-            matched_vertices, distances = _assignment_surface_match(deformed_boundary, vertices)
+            matched_vertices, distances = _assignment_surface_match(
+                deformed_boundary,
+                vertices,
+                source_normals=deformed_normals,
+                target_normals=vertex_normals,
+            )
             control_points = deformed_boundary[control_idx]
             displacements = matched_vertices[control_idx] - control_points
             if float(np.mean(distances)) < 0.05:
@@ -233,6 +274,7 @@ def run(dataset: Path, output: Path) -> None:
     sup_dir = data["template_sup_dir"]
     inf_dir = data["template_inf_dir"]
     surface_vertices = data["surface_vertices"]
+    surface_normals = data["surface_normals"] if "surface_normals" in data.files else None
     subjects = data["subjects"]
     landmark_idx = data["landmark_idx"]
     long_idx = data["long_idx"]
@@ -243,6 +285,7 @@ def run(dataset: Path, output: Path) -> None:
         ],
         axis=0,
     )
+    template_boundary_normals = np.concatenate([sup_dir, inf_dir], axis=0)
     template_query = np.concatenate(
         [
             template_skeleton,
@@ -262,8 +305,15 @@ def run(dataset: Path, output: Path) -> None:
     for row in np.lexsort((subjects[:, 1], subjects[:, 0])):
         sid, tid = subjects[row]
         vertices = surface_vertices[row]
+        vertex_normals = None if surface_normals is None else surface_normals[row]
         if tid == 0:
-            deformed = dense_surface_deformation(template_boundary, vertices, template_query)
+            deformed = dense_surface_deformation(
+                template_boundary,
+                vertices,
+                template_query,
+                template_boundary_normals=template_boundary_normals,
+                vertex_normals=vertex_normals,
+            )
             n = template_skeleton.shape[0]
             skeleton = deformed[:n]
             sup_seed = deformed[n : 2 * n] - skeleton
@@ -277,7 +327,7 @@ def run(dataset: Path, output: Path) -> None:
             # system and re-optimizes only spoke lengths against follow-up boundaries.
             skeleton = baseline_skeleton_by_subject[int(sid)]
             sup, inf = baseline_dirs_by_subject[int(sid)]
-        normals = _surface_normals_from_skeleton(vertices, skeleton)
+        normals = vertex_normals if vertex_normals is not None else _surface_normals_from_skeleton(vertices, skeleton)
         sup_end, sup_len, inf_end, inf_len, valid = refine_paired_spokes(skeleton, sup, inf, vertices, normals)
         thickness = sup_len + inf_len
         pred_thickness[row] = thickness

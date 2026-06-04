@@ -10,6 +10,11 @@
 - The job does not support `core_claim`: HippMetric improved thickness MAE (`0.499 mm` vs `6.971 mm`) and surface Q (`0.439 mm` vs `1.308 mm`) but lost correspondence stability to the boundary baseline (cross-sectional `5.296 mm` vs `2.038 mm`, longitudinal `7.743 mm` vs `2.909 mm`).
 - Added an order-free one-to-one surface assignment in the registration/deformation loop and resubmitted a CPU validation job to test whether the core correspondence result is restored without using vertex row order.
 
+### [2026-06-04 13:03] - method_runs
+- CPU container job `233a513d-e94` validated that the one-to-one assignment path runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
+- Assignment improved thickness (`0.351 mm`) and surface fidelity (`Q=0.130 mm`) but correspondence remains worse than the boundary baseline (cross-sectional `5.103 mm` vs `2.038 mm`, longitudinal `7.737 mm` vs `2.909 mm`).
+- Added observed surface-normal agreement to PCA sign selection and order-free assignment, and uses method-visible normals during spoke refinement to reduce anatomical side and long-axis ambiguity.
+
 ### [2026-06-04 12:50] - none
 - Continuing audit found that the previous `core_claim` claim depended on a reduced synthetic prototype and a preserved mesh-order registration path, which is not a defensible reproduction of the paper's actual procedure.
 - Removed the vertex-order registration shortcut, made the procedural surfaces order-invariant for future runs, and changed `scripts/run.sh` to regenerate data, baseline outputs, method outputs, full scores, split scores, and validation in one job.
