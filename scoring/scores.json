@@ -8,8 +8,8 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "thickness_mae_mm": 0.354274424272007,
-          "thickness_p95_abs_error_mm": 0.918461950141962,
+          "thickness_mae_mm": 0.3319731761714867,
+          "thickness_p95_abs_error_mm": 0.8566144427508754,
           "valid_spoke_fraction": 1.0
         }
       }
@@ -24,10 +24,10 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "cross_sectional_correspondence_error_mm": 5.081456252511251,
-          "cross_sectional_p95_correspondence_error_mm": 16.352355937741205,
-          "longitudinal_correspondence_error_mm": 8.846317921496516,
-          "longitudinal_p95_correspondence_error_mm": 18.374491195859534,
+          "cross_sectional_correspondence_error_mm": 3.59248661138311,
+          "cross_sectional_p95_correspondence_error_mm": 15.75296345009382,
+          "longitudinal_correspondence_error_mm": 5.477594093185169,
+          "longitudinal_p95_correspondence_error_mm": 18.069706192206556,
           "valid_spoke_fraction": 1.0
         }
       }
