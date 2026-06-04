@@ -10,4 +10,4 @@
 - HippMetric improves over the boundary baseline on thickness, correspondence, and surface robustness while preserving valid spokes.
 
 ## Stop Justification
-- Completed at milestone `none`.
+- Completed at milestone `method_runs`.
