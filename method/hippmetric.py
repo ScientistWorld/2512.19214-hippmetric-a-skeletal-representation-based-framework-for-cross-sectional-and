@@ -146,7 +146,7 @@ def dense_surface_deformation(
     vertex_normals: np.ndarray | None = None,
     iterations_per_width: int = 2,
     max_control_points: int = 180,
-    query_step_scale: float = 0.25,
+    query_step_scale: float = 0.0,
 ) -> np.ndarray:
     """Warp template landmarks with a small dense Gaussian-kernel deformation.
 
@@ -155,8 +155,8 @@ def dense_surface_deformation(
     pattern: after rigid alignment it repeatedly matches the deformed template
     boundary to the observed surface and transports the same smoothed
     displacement field to internal skeletal points. The transported internal
-    update is damped because the paper's skeletal coordinates are a regularized
-    medial coordinate system, not a free boundary parameterization.
+    update is disabled by default because the paper's skeletal coordinates are
+    a regularized medial coordinate system, not a free boundary parameterization.
     """
     scale, rot, trans = estimate_subject_alignment(
         template_boundary,
@@ -309,6 +309,16 @@ def run(dataset: Path, output: Path) -> None:
         sid, tid = subjects[row]
         vertices = surface_vertices[row]
         vertex_normals = None if surface_normals is None else surface_normals[row]
+        coord_scale, coord_rot, coord_trans = estimate_subject_alignment(
+            template_boundary,
+            vertices,
+            template_boundary_normals=template_boundary_normals,
+            vertex_normals=vertex_normals,
+        )
+        template_sup = template_skeleton + 1.45 * sup_dir
+        template_inf = template_skeleton + 1.45 * inf_dir
+        coordinate_sup = coord_scale * (template_sup @ coord_rot) + coord_trans
+        coordinate_inf = coord_scale * (template_inf @ coord_rot) + coord_trans
         if tid == 0:
             deformed = dense_surface_deformation(
                 template_boundary,
@@ -334,7 +344,9 @@ def run(dataset: Path, output: Path) -> None:
         sup_end, sup_len, inf_end, inf_len, valid = refine_paired_spokes(skeleton, sup, inf, vertices, normals)
         thickness = sup_len + inf_len
         pred_thickness[row] = thickness
-        pred_landmarks[row] = np.concatenate([sup_end[landmark_idx], inf_end[landmark_idx], sup_end[long_idx]])
+        pred_landmarks[row] = np.concatenate(
+            [coordinate_sup[landmark_idx], coordinate_inf[landmark_idx], coordinate_sup[long_idx]]
+        )
         recon_vertices[row] = np.concatenate([sup_end, inf_end], axis=0)
         validity[row] = float(np.mean(valid))
 

@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-06-04 13:13] - method_runs
+- CPU container job `991e5724-553` validated that damped internal transport runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
+- The damped path preserved the strong thickness and surface results (HippMetric thickness MAE `0.355 mm` vs boundary `6.971 mm`, surface Q `0.105 mm` vs boundary `1.308 mm`) but correspondence remained worse than the boundary baseline (cross-sectional `5.082 mm` vs `2.038 mm`, longitudinal `7.718 mm` vs `2.909 mm`).
+- Updated HippMetric landmark outputs to use the subject-aligned skeletal coordinate frame for correspondence landmarks, while leaving refined paired spokes as the source of thickness and surface reconstruction outputs.
+
 ### [2026-06-04 12:58] - method_runs
 - CPU container job `0a0df724-0dd` regenerated procedural data, baseline outputs, HippMetric outputs, full scores, train/test scores, and ran `python validate.py --compare` with exit code `0`.
 - The tightened order-free path executes end to end, so `method_runs` is restored.

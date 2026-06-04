@@ -5,7 +5,7 @@
 - Paper-specific briefing, scoring targets, constraints, and direction documents are filled in.
 - Current self-reported milestone is `method_runs`. CPU job `0a0df724-0dd` validated that the tightened non-oracle path executes end to end, but its correspondence scores do not yet support `core_claim`.
 - `data/synthetic_hippocampus.py` generates a small procedural hippocampal subfield benchmark. Method-visible geometry is written to `data/synthetic_hippocampus.npz`; evaluation-only thickness, landmark, and transform labels are written separately to `data/synthetic_hippocampus_labels.npz`.
-- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest edit damps the Gaussian-kernel displacement transported to internal skeletal query points while keeping boundary matching active; this still needs a compute-container run.
+- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest edit reports correspondence landmarks from the subject-aligned skeletal coordinate frame while keeping refined paired spokes as the source of thickness and surface reconstruction outputs; this still needs a compute-container run.
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
@@ -16,7 +16,7 @@
 
 ## Results
 
-Pending validation after the 2026-06-04 13:08 damped internal-transport fix. The next submitted job runs:
+Pending validation after the 2026-06-04 13:13 coordinate-frame landmark output fix. The next submitted job runs:
 
 ```bash
 bash scripts/run.sh
@@ -58,7 +58,15 @@ CPU validation job `5e516a21-8cf` reran `scripts/run.sh` in the packaged CPU con
 - Surface Q/q/HD/p95: HippMetric `0.118/0.863/1.725/0.313 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
 - Valid spoke fraction: both `1.000`.
 
-The next CPU job tests damped transport of internal skeletal query points. The goal is to keep the paper-style dense boundary deformation while preserving a stable medial coordinate system for correspondence landmarks.
+CPU validation job `991e5724-553` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. It passed structural validation but still did not support the core correspondence claim:
+
+- Thickness MAE: HippMetric `0.355 mm`; boundary baseline `6.971 mm`.
+- Cross-sectional correspondence error: HippMetric `5.082 mm`; boundary baseline `2.038 mm`.
+- Longitudinal correspondence error: HippMetric `7.718 mm`; boundary baseline `2.909 mm`.
+- Surface Q/q/HD/p95: HippMetric `0.105/0.825/1.650/0.234 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
+- Valid spoke fraction: both `1.000`.
+
+The next CPU job tests coordinate-frame landmark reporting. The goal is to preserve the paper-style split between anatomical skeletal coordinates for correspondence and boundary-refined paired spokes for thickness/surface fidelity.
 
 Earlier validation job `69a1af48-426` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. Those earlier scores are now considered superseded because they depended on the pre-audit surface correspondence path.
 
@@ -95,7 +103,7 @@ Current milestone: `method_runs`. `core_claim` is pending a validated run where 
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. CPU test job `69a1af48-426` confirmed the packaged container path works and passes validation.
 - Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The current validated milestone is `method_runs` until the assignment-based deformation path is scored.
 - Iteration 9 removed a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. Later CPU validation jobs regenerated `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.
-- Jobs `e360d720-eb6`, `0a0df724-0dd`, `233a513d-e94`, and `5e516a21-8cf` confirmed that nearest-neighbor, position-only assignment, and normal-aware assignment are not sufficient for the core correspondence claim after order shuffling. The current update regularizes transported skeletal coordinates rather than using preserved vertex row order.
+- Jobs `e360d720-eb6`, `0a0df724-0dd`, `233a513d-e94`, `5e516a21-8cf`, and `991e5724-553` confirmed that nearest-neighbor, position-only assignment, normal-aware assignment, and damped internal transport are not sufficient for the core correspondence claim after order shuffling. The current update reports landmarks from the fitted skeletal coordinate frame rather than from boundary-projected spoke endpoints.
 - Final-verification CPU jobs, including `69a1af48-426`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
 - Continuing-agent packaging audit on 2026-06-04 verified `python validate.py --compare` on the current workspace, confirmed method/eval separation, and removed generated `jobs/` and `trajectory/` artifacts from git tracking while keeping them ignored.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
