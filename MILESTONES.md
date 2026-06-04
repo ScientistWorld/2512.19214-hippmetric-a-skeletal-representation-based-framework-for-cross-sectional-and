@@ -15,6 +15,11 @@
 - Assignment improved thickness (`0.351 mm`) and surface fidelity (`Q=0.130 mm`) but correspondence remains worse than the boundary baseline (cross-sectional `5.103 mm` vs `2.038 mm`, longitudinal `7.737 mm` vs `2.909 mm`).
 - Added observed surface-normal agreement to PCA sign selection and order-free assignment, and uses method-visible normals during spoke refinement to reduce anatomical side and long-axis ambiguity.
 
+### [2026-06-04 13:08] - method_runs
+- CPU container job `5e516a21-8cf` validated that the normal-aware assignment path runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
+- Normal-aware matching improved surface fidelity (`Q=0.118 mm`) but not correspondence (cross-sectional `5.084 mm` vs boundary `2.038 mm`, longitudinal `7.744 mm` vs boundary `2.909 mm`).
+- Added damped transport for internal skeletal query points so dense boundary matching does not freely drag the medial coordinate system and destroy anatomical landmark identity.
+
 ### [2026-06-04 12:50] - none
 - Continuing audit found that the previous `core_claim` claim depended on a reduced synthetic prototype and a preserved mesh-order registration path, which is not a defensible reproduction of the paper's actual procedure.
 - Removed the vertex-order registration shortcut, made the procedural surfaces order-invariant for future runs, and changed `scripts/run.sh` to regenerate data, baseline outputs, method outputs, full scores, split scores, and validation in one job.

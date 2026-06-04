@@ -146,6 +146,7 @@ def dense_surface_deformation(
     vertex_normals: np.ndarray | None = None,
     iterations_per_width: int = 2,
     max_control_points: int = 180,
+    query_step_scale: float = 0.25,
 ) -> np.ndarray:
     """Warp template landmarks with a small dense Gaussian-kernel deformation.
 
@@ -153,7 +154,9 @@ def dense_surface_deformation(
     width from 7 mm to 3 mm. This scaled implementation keeps that computation
     pattern: after rigid alignment it repeatedly matches the deformed template
     boundary to the observed surface and transports the same smoothed
-    displacement field to internal skeletal points.
+    displacement field to internal skeletal points. The transported internal
+    update is damped because the paper's skeletal coordinates are a regularized
+    medial coordinate system, not a free boundary parameterization.
     """
     scale, rot, trans = estimate_subject_alignment(
         template_boundary,
@@ -183,7 +186,7 @@ def dense_surface_deformation(
             step_boundary = _kernel_displacement(control_points, displacements, deformed_boundary, width)
             step_query = _kernel_displacement(control_points, displacements, deformed_query, width)
             deformed_boundary = deformed_boundary + 0.7 * step_boundary
-            deformed_query = deformed_query + 0.7 * step_query
+            deformed_query = deformed_query + 0.7 * query_step_scale * step_query
     return deformed_query
 
 

@@ -6,4 +6,4 @@ action: submit
 gpus: 0
 test: true
 milestone: method_runs
-notes: "Validate normal-regularized initialization and order-free HippMetric matching: regenerate data, run baseline and method, evaluate full/train/test scores, and compare correspondence against the baseline."
+notes: "Validate damped internal-transport HippMetric path: regenerate data, run baseline and method, evaluate full/train/test scores, and compare correspondence against the baseline."
