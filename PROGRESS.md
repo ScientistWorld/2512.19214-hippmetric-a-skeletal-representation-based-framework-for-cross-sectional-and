@@ -3,8 +3,9 @@
 ## What Works
 
 - Paper-specific briefing, scoring targets, constraints, and direction documents are filled in.
+- Current self-reported milestone has been reset to `none` pending container validation of the tightened non-oracle registration path.
 - `data/synthetic_hippocampus.py` generates a small procedural hippocampal subfield benchmark. Method-visible geometry is written to `data/synthetic_hippocampus.npz`; evaluation-only thickness, landmark, and transform labels are written separately to `data/synthetic_hippocampus_labels.npz`.
-- `method/hippmetric.py` runs a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton.
+- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest non-oracle surface-matching edit still needs a compute-container run.
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
@@ -14,6 +15,14 @@
 - The validity constraint is now capped by evaluator-observable finite/nonnegative output checks rather than relying entirely on a method-reported value.
 
 ## Results
+
+Pending validation after the 2026-06-04 12:50 integrity pass. The next submitted job runs:
+
+```bash
+bash scripts/run.sh
+```
+
+which regenerates the procedural data, baseline outputs, method outputs, full scores, train/test split scores, and `python validate.py --compare`.
 
 Standard reproduction command:
 
@@ -51,6 +60,8 @@ Current milestone: `core_claim` after validation of the tightened dense-deformat
 
 ## Issues
 
+- Continuing-agent method audit on 2026-06-04 found that the previous `core_claim` overreached the protocol: the implementation omits the real FS60/FreeSurfer surface pipeline, RBOS mesh refinement, ARMM/NURBS template construction, Deformetrica dense-mode LDDMM, paper-scale clinical/manual evaluation, and paper baselines. It also used preserved procedural mesh ordering when template and subject surfaces had the same vertex count.
+- The 2026-06-04 12:50 edit removed the preserved-order registration branch, added soft order-free surface matching in the Gaussian deformation loop, shuffles generated surface vertices, and makes `scripts/run.sh` execute the full reproducible pipeline. This has not been validated locally because host Python lacks `numpy`; it is being submitted to the managed container.
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. CPU test job `69a1af48-426` confirmed the packaged container path works and passes validation.
 - Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The milestone was temporarily reset to `method_runs`; later tightened implementation runs restored `core_claim`.
 - Iteration 9 removed a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. Later CPU validation jobs regenerated `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.

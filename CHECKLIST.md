@@ -36,8 +36,8 @@ Check off items as you complete them. Order doesn't matter — work however make
 - [x] Pretrained models downloaded if needed
 
 ## Milestones
-- [x] `method_runs` — executes end-to-end without errors
-- [x] `core_claim` — minimum experiment supports central claim after validation-scale fixes
+- [ ] `method_runs` — executes end-to-end without errors after the non-oracle registration tightening
+- [ ] `core_claim` — minimum experiment supports central claim after validation-scale fixes
 - [ ] `core_claim_plus` — additional settings
 - [ ] `secondary_claims`
 - [ ] `majority`

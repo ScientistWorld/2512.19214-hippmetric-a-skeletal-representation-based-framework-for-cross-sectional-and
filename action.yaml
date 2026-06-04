@@ -2,8 +2,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: done
+action: submit
 gpus: 0
-test: false
-milestone: core_claim
-notes: "Core-claim reproduction is packaged and validated; final audit passed python validate.py --compare and removed generated job/trajectory artifacts from git tracking."
+test: true
+milestone: none
+notes: "Validate tightened non-oracle HippMetric path: regenerate procedural data with shuffled surface vertices, run baseline and method, evaluate full/train/test scores, and compare."

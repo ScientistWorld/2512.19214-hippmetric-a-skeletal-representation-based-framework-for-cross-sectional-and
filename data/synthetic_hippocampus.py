@@ -97,6 +97,9 @@ def make_dataset(output: Path, labels_output: Path, n_subjects: int, n_timepoint
             # still recoverable from the observed surface geometry.
             noise = rng.normal(0.0, 0.15 + 0.025 * tid, size=sup.shape)
             vertices = np.concatenate([sup + noise, inf - noise], axis=0)
+            # Vertex ordering is not an anatomical label. Shuffle each observed
+            # surface so methods must recover correspondence from geometry.
+            vertices = vertices[rng.permutation(len(vertices))]
             normals = np.concatenate([sup_dir, inf_dir], axis=0)
             surfaces.append(vertices)
             gt_thickness.append(thickness)

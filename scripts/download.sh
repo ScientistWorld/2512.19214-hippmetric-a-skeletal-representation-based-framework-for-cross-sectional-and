@@ -20,9 +20,6 @@ set -e
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-if [ ! -e data/synthetic_hippocampus.npz ] || \
-   [ ! -e data/synthetic_hippocampus_labels.npz ]; then
-  python data/synthetic_hippocampus.py \
-    --output data/synthetic_hippocampus.npz \
-    --labels-output data/synthetic_hippocampus_labels.npz
-fi
+python data/synthetic_hippocampus.py \
+  --output data/synthetic_hippocampus.npz \
+  --labels-output data/synthetic_hippocampus_labels.npz

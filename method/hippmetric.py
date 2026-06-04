@@ -60,27 +60,34 @@ def estimate_subject_alignment(
     template_boundary: np.ndarray,
     vertices: np.ndarray,
     iterations: int = 4,
-    dense_correspondence: bool = False,
 ) -> tuple[float, np.ndarray, np.ndarray]:
     """Estimate the initial rigid template-to-subject alignment."""
-    if dense_correspondence and len(vertices) == len(template_boundary):
-        scale, rot, trans = _similarity_from_pairs(template_boundary, vertices)
-    else:
-        scale, rot, trans = _pca_initial_alignment(template_boundary, vertices)
+    scale, rot, trans = _pca_initial_alignment(template_boundary, vertices)
     tree = cKDTree(vertices)
     for _ in range(iterations):
         moved = scale * (template_boundary @ rot) + trans
-        if dense_correspondence and len(vertices) == len(template_boundary):
-            matched_vertices = vertices
-        else:
-            _, nn = tree.query(moved)
-            matched_vertices = vertices[nn]
+        _, nn = tree.query(moved)
+        matched_vertices = vertices[nn]
         next_scale, next_rot, next_trans = _similarity_from_pairs(template_boundary, matched_vertices)
         if np.linalg.norm(next_trans - trans) < 1e-5 and abs(next_scale - scale) < 1e-5:
             scale, rot, trans = next_scale, next_rot, next_trans
             break
         scale, rot, trans = next_scale, next_rot, next_trans
     return scale, rot, trans
+
+
+def _soft_surface_match(query_points: np.ndarray, vertices: np.ndarray, width: float) -> tuple[np.ndarray, np.ndarray]:
+    """Match deformed template points to the observed surface without vertex-order labels."""
+    k = min(18, len(vertices))
+    distances, indices = cKDTree(vertices).query(query_points, k=k)
+    if k == 1:
+        distances = distances[:, None]
+        indices = indices[:, None]
+    sigma = max(0.35, min(1.4, 0.35 * width))
+    weights = np.exp(-(distances**2) / (2.0 * sigma * sigma))
+    weights /= np.maximum(weights.sum(axis=1, keepdims=True), 1e-12)
+    matched = np.sum(vertices[indices] * weights[:, :, None], axis=1)
+    return matched, distances[:, 0]
 
 
 def _kernel_displacement(
@@ -115,27 +122,16 @@ def dense_surface_deformation(
     boundary to the observed surface and transports the same smoothed
     displacement field to internal skeletal points.
     """
-    dense_correspondence = len(vertices) == len(template_boundary)
-    scale, rot, trans = estimate_subject_alignment(
-        template_boundary,
-        vertices,
-        dense_correspondence=dense_correspondence,
-    )
+    scale, rot, trans = estimate_subject_alignment(template_boundary, vertices)
     deformed_boundary = scale * (template_boundary @ rot) + trans
     deformed_query = scale * (query_points @ rot) + trans
-    tree = cKDTree(vertices)
     if template_boundary.shape[0] > max_control_points:
         control_idx = np.linspace(0, template_boundary.shape[0] - 1, max_control_points, dtype=int)
     else:
         control_idx = np.arange(template_boundary.shape[0])
     for width in np.arange(7.0, 2.99, -0.5):
         for _ in range(iterations_per_width):
-            if dense_correspondence:
-                matched_vertices = vertices
-                distances = np.linalg.norm(matched_vertices - deformed_boundary, axis=1)
-            else:
-                distances, idx = tree.query(deformed_boundary)
-                matched_vertices = vertices[idx]
+            matched_vertices, distances = _soft_surface_match(deformed_boundary, vertices, width)
             control_points = deformed_boundary[control_idx]
             displacements = matched_vertices[control_idx] - control_points
             if float(np.mean(distances)) < 0.05:

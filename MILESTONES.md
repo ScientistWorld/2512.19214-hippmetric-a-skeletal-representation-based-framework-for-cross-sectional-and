@@ -1,8 +1,13 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: none**
 
 ## Progress Log
+
+### [2026-06-04 12:50] - none
+- Continuing audit found that the previous `core_claim` claim depended on a reduced synthetic prototype and a preserved mesh-order registration path, which is not a defensible reproduction of the paper's actual procedure.
+- Removed the vertex-order registration shortcut, made the procedural surfaces order-invariant for future runs, and changed `scripts/run.sh` to regenerate data, baseline outputs, method outputs, full scores, split scores, and validation in one job.
+- Host Python lacks `numpy`, so the tightened code path is being submitted for container validation before claiming `method_runs` again.
 
 ### [2026-06-04 12:20] - core_claim
 - Implemented a reduced-scale HippMetric pipeline with skeletal template coordinates, dense Gaussian-kernel deformation, paired spoke refinement, and baseline-anchored longitudinal processing.
