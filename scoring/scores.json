@@ -37,14 +37,14 @@
         "boundary_baseline": {
           "surface_Q_mm": 1.2759107512404062,
           "surface_q_mm": 3.726528229363055,
-          "surface_HD_mm": 7.45305645872611,
+          "surface_HD_mm": 3.726528229363055,
           "surface_p95_mm": 2.864552267770327,
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
           "surface_Q_mm": 0.13090033807534887,
           "surface_q_mm": 0.8717665981203157,
-          "surface_HD_mm": 1.7435331962406313,
+          "surface_HD_mm": 0.8717665981203157,
           "surface_p95_mm": 0.3753941970112238,
           "valid_spoke_fraction": 1.0
         }
