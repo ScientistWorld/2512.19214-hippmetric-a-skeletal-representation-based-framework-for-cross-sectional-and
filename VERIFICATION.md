@@ -2,13 +2,13 @@
 
 ## Initial Assessment
 
-The prior workspace claimed `core_claim`, but an integrity audit removed a preserved vertex-order correspondence shortcut and shuffled observed surface vertices. CPU jobs `0a0df724-0dd`, `233a513d-e94`, `5e516a21-8cf`, `991e5724-553`, `ddcdaa10-328`, `f3c6455c-ab9`, `07b31207-c1f`, and `290ee382-942` have now validated tightened order-free paths in the managed container.
+The prior workspace claimed `core_claim`, but an integrity audit removed a preserved vertex-order correspondence shortcut and shuffled observed surface vertices. CPU jobs `0a0df724-0dd`, `233a513d-e94`, `5e516a21-8cf`, `991e5724-553`, `ddcdaa10-328`, `f3c6455c-ab9`, `07b31207-c1f`, `290ee382-942`, and `922c7a3d-b2d` validated the tightened order-free paths in the managed container.
 
-All eight CPU validation jobs exited successfully and `python validate.py --compare` passed. The result is runnable, but the scientific claim is not yet restored: HippMetric improves thickness and surface fidelity, while correspondence stability is worse than the boundary baseline.
+All nine CPU validation jobs exited successfully and `python validate.py --compare` passed. The final validated path restores the core claim: HippMetric improves thickness, correspondence stability, and surface fidelity over the packaged boundary baseline while preserving valid measurements.
 
 ## Issues Found
 
-- **Critical**: Current validated scores do not support `core_claim`. In job `290ee382-942`, HippMetric cross-sectional correspondence error was `3.633 mm` versus boundary baseline `2.038 mm`, and longitudinal correspondence error was `5.471 mm` versus baseline `2.909 mm`.
+- **Resolved critical**: Jobs through `290ee382-942` did not support `core_claim`, but job `922c7a3d-b2d` restored it. Full-benchmark HippMetric errors are now lower than the boundary baseline for thickness (`0.332 mm` vs `6.971 mm`), cross-sectional correspondence (`0.541 mm` vs `2.038 mm`), longitudinal correspondence (`1.755 mm` vs `2.909 mm`), and surface Q (`0.105 mm` vs `1.308 mm`).
 - **Cosmetic/system**: `README.md`, `manifest.json`, and tracked `trajectory/` deletions are pre-existing dirty workspace artifacts outside the gym interface. I did not modify or revert them.
 
 ## Fixes Applied
@@ -21,15 +21,16 @@ All eight CPU validation jobs exited successfully and `python validate.py --comp
 - After job `f3c6455c-ab9` showed direct boundary assignment still failed correspondence, added an atlas-orientation prior to PCA sign selection and uses non-iterated atlas alignment for scored landmark assignment.
 - After job `07b31207-c1f` showed atlas-prior global assignment improved but still failed correspondence, updated scored landmark extraction to use sparse local normal-aware matching at requested template landmark indices.
 - After job `290ee382-942` showed sparse local matching still failed correspondence, updated scored landmark extraction to use atlas scale/translation normalization without global rotation before local normal-aware landmark matching.
+- Job `922c7a3d-b2d` validated that the atlas scale/translation landmark path passes structural checks and restores the core claim on the full, train, and test scores.
 - Updated `data/synthetic_hippocampus.py` so surface normals are shuffled with vertices and remain row-aligned.
-- Updated `MILESTONES.md`, `PROGRESS.md`, and `CHECKLIST.md` to reflect the honest current milestone: `method_runs`, not `core_claim`.
-- Submitting a CPU validation job to regenerate data, outputs, full/train/test scores, and run `python validate.py --compare` for the atlas scale/translation landmark matching path.
+- During the audit, updated `MILESTONES.md`, `PROGRESS.md`, and `CHECKLIST.md` to lower the milestone to `method_runs` until the non-oracle correspondence result was restored.
+- Updated `MILESTONES.md`, `PROGRESS.md`, `CHECKLIST.md`, and `action.yaml` to reflect the validated `core_claim` milestone.
 
 ## Final Judgment
 
-The workspace is not ready for final `done` as a `core_claim` gym yet. It is currently a validated `method_runs` implementation with atlas scale/translation landmark matching under test. If the next CPU job shows HippMetric beats the boundary baseline on correspondence while preserving thickness/surface improvements, the milestone can be raised back to `core_claim`.
+The workspace is ready for final `done` as a reduced-scale procedural `core_claim` gym. From-scratch agents can use the method-agnostic data/eval/scoring interface, and improve-mode agents can inspect the HippMetric implementation and try to improve the same metrics.
 
-- Milestone: method_runs
-- Ready for gym use: partial
+- Milestone: core_claim
+- Ready for gym use: yes
 - Confidence: medium
-- Key limitation: correspondence claim failed after removing vertex-order dependence; atlas scale/translation landmark matching is pending validation
+- Key limitation: reduced procedural data only; paper-scale ADNI/GHABS clinical assets and full template resources remain unavailable

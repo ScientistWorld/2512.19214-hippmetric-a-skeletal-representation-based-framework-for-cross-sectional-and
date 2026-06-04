@@ -2,8 +2,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: true
-milestone: method_runs
-notes: "Validate rotation-free atlas landmark normalization: regenerate data, run baseline and method, evaluate full/train/test scores, and compare correspondence against the boundary baseline."
+action: done
+milestone: core_claim
+notes: "Verified core_claim: job 922c7a3d-b2d passed validation and HippMetric beats the boundary baseline on thickness, correspondence, and surface robustness in the packaged procedural gym."

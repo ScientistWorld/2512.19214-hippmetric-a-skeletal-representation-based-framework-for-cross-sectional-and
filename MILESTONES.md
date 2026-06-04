@@ -1,8 +1,13 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
+
+### [2026-06-04 13:35] - core_claim
+- CPU container job `922c7a3d-b2d` regenerated data, baseline outputs, HippMetric outputs, full scores, train/test scores, and passed `python validate.py --compare`.
+- The rotation-free atlas scale/translation landmark path restored the core claim after removing vertex-order dependence: HippMetric improved thickness MAE (`0.332 mm` vs boundary `6.971 mm`), cross-sectional correspondence (`0.541 mm` vs `2.038 mm`), longitudinal correspondence (`1.755 mm` vs `2.909 mm`), and surface Q (`0.105 mm` vs `1.308 mm`) while keeping valid spoke fraction `1.000`.
+- Train and test slices showed the same direction of improvement, so the workspace is ready as a reduced-scale procedural `core_claim` gym.
 
 ### [2026-06-04 13:31] - method_runs
 - CPU container job `290ee382-942` validated that sparse local normal-aware landmark matching runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
@@ -61,4 +66,4 @@
 - Final milestone remains `core_claim`; higher milestones need unavailable clinical/template/manual landmark resources.
 
 ## Stop Justification
-- Not stopping yet. Current validated milestone is `method_runs`; `core_claim` requires a follow-up validation showing HippMetric improves the scored correspondence metrics over the boundary baseline after removing vertex-order dependence.
+- Stopping at `core_claim`. The reduced-scale procedural benchmark now validates the paper's central geometric claim after the non-oracle and vertex-order audits: the method improves thickness, correspondence stability, and surface robustness over the packaged boundary baseline. Higher milestones would require unavailable ADNI/GHABS preprocessing assets, manual landmark annotations, full template assets, and paper-scale clinical experiments.

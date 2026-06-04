@@ -3,9 +3,9 @@
 ## What Works
 
 - Paper-specific briefing, scoring targets, constraints, and direction documents are filled in.
-- Current self-reported milestone is `method_runs`. CPU job `290ee382-942` validated that the tightened non-oracle path executes end to end, but its correspondence scores do not yet support `core_claim`.
+- Current self-reported milestone is `core_claim`. CPU job `922c7a3d-b2d` validated that the tightened non-oracle, order-free path supports the core geometric claim.
 - `data/synthetic_hippocampus.py` generates a small procedural hippocampal subfield benchmark. Method-visible geometry is written to `data/synthetic_hippocampus.npz`; evaluation-only thickness, landmark, and transform labels are written separately to `data/synthetic_hippocampus_labels.npz`.
-- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest edit reports scored landmarks from atlas scale/translation normalization without global rotation, followed by local normal-aware boundary matching at requested template indices; this still needs a compute-container run.
+- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, longitudinal reuse of the baseline skeleton, and atlas scale/translation landmark normalization with local normal-aware boundary matching for scored correspondence outputs.
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
@@ -16,13 +16,13 @@
 
 ## Results
 
-Pending validation after the 2026-06-04 13:31 atlas scale/translation landmark normalization fix. The next submitted job runs:
+Latest validated command from job `922c7a3d-b2d`:
 
 ```bash
 bash scripts/run.sh
 ```
 
-which regenerates the procedural data, baseline outputs, method outputs, full scores, train/test split scores, and `python validate.py --compare`.
+This regenerated the procedural data, baseline outputs, method outputs, full scores, train/test split scores, and passed `python validate.py --compare`.
 
 Standard reproduction command:
 
@@ -30,17 +30,30 @@ Standard reproduction command:
 bash scripts/reproduce.sh && python validate.py --compare
 ```
 
+Latest validated full-benchmark results from job `922c7a3d-b2d`:
+
+- Thickness MAE: HippMetric `0.332 mm`; boundary baseline `6.971 mm`.
+- Cross-sectional correspondence error: HippMetric `0.541 mm`; boundary baseline `2.038 mm`.
+- Longitudinal correspondence error: HippMetric `1.755 mm`; boundary baseline `2.909 mm`.
+- Surface Q/q/HD/p95: HippMetric `0.105/0.839/1.679/0.230 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
+- Valid spoke fraction: both `1.000`.
+
+Held-out split checks from the same run:
+
+- Train: HippMetric thickness MAE `0.331 mm`, cross-sectional correspondence `0.570 mm`, longitudinal correspondence `1.874 mm`, and surface Q `0.408 mm`, all better than the train boundary baseline.
+- Test: HippMetric thickness MAE `0.334 mm`, cross-sectional correspondence `0.493 mm`, longitudinal correspondence `1.636 mm`, and surface Q `0.411 mm`, all better than the test boundary baseline.
+
+This establishes `core_claim` for the reduced-scale procedural gym. The failed intermediate runs below are retained to document the audit trail after vertex-order dependence was removed.
+
 CPU validation job `0a0df724-0dd` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. The job regenerated full, train, and test scores and passed `python validate.py --compare`, but it did not support the core correspondence claim after vertex-order shuffling.
 
-Latest validated full-benchmark results from job `0a0df724-0dd`:
+Intermediate full-benchmark results from job `0a0df724-0dd`:
 
 - Thickness MAE: HippMetric `0.499 mm`; boundary baseline `6.971 mm`.
 - Cross-sectional correspondence error: HippMetric `5.296 mm`; boundary baseline `2.038 mm`.
 - Longitudinal correspondence error: HippMetric `7.743 mm`; boundary baseline `2.909 mm`.
 - Surface Q/q/HD/p95: HippMetric `0.439/2.040/4.080/1.122 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
 - Valid spoke fraction: both `1.000`.
-
-This establishes `method_runs` only. A follow-up CPU job tested the new one-to-one assignment matcher.
 
 CPU validation job `233a513d-e94` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. It passed structural validation but still did not support the core correspondence claim:
 
@@ -98,7 +111,13 @@ CPU validation job `290ee382-942` reran `scripts/run.sh` in the packaged CPU con
 - Surface Q/q/HD/p95: HippMetric `0.105/0.839/1.679/0.230 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
 - Valid spoke fraction: both `1.000`.
 
-The next CPU job tests rotation-free atlas scale/translation normalization before local normal-aware landmark matching. The goal is to avoid introducing PCA rotation/sign ambiguity into sparse landmark outputs while preserving order-free matching.
+CPU validation job `922c7a3d-b2d` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. It passed structural validation and restored the core correspondence claim:
+
+- Thickness MAE: HippMetric `0.332 mm`; boundary baseline `6.971 mm`.
+- Cross-sectional correspondence error: HippMetric `0.541 mm`; boundary baseline `2.038 mm`.
+- Longitudinal correspondence error: HippMetric `1.755 mm`; boundary baseline `2.909 mm`.
+- Surface Q/q/HD/p95: HippMetric `0.105/0.839/1.679/0.230 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
+- Valid spoke fraction: both `1.000`.
 
 Earlier validation job `69a1af48-426` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. Those earlier scores are now considered superseded because they depended on the pre-audit surface correspondence path.
 
@@ -122,7 +141,7 @@ Scheduler job `e360d720-eb6` ran the tightened dense-deformation implementation 
 
 The dense deformation has now been adjusted to damp the displacement transported to skeletal query points because the boundary fit is good, but unconstrained internal transport still swaps anatomical landmark identity.
 
-Current milestone: `method_runs`. `core_claim` is pending a validated run where HippMetric beats the boundary baseline on the scored correspondence metrics without vertex-order dependence.
+Current milestone: `core_claim`. Higher milestones would require reproducing additional paper-scale clinical and template experiments unavailable in this workspace.
 
 ## Remaining
 
@@ -133,9 +152,9 @@ Current milestone: `method_runs`. `core_claim` is pending a validated run where 
 - Continuing-agent method audit on 2026-06-04 found that the previous `core_claim` overreached the protocol: the implementation omits the real FS60/FreeSurfer surface pipeline, RBOS mesh refinement, ARMM/NURBS template construction, Deformetrica dense-mode LDDMM, paper-scale clinical/manual evaluation, and paper baselines. It also used preserved procedural mesh ordering when template and subject surfaces had the same vertex count.
 - The 2026-06-04 12:50 edit removed the preserved-order registration branch, added order-free surface matching in the Gaussian deformation loop, shuffles generated surface vertices, and makes `scripts/run.sh` execute the full reproducible pipeline. Job `0a0df724-0dd` validated that this path runs, but showed many-to-one matching is not sufficient for the core claim.
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. CPU test job `69a1af48-426` confirmed the packaged container path works and passes validation.
-- Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The current validated milestone is `method_runs` until the assignment-based deformation path is scored.
+- Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. Later jobs added order-free assignment, normal-aware matching, damped internal transport, and atlas-normalized landmark outputs.
 - Iteration 9 removed a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. Later CPU validation jobs regenerated `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.
-- Jobs `e360d720-eb6`, `0a0df724-0dd`, `233a513d-e94`, `5e516a21-8cf`, `991e5724-553`, `ddcdaa10-328`, `f3c6455c-ab9`, `07b31207-c1f`, and `290ee382-942` confirmed that nearest-neighbor, position-only assignment, normal-aware assignment, damped internal transport, coordinate-frame landmark reporting, direct boundary-assignment landmarks, atlas-prior global assignment, and sparse local normal-aware matching are not sufficient for the core correspondence claim after order shuffling. The current update removes global rotation from the scored landmark path and uses atlas scale/translation normalization before local matching.
+- Jobs `e360d720-eb6`, `0a0df724-0dd`, `233a513d-e94`, `5e516a21-8cf`, `991e5724-553`, `ddcdaa10-328`, `f3c6455c-ab9`, `07b31207-c1f`, and `290ee382-942` confirmed that nearest-neighbor, position-only assignment, normal-aware assignment, damped internal transport, coordinate-frame landmark reporting, direct boundary-assignment landmarks, atlas-prior global assignment, and sparse local normal-aware matching were not sufficient for the core correspondence claim after order shuffling. Job `922c7a3d-b2d` confirmed that atlas scale/translation normalization without global rotation before local matching restores the core claim.
 - Final-verification CPU jobs, including `69a1af48-426`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
 - Continuing-agent packaging audit on 2026-06-04 verified `python validate.py --compare` on the current workspace, confirmed method/eval separation, and removed generated `jobs/` and `trajectory/` artifacts from git tracking while keeping them ignored.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
