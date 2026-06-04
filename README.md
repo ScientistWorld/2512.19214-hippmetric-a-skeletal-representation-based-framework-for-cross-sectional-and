@@ -431,7 +431,7 @@ Run `bash scripts/reproduce.sh` to generate the benchmark data, run the boundary
 
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `method_runs`.
