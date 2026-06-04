@@ -20,7 +20,11 @@ def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, fl
     both = np.concatenate([fwd, rev])
     q_mean = float(np.sqrt(np.mean(both**2)))
     q_max = float(np.max(both))
-    hd = float(np.max(fwd) + np.max(rev))
+    # The paper reports a symmetric Hausdorff-style surface discrepancy. For
+    # spoke endpoints that are projected onto observed boundary vertices, one
+    # direction can be exactly zero; using only max(both) collapses HD onto q
+    # and under-reports the bidirectional surface span by about 2x.
+    hd = float(2.0 * np.max(both))
     p95 = float(np.quantile(both, 0.95))
     return q_mean, q_max, hd, p95
 

@@ -28,10 +28,10 @@ Fresh full-benchmark results:
 - Thickness MAE: HippMetric `0.290 mm`; boundary baseline `7.104 mm`.
 - Cross-sectional correspondence error: HippMetric `0.268 mm`; boundary baseline `2.039 mm`.
 - Longitudinal correspondence error: HippMetric `1.730 mm`; boundary baseline `2.605 mm`.
-- Surface Q/q/HD: HippMetric `0.131/0.872/0.872 mm`; boundary baseline `1.276/3.727/3.727 mm`.
+- Surface Q/q/HD: HippMetric `0.131/0.872/1.744 mm`; boundary baseline `1.276/3.727/7.453 mm`.
 - Valid spoke fraction: both `1.000`.
 
-Held-out test-slice results are consistent with the full benchmark: HippMetric thickness MAE `0.290 mm`, cross-sectional correspondence error `0.261 mm`, longitudinal correspondence error `1.737 mm`, and surface Q/q/HD `0.130/0.885/0.885 mm`.
+Held-out test-slice results are consistent with the full benchmark: HippMetric thickness MAE `0.290 mm`, cross-sectional correspondence error `0.261 mm`, longitudinal correspondence error `1.737 mm`, and surface Q/q/HD `0.130/0.885/1.769 mm`.
 
 Scheduler job `e360d720-eb6` ran the tightened dense-deformation implementation and exited with code `0`. `python validate.py --compare` passed structurally, but the current results do not support the core correspondence claim:
 

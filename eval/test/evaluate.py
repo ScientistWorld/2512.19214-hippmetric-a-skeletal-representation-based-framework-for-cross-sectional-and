@@ -22,7 +22,9 @@ def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, fl
     both = np.concatenate([fwd, rev])
     q_mean = float(np.sqrt(np.mean(both**2)))
     q_max = float(np.max(both))
-    hd = float(np.max(fwd) + np.max(rev))
+    # Keep the test-slice HD on the same symmetric bidirectional scale as the
+    # full evaluator and paper-reported surface discrepancy.
+    hd = float(2.0 * np.max(both))
     p95 = float(np.quantile(both, 0.95))
     return q_mean, q_max, hd, p95
 

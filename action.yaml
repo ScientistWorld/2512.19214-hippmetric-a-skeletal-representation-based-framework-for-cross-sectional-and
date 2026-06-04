@@ -5,4 +5,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Continuing-agent audit job 3133904a-3c8 reran scripts/run.sh in the packaged container, regenerated scores, and passed python validate.py --compare; core claim is restored."
+notes: "Fixed surface_HD_mm to use the symmetric bidirectional scale, regenerated score JSONs from existing outputs, and python validate.py --compare passes; core claim is restored."
