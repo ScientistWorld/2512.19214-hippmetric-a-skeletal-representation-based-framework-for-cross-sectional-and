@@ -5,4 +5,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Fixed surface HD scoring inconsistency, reran python validate.py successfully, and finalized validated core-claim reproduction."
+notes: "Validated core-claim HippMetric reproduction; python validate.py --compare passes, metadata is consistent, and environment is packaged."
