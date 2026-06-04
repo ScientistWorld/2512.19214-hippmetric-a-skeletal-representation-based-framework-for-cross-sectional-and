@@ -3,9 +3,9 @@
 ## What Works
 
 - Paper-specific briefing, scoring targets, constraints, and direction documents are filled in.
-- Current self-reported milestone has been reset to `none` pending container validation of the tightened non-oracle registration path.
+- Current self-reported milestone is `method_runs`. CPU job `0a0df724-0dd` validated that the tightened non-oracle path executes end to end, but its correspondence scores do not yet support `core_claim`.
 - `data/synthetic_hippocampus.py` generates a small procedural hippocampal subfield benchmark. Method-visible geometry is written to `data/synthetic_hippocampus.npz`; evaluation-only thickness, landmark, and transform labels are written separately to `data/synthetic_hippocampus_labels.npz`.
-- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest non-oracle surface-matching edit still needs a compute-container run.
+- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest edit replaces many-to-one nearest-neighbor matching with order-free one-to-one surface assignment and still needs a compute-container run.
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
@@ -16,7 +16,7 @@
 
 ## Results
 
-Pending validation after the 2026-06-04 12:50 integrity pass. The next submitted job runs:
+Pending validation after the 2026-06-04 12:58 assignment-matching fix. The next submitted job runs:
 
 ```bash
 bash scripts/run.sh
@@ -30,9 +30,21 @@ Standard reproduction command:
 bash scripts/reproduce.sh && python validate.py --compare
 ```
 
-Continuing-agent audit job `69a1af48-426` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. The job regenerated full, train, and test scores and passed `python validate.py --compare`.
+CPU validation job `0a0df724-0dd` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. The job regenerated full, train, and test scores and passed `python validate.py --compare`, but it did not support the core correspondence claim after vertex-order shuffling.
 
-Fresh full-benchmark results:
+Latest validated full-benchmark results from job `0a0df724-0dd`:
+
+- Thickness MAE: HippMetric `0.499 mm`; boundary baseline `6.971 mm`.
+- Cross-sectional correspondence error: HippMetric `5.296 mm`; boundary baseline `2.038 mm`.
+- Longitudinal correspondence error: HippMetric `7.743 mm`; boundary baseline `2.909 mm`.
+- Surface Q/q/HD/p95: HippMetric `0.439/2.040/4.080/1.122 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
+- Valid spoke fraction: both `1.000`.
+
+This establishes `method_runs` only. A follow-up CPU job is testing the new one-to-one assignment matcher.
+
+Earlier validation job `69a1af48-426` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. Those earlier scores are now considered superseded because they depended on the pre-audit surface correspondence path.
+
+Superseded pre-audit full-benchmark results from the earlier preserved-order path:
 
 - Thickness MAE: HippMetric `0.290 mm`; boundary baseline `7.104 mm`.
 - Cross-sectional correspondence error: HippMetric `0.268 mm`; boundary baseline `2.039 mm`.
@@ -40,7 +52,7 @@ Fresh full-benchmark results:
 - Surface Q/q/HD: HippMetric `0.131/0.872/1.744 mm`; boundary baseline `1.276/3.727/7.453 mm`.
 - Valid spoke fraction: both `1.000`.
 
-Held-out test-slice results are consistent with the full benchmark: HippMetric thickness MAE `0.290 mm`, cross-sectional correspondence error `0.261 mm`, longitudinal correspondence error `1.737 mm`, and surface Q/q/HD `0.130/0.885/1.769 mm`.
+Superseded held-out test-slice results from that same earlier path: HippMetric thickness MAE `0.290 mm`, cross-sectional correspondence error `0.261 mm`, longitudinal correspondence error `1.737 mm`, and surface Q/q/HD `0.130/0.885/1.769 mm`.
 
 Scheduler job `e360d720-eb6` ran the tightened dense-deformation implementation and exited with code `0`. `python validate.py --compare` passed structurally, but the current results do not support the core correspondence claim:
 
@@ -50,9 +62,9 @@ Scheduler job `e360d720-eb6` ran the tightened dense-deformation implementation 
 - Surface Q/q/HD: HippMetric `0.255/1.524/1.524 mm`; boundary baseline `1.276/3.727/3.727 mm`.
 - Valid spoke fraction: HippMetric `0.99997`; boundary baseline `1.000`.
 
-The dense deformation was then adjusted to use method-visible dense mesh correspondence when the benchmark surface preserves template vertex count, because nearest-neighbor dense matching swapped anatomical locations and degraded correspondence.
+The dense deformation has now been adjusted to use geometric one-to-one assignment on unordered surfaces because nearest-neighbor dense matching swapped anatomical locations and degraded correspondence.
 
-Current milestone: `core_claim` after validation of the tightened dense-deformation/spoke-refinement implementation.
+Current milestone: `method_runs`. `core_claim` is pending a validated run where HippMetric beats the boundary baseline on the scored correspondence metrics without vertex-order dependence.
 
 ## Remaining
 
@@ -61,11 +73,11 @@ Current milestone: `core_claim` after validation of the tightened dense-deformat
 ## Issues
 
 - Continuing-agent method audit on 2026-06-04 found that the previous `core_claim` overreached the protocol: the implementation omits the real FS60/FreeSurfer surface pipeline, RBOS mesh refinement, ARMM/NURBS template construction, Deformetrica dense-mode LDDMM, paper-scale clinical/manual evaluation, and paper baselines. It also used preserved procedural mesh ordering when template and subject surfaces had the same vertex count.
-- The 2026-06-04 12:50 edit removed the preserved-order registration branch, added soft order-free surface matching in the Gaussian deformation loop, shuffles generated surface vertices, and makes `scripts/run.sh` execute the full reproducible pipeline. This has not been validated locally because host Python lacks `numpy`; it is being submitted to the managed container.
+- The 2026-06-04 12:50 edit removed the preserved-order registration branch, added order-free surface matching in the Gaussian deformation loop, shuffles generated surface vertices, and makes `scripts/run.sh` execute the full reproducible pipeline. Job `0a0df724-0dd` validated that this path runs, but showed many-to-one matching is not sufficient for the core claim.
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. CPU test job `69a1af48-426` confirmed the packaged container path works and passes validation.
-- Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The milestone was temporarily reset to `method_runs`; later tightened implementation runs restored `core_claim`.
+- Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The current validated milestone is `method_runs` until the assignment-based deformation path is scored.
 - Iteration 9 removed a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. Later CPU validation jobs regenerated `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.
-- Job `e360d720-eb6` confirmed the nearest-neighbor dense deformation path is not sufficient for the core correspondence claim. The registration update now avoids anatomical swaps by using the benchmark's dense surface correspondence when available.
+- Jobs `e360d720-eb6` and `0a0df724-0dd` confirmed that many-to-one nearest-neighbor dense deformation is not sufficient for the core correspondence claim after order shuffling. The current registration update avoids anatomical swaps with a bijective geometric surface assignment rather than using preserved vertex row order.
 - Final-verification CPU jobs, including `69a1af48-426`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
 - Continuing-agent packaging audit on 2026-06-04 verified `python validate.py --compare` on the current workspace, confirmed method/eval separation, and removed generated `jobs/` and `trajectory/` artifacts from git tracking while keeping them ignored.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.

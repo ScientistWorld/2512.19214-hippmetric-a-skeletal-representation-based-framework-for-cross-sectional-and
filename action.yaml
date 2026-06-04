@@ -5,5 +5,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: none
-notes: "Validate tightened non-oracle HippMetric path: regenerate procedural data with shuffled surface vertices, run baseline and method, evaluate full/train/test scores, and compare."
+milestone: method_runs
+notes: "Validate assignment-based order-free HippMetric path: regenerate data with shuffled vertices/normals, run baseline and method, evaluate full/train/test scores, and compare."

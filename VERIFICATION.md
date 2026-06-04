@@ -2,29 +2,28 @@
 
 ## Initial Assessment
 
-The previous successful reproduction artifacts supported `core_claim`, but the current checked-out workspace no longer matches those artifacts. The latest committed integrity pass changed the method registration path, changed the procedural data generator to shuffle observed surface vertices, changed `scripts/download.sh` to regenerate the dataset every run, and reset `MILESTONES.md` to `none`.
+The prior workspace claimed `core_claim`, but an integrity audit removed a preserved vertex-order correspondence shortcut and shuffled observed surface vertices. CPU job `0a0df724-0dd` has now validated the tightened path in the managed container.
 
-The current `scores.json`, `scores_train.json`, `scores_test.json`, and checkpoint outputs still reflect the earlier validated run, not the newly committed non-oracle registration/data path. Host Python does not have `numpy`, and no local Apptainer/Singularity executable is available, so I could not rerun the benchmark directly on the login node.
+The job exited successfully and `python validate.py --compare` passed. The result is runnable, but the scientific claim is not yet restored: HippMetric improves thickness and surface fidelity, while correspondence stability is worse than the boundary baseline.
 
 ## Issues Found
 
-- **Critical**: Current scores are stale relative to the committed method and data generator. A final `done` action would report unvalidated numbers for code that has not yet run in the managed container.
-- **Critical**: The milestone header is currently `none`, while older documentation sections still discuss prior `core_claim` jobs. This is acceptable for a validation-pending state but not for final completion.
-- **Minor**: `scripts/download.sh` still described an existence-skip download pattern even though the benchmark is a deterministic generated dataset. The script itself is self-contained and `shared/`-free.
-- **Minor**: Method-agnostic files are mostly clean. They mention metric names and paper-reported target values but do not describe the paper's implementation. The legacy metric key `valid_spoke_fraction` is preserved because it is part of the score/output contract.
+- **Critical**: Current validated scores do not support `core_claim`. In job `0a0df724-0dd`, HippMetric cross-sectional correspondence error was `5.296 mm` versus boundary baseline `2.038 mm`, and longitudinal correspondence error was `7.743 mm` versus baseline `2.909 mm`.
+- **Minor**: The generated `surface_normals` array was not permuted with shuffled `surface_vertices`. Current method/eval recompute normals, but this could mislead future methods that load the method-agnostic data field.
 - **Cosmetic/system**: `README.md`, `manifest.json`, and tracked `trajectory/` deletions are pre-existing dirty workspace artifacts outside the gym interface. I did not modify or revert them.
 
 ## Fixes Applied
 
-- Updated `scripts/download.sh` comments to accurately describe deterministic regeneration.
-- Replaced the stale verification report with this validation-pending report.
-- Left `action.yaml` as a CPU test submission so the managed container can regenerate data, run baseline and method outputs, evaluate full/train/test scores, and run `python validate.py --compare`.
+- Updated `method/hippmetric.py` to replace many-to-one nearest-neighbor matching with geometric one-to-one linear assignment in rigid alignment refinement and dense Gaussian-kernel deformation.
+- Updated `data/synthetic_hippocampus.py` so surface normals are shuffled with vertices and remain row-aligned.
+- Updated `MILESTONES.md`, `PROGRESS.md`, and `CHECKLIST.md` to reflect the honest current milestone: `method_runs`, not `core_claim`.
+- Submitted a CPU validation job to regenerate data, outputs, full/train/test scores, and run `python validate.py --compare` for the assignment-based path.
 
 ## Final Judgment
 
-The workspace is not ready to signal final completion in this turn because the current code path has not been validated after the integrity changes. The next required step is the already configured CPU validation job. If that job passes and the method still beats the boundary baseline on the scored geometric tasks, the workspace can be reconsidered for `core_claim`; if it fails or loses the core correspondence result, the reproduction should remain below `core_claim`.
+The workspace is not ready for final `done` as a `core_claim` gym yet. It is currently a validated `method_runs` implementation with a targeted fix under test. If the next CPU job shows HippMetric beats the boundary baseline on correspondence while preserving thickness/surface improvements, the milestone can be raised back to `core_claim`.
 
-- Milestone: none
+- Milestone: method_runs
 - Ready for gym use: partial
 - Confidence: medium
-- Key limitation: current scores are from an earlier method/data state; validation job required
+- Key limitation: correspondence claim failed after removing vertex-order dependence; assignment-based fix is pending validation

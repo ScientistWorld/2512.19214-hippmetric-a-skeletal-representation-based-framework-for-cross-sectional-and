@@ -7,6 +7,7 @@ import argparse
 from pathlib import Path
 
 import numpy as np
+from scipy.optimize import linear_sum_assignment
 from scipy.spatial import cKDTree
 
 
@@ -56,6 +57,24 @@ def _pca_initial_alignment(source: np.ndarray, target: np.ndarray) -> tuple[floa
     return scale, best_rot, trans
 
 
+def _assignment_surface_match(source_points: np.ndarray, target_vertices: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Bijectively match a deformed template surface to an unordered target surface.
+
+    Nearest-neighbor matching is many-to-one and can collapse nearby anatomical
+    locations onto the same observed vertex. The benchmark deliberately shuffles
+    mesh rows, so the reduced LDDMM stage needs an order-free but one-to-one
+    correspondence estimate.
+    """
+    diff = source_points[:, None, :] - target_vertices[None, :, :]
+    cost = np.sum(diff * diff, axis=2)
+    rows, cols = linear_sum_assignment(cost)
+    matched = np.empty_like(source_points)
+    distances = np.empty(source_points.shape[0], dtype=float)
+    matched[rows] = target_vertices[cols]
+    distances[rows] = np.sqrt(cost[rows, cols])
+    return matched, distances
+
+
 def estimate_subject_alignment(
     template_boundary: np.ndarray,
     vertices: np.ndarray,
@@ -63,31 +82,15 @@ def estimate_subject_alignment(
 ) -> tuple[float, np.ndarray, np.ndarray]:
     """Estimate the initial rigid template-to-subject alignment."""
     scale, rot, trans = _pca_initial_alignment(template_boundary, vertices)
-    tree = cKDTree(vertices)
     for _ in range(iterations):
         moved = scale * (template_boundary @ rot) + trans
-        _, nn = tree.query(moved)
-        matched_vertices = vertices[nn]
+        matched_vertices, _ = _assignment_surface_match(moved, vertices)
         next_scale, next_rot, next_trans = _similarity_from_pairs(template_boundary, matched_vertices)
         if np.linalg.norm(next_trans - trans) < 1e-5 and abs(next_scale - scale) < 1e-5:
             scale, rot, trans = next_scale, next_rot, next_trans
             break
         scale, rot, trans = next_scale, next_rot, next_trans
     return scale, rot, trans
-
-
-def _soft_surface_match(query_points: np.ndarray, vertices: np.ndarray, width: float) -> tuple[np.ndarray, np.ndarray]:
-    """Match deformed template points to the observed surface without vertex-order labels."""
-    k = min(18, len(vertices))
-    distances, indices = cKDTree(vertices).query(query_points, k=k)
-    if k == 1:
-        distances = distances[:, None]
-        indices = indices[:, None]
-    sigma = max(0.35, min(1.4, 0.35 * width))
-    weights = np.exp(-(distances**2) / (2.0 * sigma * sigma))
-    weights /= np.maximum(weights.sum(axis=1, keepdims=True), 1e-12)
-    matched = np.sum(vertices[indices] * weights[:, :, None], axis=1)
-    return matched, distances[:, 0]
 
 
 def _kernel_displacement(
@@ -131,7 +134,7 @@ def dense_surface_deformation(
         control_idx = np.arange(template_boundary.shape[0])
     for width in np.arange(7.0, 2.99, -0.5):
         for _ in range(iterations_per_width):
-            matched_vertices, distances = _soft_surface_match(deformed_boundary, vertices, width)
+            matched_vertices, distances = _assignment_surface_match(deformed_boundary, vertices)
             control_points = deformed_boundary[control_idx]
             displacements = matched_vertices[control_idx] - control_points
             if float(np.mean(distances)) < 0.05:

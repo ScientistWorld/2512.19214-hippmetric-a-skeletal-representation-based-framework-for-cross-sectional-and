@@ -72,6 +72,7 @@ def make_dataset(output: Path, labels_output: Path, n_subjects: int, n_timepoint
     n = tpl["skeleton"].shape[0]
     subjects = []
     surfaces = []
+    surface_normals = []
     gt_thickness = []
     gt_landmarks = []
     transforms = []
@@ -97,11 +98,14 @@ def make_dataset(output: Path, labels_output: Path, n_subjects: int, n_timepoint
             # still recoverable from the observed surface geometry.
             noise = rng.normal(0.0, 0.15 + 0.025 * tid, size=sup.shape)
             vertices = np.concatenate([sup + noise, inf - noise], axis=0)
+            normals = np.concatenate([sup_dir, inf_dir], axis=0)
             # Vertex ordering is not an anatomical label. Shuffle each observed
             # surface so methods must recover correspondence from geometry.
-            vertices = vertices[rng.permutation(len(vertices))]
-            normals = np.concatenate([sup_dir, inf_dir], axis=0)
+            permutation = rng.permutation(len(vertices))
+            vertices = vertices[permutation]
+            normals = normals[permutation]
             surfaces.append(vertices)
+            surface_normals.append(normals)
             gt_thickness.append(thickness)
             # The paper's longitudinal benchmark placed manual landmarks in a
             # progressively eroded anterior region, where anatomical point
@@ -121,7 +125,7 @@ def make_dataset(output: Path, labels_output: Path, n_subjects: int, n_timepoint
         output,
         subjects=np.asarray(subjects, dtype=np.int64),
         surface_vertices=np.asarray(surfaces, dtype=np.float64),
-        surface_normals=np.asarray([np.concatenate([tpl["binormal"], -tpl["binormal"]], axis=0)] * len(surfaces)),
+        surface_normals=np.asarray(surface_normals, dtype=np.float64),
         template_skeleton=tpl["skeleton"],
         template_sup_dir=tpl["binormal"],
         template_inf_dir=-tpl["binormal"],

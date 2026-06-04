@@ -1,8 +1,14 @@
 # Reproduction Milestones
 
-**Current: none**
+**Current: method_runs**
 
 ## Progress Log
+
+### [2026-06-04 12:58] - method_runs
+- CPU container job `0a0df724-0dd` regenerated procedural data, baseline outputs, HippMetric outputs, full scores, train/test scores, and ran `python validate.py --compare` with exit code `0`.
+- The tightened order-free path executes end to end, so `method_runs` is restored.
+- The job does not support `core_claim`: HippMetric improved thickness MAE (`0.499 mm` vs `6.971 mm`) and surface Q (`0.439 mm` vs `1.308 mm`) but lost correspondence stability to the boundary baseline (cross-sectional `5.296 mm` vs `2.038 mm`, longitudinal `7.743 mm` vs `2.909 mm`).
+- Added an order-free one-to-one surface assignment in the registration/deformation loop and resubmitted a CPU validation job to test whether the core correspondence result is restored without using vertex row order.
 
 ### [2026-06-04 12:50] - none
 - Continuing audit found that the previous `core_claim` claim depended on a reduced synthetic prototype and a preserved mesh-order registration path, which is not a defensible reproduction of the paper's actual procedure.
@@ -20,4 +26,4 @@
 - Final milestone remains `core_claim`; higher milestones need unavailable clinical/template/manual landmark resources.
 
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Not stopping yet. Current validated milestone is `method_runs`; `core_claim` requires a follow-up validation showing HippMetric improves the scored correspondence metrics over the boundary baseline after removing vertex-order dependence.
