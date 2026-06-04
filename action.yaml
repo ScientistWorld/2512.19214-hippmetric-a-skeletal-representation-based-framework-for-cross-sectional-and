@@ -6,4 +6,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Subject+anatomical-feature holdout; 26 train metric values and 26 test metric values; train/test gaps are small and non-identical with hippmetric beating baseline; valid_spoke_fraction is saturated at 1.0 as a geometry-validity guardrail."
+notes: "Packaging audit passed: synthetic benchmark is tracked/regenerable, download.sh is self-contained, and no shared paths are referenced."
