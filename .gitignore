@@ -1,5 +1,7 @@
 # Large files — do not commit (applies everywhere, including tmp/)
 checkpoints/
+core
+core.*
 *.pt
 *.pth
 *.ckpt
