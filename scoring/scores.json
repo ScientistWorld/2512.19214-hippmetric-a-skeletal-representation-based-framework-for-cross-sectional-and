@@ -24,10 +24,10 @@
           "valid_spoke_fraction": 1.0
         },
         "hippmetric": {
-          "cross_sectional_correspondence_error_mm": 5.112052693585162,
-          "cross_sectional_p95_correspondence_error_mm": 16.320648919030806,
-          "longitudinal_correspondence_error_mm": 8.841850399502365,
-          "longitudinal_p95_correspondence_error_mm": 18.398091017000763,
+          "cross_sectional_correspondence_error_mm": 5.081456252511251,
+          "cross_sectional_p95_correspondence_error_mm": 16.352355937741205,
+          "longitudinal_correspondence_error_mm": 8.846317921496516,
+          "longitudinal_p95_correspondence_error_mm": 18.374491195859534,
           "valid_spoke_fraction": 1.0
         }
       }
