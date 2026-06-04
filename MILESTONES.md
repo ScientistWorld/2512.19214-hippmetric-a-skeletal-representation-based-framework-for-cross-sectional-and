@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-06-04 13:23] - method_runs
+- CPU container job `f3c6455c-ab9` validated that normal-aware boundary-assignment landmark reporting runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
+- The boundary-assignment path preserved thickness and surface improvements (HippMetric thickness MAE `0.354 mm` vs boundary `6.971 mm`, surface Q `0.105 mm` vs boundary `1.308 mm`) but correspondence remained worse than the boundary baseline (cross-sectional `5.081 mm` vs `2.038 mm`, longitudinal `8.846 mm` vs `2.909 mm`).
+- Added an atlas-orientation prior to PCA sign selection and uses non-iterated atlas alignment for scored landmark assignment to reduce long-axis/sign ambiguity before order-free matching.
+
 ### [2026-06-04 13:18] - method_runs
 - CPU container job `ddcdaa10-328` validated that coordinate-frame landmark reporting runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
 - The coordinate-frame path preserved thickness and surface improvements (HippMetric thickness MAE `0.354 mm` vs boundary `6.971 mm`, surface Q `0.105 mm` vs boundary `1.308 mm`) but correspondence remained worse than the boundary baseline (cross-sectional `5.112 mm` vs `2.038 mm`, longitudinal `8.842 mm` vs `2.909 mm`).

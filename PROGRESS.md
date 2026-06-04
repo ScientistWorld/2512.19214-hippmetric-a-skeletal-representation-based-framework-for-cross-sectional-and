@@ -5,7 +5,7 @@
 - Paper-specific briefing, scoring targets, constraints, and direction documents are filled in.
 - Current self-reported milestone is `method_runs`. CPU job `0a0df724-0dd` validated that the tightened non-oracle path executes end to end, but its correspondence scores do not yet support `core_claim`.
 - `data/synthetic_hippocampus.py` generates a small procedural hippocampal subfield benchmark. Method-visible geometry is written to `data/synthetic_hippocampus.npz`; evaluation-only thickness, landmark, and transform labels are written separately to `data/synthetic_hippocampus_labels.npz`.
-- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest edit reports correspondence landmarks from a normal-aware, order-free boundary assignment in template index order while keeping refined paired spokes as the source of thickness and surface reconstruction outputs; this still needs a compute-container run.
+- `method/hippmetric.py` contains a tightened reduced-scale version of the paper's core computation: internal skeletal coordinates, dense Gaussian-kernel template deformation, paired spokes, boundary/normal refinement, valid thickness extraction, and longitudinal reuse of the baseline skeleton. The newest edit adds an atlas-orientation prior to PCA sign selection and uses non-iterated atlas alignment for normal-aware boundary landmark assignment; this still needs a compute-container run.
 - `baseline/boundary_model.py` provides a boundary-anchored comparison method.
 - `scripts/reproduce.sh` runs data generation, baseline, method, and evaluation end to end.
 - `scripts/evaluate.sh` writes `scoring/scores.json` without importing from `method/`.
@@ -16,7 +16,7 @@
 
 ## Results
 
-Pending validation after the 2026-06-04 13:18 boundary-assignment landmark output fix. The next submitted job runs:
+Pending validation after the 2026-06-04 13:23 atlas-prior landmark alignment fix. The next submitted job runs:
 
 ```bash
 bash scripts/run.sh
@@ -74,7 +74,15 @@ CPU validation job `ddcdaa10-328` reran `scripts/run.sh` in the packaged CPU con
 - Surface Q/q/HD/p95: HippMetric `0.105/0.839/1.679/0.230 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
 - Valid spoke fraction: both `1.000`.
 
-The next CPU job tests direct normal-aware boundary assignment for correspondence landmarks. The goal is to keep landmark identity tied to template boundary indices after order-free matching, rather than using global coordinate transforms or spoke-projected endpoints.
+CPU validation job `f3c6455c-ab9` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. It passed structural validation but still did not support the core correspondence claim:
+
+- Thickness MAE: HippMetric `0.354 mm`; boundary baseline `6.971 mm`.
+- Cross-sectional correspondence error: HippMetric `5.081 mm`; boundary baseline `2.038 mm`.
+- Longitudinal correspondence error: HippMetric `8.846 mm`; boundary baseline `2.909 mm`.
+- Surface Q/q/HD/p95: HippMetric `0.105/0.839/1.679/0.230 mm`; boundary baseline `1.308/3.642/7.284/2.914 mm`.
+- Valid spoke fraction: both `1.000`.
+
+The next CPU job tests an atlas-orientation prior in PCA sign selection and non-iterated atlas alignment for scored boundary landmarks. The goal is to stop the order-free landmark assignment from entering an anatomically flipped orientation before matching.
 
 Earlier validation job `69a1af48-426` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. Those earlier scores are now considered superseded because they depended on the pre-audit surface correspondence path.
 
@@ -111,7 +119,7 @@ Current milestone: `method_runs`. `core_claim` is pending a validated run where 
 - The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. CPU test job `69a1af48-426` confirmed the packaged container path works and passes validation.
 - Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The current validated milestone is `method_runs` until the assignment-based deformation path is scored.
 - Iteration 9 removed a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. Later CPU validation jobs regenerated `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.
-- Jobs `e360d720-eb6`, `0a0df724-0dd`, `233a513d-e94`, `5e516a21-8cf`, `991e5724-553`, and `ddcdaa10-328` confirmed that nearest-neighbor, position-only assignment, normal-aware assignment, damped internal transport, and coordinate-frame landmark reporting are not sufficient for the core correspondence claim after order shuffling. The current update reports landmarks from a normal-aware, order-free boundary assignment in template index order.
+- Jobs `e360d720-eb6`, `0a0df724-0dd`, `233a513d-e94`, `5e516a21-8cf`, `991e5724-553`, `ddcdaa10-328`, and `f3c6455c-ab9` confirmed that nearest-neighbor, position-only assignment, normal-aware assignment, damped internal transport, coordinate-frame landmark reporting, and direct boundary-assignment landmarks are not sufficient for the core correspondence claim after order shuffling. The current update adds atlas-orientation regularization before boundary assignment.
 - Final-verification CPU jobs, including `69a1af48-426`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
 - Continuing-agent packaging audit on 2026-06-04 verified `python validate.py --compare` on the current workspace, confirmed method/eval separation, and removed generated `jobs/` and `trajectory/` artifacts from git tracking while keeping them ignored.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
