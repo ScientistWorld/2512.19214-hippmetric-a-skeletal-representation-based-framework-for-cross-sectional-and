@@ -205,15 +205,13 @@ def boundary_correspondence_landmarks(
     vertex_normals: np.ndarray | None = None,
 ) -> np.ndarray:
     """Return template-indexed boundary landmarks from local order-free matches."""
-    scale, rot, trans = estimate_subject_alignment(
-        template_boundary,
-        vertices,
-        template_boundary_normals=template_boundary_normals,
-        vertex_normals=vertex_normals,
-        iterations=0,
-    )
-    moved = scale * (template_boundary @ rot) + trans
-    moved_normals = None if template_boundary_normals is None else template_boundary_normals @ rot
+    source_center = template_boundary.mean(axis=0)
+    target_center = vertices.mean(axis=0)
+    source_radius = np.sqrt(np.mean(np.sum((template_boundary - source_center) ** 2, axis=1)))
+    target_radius = np.sqrt(np.mean(np.sum((vertices - target_center) ** 2, axis=1)))
+    scale = float(target_radius / max(source_radius, 1e-8))
+    moved = scale * (template_boundary - source_center) + target_center
+    moved_normals = template_boundary_normals
     n = template_boundary.shape[0] // 2
     query_idx = np.concatenate([landmark_idx, n + landmark_idx, long_idx])
     query = moved[query_idx]

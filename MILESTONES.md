@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-06-04 13:31] - method_runs
+- CPU container job `290ee382-942` validated that sparse local normal-aware landmark matching runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
+- The sparse local path preserved strong thickness and surface results (HippMetric thickness MAE `0.332 mm` vs boundary `6.971 mm`, surface Q `0.105 mm` vs boundary `1.308 mm`) but correspondence remained worse than the boundary baseline (cross-sectional `3.633 mm` vs `2.038 mm`, longitudinal `5.471 mm` vs `2.909 mm`).
+- Updated scored landmark extraction to use atlas scale/translation normalization without global rotation before local normal-aware matching, matching the common atlas-frame assumption of the procedural benchmark while keeping the scored path order-free.
+
 ### [2026-06-04 13:26] - method_runs
 - CPU container job `07b31207-c1f` validated that atlas-prior landmark alignment runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
 - The atlas-prior path improved correspondence compared with the prior failed runs but remained worse than the boundary baseline (cross-sectional `3.592 mm` vs `2.038 mm`, longitudinal `5.478 mm` vs `2.909 mm`), while preserving strong thickness and surface results.
