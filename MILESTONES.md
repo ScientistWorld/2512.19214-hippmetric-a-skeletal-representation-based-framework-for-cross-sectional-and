@@ -66,4 +66,4 @@
 - Final milestone remains `core_claim`; higher milestones need unavailable clinical/template/manual landmark resources.
 
 ## Stop Justification
-- Stopping at `core_claim`. The reduced-scale procedural benchmark now validates the paper's central geometric claim after the non-oracle and vertex-order audits: the method improves thickness, correspondence stability, and surface robustness over the packaged boundary baseline. Higher milestones would require unavailable ADNI/GHABS preprocessing assets, manual landmark annotations, full template assets, and paper-scale clinical experiments.
+- Completed at milestone `core_claim`.
