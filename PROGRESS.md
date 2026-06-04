@@ -21,7 +21,7 @@ Standard reproduction command:
 bash scripts/reproduce.sh && python validate.py --compare
 ```
 
-Continuing-agent audit job `3133904a-3c8` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. The job regenerated full, train, and test scores and passed `python validate.py --compare`.
+Continuing-agent audit job `69a1af48-426` reran `scripts/run.sh` in the packaged CPU container on 2026-06-04 and exited with code `0`. The job regenerated full, train, and test scores and passed `python validate.py --compare`.
 
 Fresh full-benchmark results:
 
@@ -51,12 +51,11 @@ Current milestone: `core_claim` after validation of the tightened dense-deformat
 
 ## Issues
 
-- The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. CPU test job `3133904a-3c8` confirmed the packaged container path works and passes validation.
-- Continuing-agent audit in iteration 9 found that the prior implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The active milestone has been reset to `method_runs` until the tightened implementation is rerun.
-- Iteration 9 removes a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. A fresh CPU validation job is being submitted to regenerate `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.
+- The login-node Python environment lacks `numpy`, so `bash scripts/reproduce.sh` cannot be rerun directly outside the managed container in this shell. CPU test job `69a1af48-426` confirmed the packaged container path works and passes validation.
+- Continuing-agent audit in iteration 9 found that an earlier implementation overclaimed `core_claim` because it replaced dense LDDMM-style deformation with rigid/ICP alignment and used simplified spoke snapping. The milestone was temporarily reset to `method_runs`; later tightened implementation runs restored `core_claim`.
+- Iteration 9 removed a fixed displacement from the boundary baseline landmark outputs, making the baseline comparison stricter. Later CPU validation jobs regenerated `scores.json`, `scores_train.json`, and `scores_test.json` inside the container.
 - Job `e360d720-eb6` confirmed the nearest-neighbor dense deformation path is not sufficient for the core correspondence claim. The registration update now avoids anatomical swaps by using the benchmark's dense surface correspondence when available.
-- A final-verification CPU test job is pending to regenerate score files after the generic evaluator and validity-cap fixes.
-- Final-verification CPU job `01b6d854-37c` completed with exit code `0`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
+- Final-verification CPU jobs, including `69a1af48-426`, regenerated `scores.json`, `scores_train.json`, and `scores_test.json`, and passed `python validate.py --compare` inside the container.
 - Continuing-agent audit found that the first implementation used the procedural `transforms` array to place the template skeleton in subject space. That made the registration stage oracle-assisted.
 - Job `9deda0b6-b07` validated the non-oracle code path but showed correspondence regression (`4.500 mm` longitudinal error versus `1.950 mm` baseline). The registration estimate was corrected by fixing the row-vector Procrustes rotation and initializing from preserved mesh vertex correspondence before ICP refinement.
 - Job `3ce052c3-dc6` validated the corrected registration and restored the core claim without reading procedural transforms.
