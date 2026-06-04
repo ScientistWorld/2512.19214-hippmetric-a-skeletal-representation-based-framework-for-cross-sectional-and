@@ -6,4 +6,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Packaging audit passed: synthetic benchmark is tracked/regenerable, download.sh is self-contained, and no shared paths are referenced."
+notes: "Core-claim reproduction is packaged and validated; final audit passed python validate.py --compare and removed generated job/trajectory artifacts from git tracking."
