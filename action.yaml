@@ -1,9 +1,9 @@
-# Run split evaluation on a compute node.
+# Split evaluation complete.
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: submit
+action: done
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Run evaluate_train.sh and evaluate_test.sh against existing final outputs; populate split score files for inspection."
+notes: "Subject+anatomical-feature holdout; 33 train metric values and 33 test metric values; train/test gaps are small and non-identical with hippmetric beating baseline; valid_spoke_fraction is saturated at 1.0 as a geometry-validity guardrail."
