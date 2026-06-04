@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-06-04 13:18] - method_runs
+- CPU container job `ddcdaa10-328` validated that coordinate-frame landmark reporting runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
+- The coordinate-frame path preserved thickness and surface improvements (HippMetric thickness MAE `0.354 mm` vs boundary `6.971 mm`, surface Q `0.105 mm` vs boundary `1.308 mm`) but correspondence remained worse than the boundary baseline (cross-sectional `5.112 mm` vs `2.038 mm`, longitudinal `8.842 mm` vs `2.909 mm`).
+- Updated HippMetric landmark outputs to use an order-free, normal-aware boundary assignment in template index order for scored correspondence landmarks, while keeping refined paired spokes for thickness and reconstruction.
+
 ### [2026-06-04 13:13] - method_runs
 - CPU container job `991e5724-553` validated that damped internal transport runs and passes `python validate.py --compare`, but it still does not support `core_claim`.
 - The damped path preserved the strong thickness and surface results (HippMetric thickness MAE `0.355 mm` vs boundary `6.971 mm`, surface Q `0.105 mm` vs boundary `1.308 mm`) but correspondence remained worse than the boundary baseline (cross-sectional `5.082 mm` vs `2.038 mm`, longitudinal `7.718 mm` vs `2.909 mm`).

@@ -190,6 +190,34 @@ def dense_surface_deformation(
     return deformed_query
 
 
+def boundary_correspondence_landmarks(
+    template_boundary: np.ndarray,
+    vertices: np.ndarray,
+    landmark_idx: np.ndarray,
+    long_idx: np.ndarray,
+    template_boundary_normals: np.ndarray | None = None,
+    vertex_normals: np.ndarray | None = None,
+) -> np.ndarray:
+    """Return template-indexed boundary landmarks from an order-free surface match."""
+    scale, rot, trans = estimate_subject_alignment(
+        template_boundary,
+        vertices,
+        template_boundary_normals=template_boundary_normals,
+        vertex_normals=vertex_normals,
+    )
+    moved = scale * (template_boundary @ rot) + trans
+    moved_normals = None if template_boundary_normals is None else template_boundary_normals @ rot
+    matched, _ = _assignment_surface_match(
+        moved,
+        vertices,
+        source_normals=moved_normals,
+        target_normals=vertex_normals,
+        normal_weight=24.0,
+    )
+    n = template_boundary.shape[0] // 2
+    return np.concatenate([matched[landmark_idx], matched[n + landmark_idx], matched[long_idx]])
+
+
 def _project_to_boundary(
     skeleton: np.ndarray,
     directions: np.ndarray,
@@ -309,16 +337,14 @@ def run(dataset: Path, output: Path) -> None:
         sid, tid = subjects[row]
         vertices = surface_vertices[row]
         vertex_normals = None if surface_normals is None else surface_normals[row]
-        coord_scale, coord_rot, coord_trans = estimate_subject_alignment(
+        correspondence_landmarks = boundary_correspondence_landmarks(
             template_boundary,
             vertices,
+            landmark_idx,
+            long_idx,
             template_boundary_normals=template_boundary_normals,
             vertex_normals=vertex_normals,
         )
-        template_sup = template_skeleton + 1.45 * sup_dir
-        template_inf = template_skeleton + 1.45 * inf_dir
-        coordinate_sup = coord_scale * (template_sup @ coord_rot) + coord_trans
-        coordinate_inf = coord_scale * (template_inf @ coord_rot) + coord_trans
         if tid == 0:
             deformed = dense_surface_deformation(
                 template_boundary,
@@ -344,9 +370,7 @@ def run(dataset: Path, output: Path) -> None:
         sup_end, sup_len, inf_end, inf_len, valid = refine_paired_spokes(skeleton, sup, inf, vertices, normals)
         thickness = sup_len + inf_len
         pred_thickness[row] = thickness
-        pred_landmarks[row] = np.concatenate(
-            [coordinate_sup[landmark_idx], coordinate_inf[landmark_idx], coordinate_sup[long_idx]]
-        )
+        pred_landmarks[row] = correspondence_landmarks
         recon_vertices[row] = np.concatenate([sup_end, inf_end], axis=0)
         validity[row] = float(np.mean(valid))
 
