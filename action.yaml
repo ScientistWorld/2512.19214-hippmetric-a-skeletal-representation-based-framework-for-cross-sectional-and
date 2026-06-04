@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
-test: true
-milestone: none
-notes: "Continuing-agent audit found a real reduced-scale HippMetric implementation; submit CPU test to rerun scripts/run.sh end-to-end inside the packaged container before restoring core_claim."
+test: false
+milestone: core_claim
+notes: "Continuing-agent audit job 3133904a-3c8 reran scripts/run.sh in the packaged container, regenerated scores, and passed python validate.py --compare; core claim is restored."
