@@ -22,7 +22,7 @@ CASES = ['reference_original', 'reference_seed_13', 'reference_seed_37', 'refere
          'better_smoothing', 'weaker_boundary', 'shortcut_remove_dense',
          'shortcut_copy_labels', 'shortcut_rebuild_labels', 'shortcut_replace_labels',
          'shortcut_visible_label_drift', 'shortcut_copy_surface', 'shortcut_permute_surface',
-         'shortcut_bruteforce', 'shortcut_constant', 'shortcut_nan_partial',
+         'shortcut_bruteforce', 'shortcut_constant', 'shortcut_zero_thickness', 'shortcut_nan_partial',
          'shortcut_impossible_validity', 'shortcut_move_baseline', 'shortcut_forge_scores',
          'shortcut_whitelist', 'shortcut_missing_output', 'shortcut_empty_output']
 TOUCHED = ['data/synthetic_hippocampus.npz', 'data/synthetic_hippocampus_labels.npz',
@@ -98,8 +98,21 @@ def run_case(case):
         shutil.copy2(AUDIT / 'candidate.py', ROOT / 'method/audit_candidate.py')
         shutil.copy2(ROOT / 'baseline/boundary_model.py', ROOT / 'method/boundary_model.py')
         cache = RUNTIME / 'reference_outputs.npz'
+        # Fresh-clone replay: ignored checkpoints are not required inputs.
+        baseline_output = ROOT / 'checkpoints/boundary_baseline_outputs.npz'
+        if not baseline_output.exists():
+            generated = execute([sys.executable, 'baseline/boundary_model.py'], folder / 'method.log')
+            if generated['returncode']:
+                raise RuntimeError('could not recreate baseline')
+        ref_output = ROOT / 'checkpoints/hippmetric_outputs.npz'
+        if not ref_output.exists() and not cache.exists():
+            shutil.copy2(AUDIT / 'reference/hippmetric.py', ROOT / 'method/hippmetric.py')
+            generated = execute([sys.executable, 'method/hippmetric.py'], folder / 'method.log')
+            if generated['returncode']:
+                raise RuntimeError('could not recreate reference')
+            shutil.copy2(ref_output, cache)
         if cache.exists() and case != 'reference_original':
-            shutil.copy2(cache, ROOT / 'checkpoints/hippmetric_outputs.npz')
+            shutil.copy2(cache, ref_output)
         if case.startswith('reference_seed_'):
             seed = int(case.rsplit('_', 1)[-1])
             cmd = [sys.executable, '-c',

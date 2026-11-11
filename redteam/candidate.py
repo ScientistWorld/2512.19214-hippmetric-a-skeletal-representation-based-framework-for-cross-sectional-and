@@ -122,6 +122,12 @@ def main():
         out['pred_landmarks'][:, 10:] += (0.84 * d['subjects'][:, 1, None, None] * normal[d['long_idx']][None])
     elif case == 'shortcut_copy_surface':
         out['recon_vertices'] = d['surface_vertices'].copy()
+    elif case == 'shortcut_zero_thickness':
+        # Fail local morphometry entirely, retaining reference landmarks.
+        # Exact copied surface reconstruction can compensate in an additive rank.
+        out['pred_thickness'][:] = 0.
+        out['recon_vertices'] = d['surface_vertices'].copy()
+        out['valid_spoke_fraction'][:] = 1.
     elif case == 'shortcut_nan_partial':
         out['pred_thickness'][:] = np.nan
         out['pred_landmarks'][:] = np.nan

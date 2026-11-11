@@ -1,0 +1,30 @@
+{
+  "seeds": [
+    13,
+    37,
+    91
+  ],
+  "dataset_seed": 13,
+  "protocol": "fixed benchmark; set NumPy method seed and rerun full method",
+  "spread_by_metric": {
+    "subfield_thickness_accuracy": {
+      "thickness_mae_mm": 0.0,
+      "thickness_p95_abs_error_mm": 0.0,
+      "valid_spoke_fraction": 0.0
+    },
+    "correspondence_stability": {
+      "cross_sectional_correspondence_error_mm": 0.0,
+      "cross_sectional_p95_correspondence_error_mm": 0.0,
+      "longitudinal_correspondence_error_mm": 0.0,
+      "longitudinal_p95_correspondence_error_mm": 0.0,
+      "valid_spoke_fraction": 0.0
+    },
+    "surface_robustness": {
+      "surface_Q_mm": 0.0,
+      "surface_HD_mm": 0.0,
+      "surface_p95_mm": 0.0,
+      "valid_spoke_fraction": 0.0
+    }
+  },
+  "rank_delta_spread": 0.0
+}

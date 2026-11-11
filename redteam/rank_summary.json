@@ -1,0 +1,379 @@
+{
+  "reference": "reference_seed_13",
+  "normalization_population": [
+    "better_smoothing",
+    "reference_seed_13",
+    "shortcut_bruteforce",
+    "shortcut_constant",
+    "shortcut_copy_labels",
+    "shortcut_copy_surface",
+    "shortcut_forge_scores",
+    "shortcut_impossible_validity",
+    "shortcut_move_baseline",
+    "shortcut_nan_partial",
+    "shortcut_permute_surface",
+    "shortcut_rebuild_labels",
+    "shortcut_remove_dense",
+    "shortcut_replace_labels",
+    "shortcut_visible_label_drift",
+    "shortcut_whitelist",
+    "weaker_boundary"
+  ],
+  "normalization": "population standard deviation; zero-variance metrics contribute zero",
+  "coefficient_sign": "ignored; only magnitude counts",
+  "nonfinite_policy": "not specified by gym prompt; conditional diagnostic treats nonfinite as skipped",
+  "metric_standard_deviations": {
+    "subfield_thickness_accuracy": {
+      "thickness_mae_mm": 1.6977683654685907,
+      "thickness_p95_abs_error_mm": 2.007090671038982,
+      "valid_spoke_fraction": 0.0
+    },
+    "correspondence_stability": {
+      "cross_sectional_correspondence_error_mm": 2.0446121239289785,
+      "cross_sectional_p95_correspondence_error_mm": 2.6962364441606814,
+      "longitudinal_correspondence_error_mm": 2.274066216416739,
+      "longitudinal_p95_correspondence_error_mm": 2.7836376412092694,
+      "valid_spoke_fraction": 0.0
+    },
+    "surface_robustness": {
+      "surface_Q_mm": 0.31206462141783414,
+      "surface_q_mm": 0.8483031514923886,
+      "surface_HD_mm": 1.696606302984777,
+      "surface_p95_mm": 0.6588968977476509,
+      "valid_spoke_fraction": 0.0
+    }
+  },
+  "attempts": {
+    "better_smoothing": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.029586609130455153,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.029586609130455153,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 2,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "reference_original": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "reference_seed_13": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "reference_seed_37": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "reference_seed_91": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_bruteforce": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.11895099364240588,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.010901916699599104,
+        "correspondence_stability": 0.10979536011773128,
+        "surface_robustness": -0.0017462831749245175
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 7,
+      "metrics_worsened": 2,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_constant": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": -4.7251540608747735,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": -0.5033531358869752,
+        "correspondence_stability": -4.9522010451429255,
+        "surface_robustness": 0.7304001201551272
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 3,
+      "metrics_worsened": 6,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_copy_labels": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 1.6023421296243323,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.10296002402502574,
+        "correspondence_stability": 0.7689819854441794,
+        "surface_robustness": 0.7304001201551272
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 9,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_copy_surface": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.7304001201551272,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.7304001201551272
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 3,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_empty_output": {
+      "test_returncode": 1,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "failed test: no valid rank"
+    },
+    "shortcut_forge_scores": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_impossible_validity": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_missing_output": {
+      "test_returncode": 1,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [
+        "subfield_thickness_accuracy/thickness_mae_mm",
+        "subfield_thickness_accuracy/thickness_p95_abs_error_mm",
+        "subfield_thickness_accuracy/valid_spoke_fraction",
+        "correspondence_stability/cross_sectional_correspondence_error_mm",
+        "correspondence_stability/cross_sectional_p95_correspondence_error_mm",
+        "correspondence_stability/longitudinal_correspondence_error_mm",
+        "correspondence_stability/longitudinal_p95_correspondence_error_mm",
+        "correspondence_stability/valid_spoke_fraction",
+        "surface_robustness/surface_Q_mm",
+        "surface_robustness/surface_HD_mm",
+        "surface_robustness/surface_p95_mm",
+        "surface_robustness/valid_spoke_fraction"
+      ],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "failed test: no valid rank"
+    },
+    "shortcut_move_baseline": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_nan_partial": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.7304001201551272,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.7304001201551272
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [
+        "subfield_thickness_accuracy/thickness_mae_mm",
+        "subfield_thickness_accuracy/thickness_p95_abs_error_mm",
+        "subfield_thickness_accuracy/valid_spoke_fraction",
+        "correspondence_stability/cross_sectional_correspondence_error_mm",
+        "correspondence_stability/cross_sectional_p95_correspondence_error_mm",
+        "correspondence_stability/longitudinal_correspondence_error_mm",
+        "correspondence_stability/longitudinal_p95_correspondence_error_mm",
+        "correspondence_stability/valid_spoke_fraction",
+        "surface_robustness/valid_spoke_fraction"
+      ],
+      "metrics_improved": 3,
+      "metrics_worsened": 0,
+      "rank_status": "conditional: nonfinite handling not specified"
+    },
+    "shortcut_permute_surface": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": -0.0047313453444916345,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": -0.0047313453444916345
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 3,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_rebuild_labels": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 1.6023421296243323,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.10296002402502574,
+        "correspondence_stability": 0.7689819854441794,
+        "surface_robustness": 0.7304001201551272
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 9,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_remove_dense": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_replace_labels": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.8719420094692052,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.10296002402502574,
+        "correspondence_stability": 0.7689819854441794,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 6,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_visible_label_drift": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.3275055452776354,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.3275055452776354,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 2,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "shortcut_whitelist": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.0,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": 0.0,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.0
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 0,
+      "rank_status": "ranked with finite metrics"
+    },
+    "weaker_boundary": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": -3.9132464582542466,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": -1.4567248554188477,
+        "correspondence_stability": -0.8822557001135626,
+        "surface_robustness": -1.574265902721836
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 0,
+      "metrics_worsened": 9,
+      "rank_status": "ranked with finite metrics"
+    }
+  }
+}
