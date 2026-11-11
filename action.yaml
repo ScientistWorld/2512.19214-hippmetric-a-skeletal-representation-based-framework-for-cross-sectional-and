@@ -1,4 +1,2 @@
-action: submit
-gpus: 0
-test: false
-notes: "Audit follow-up: finite zero-thickness failure with copied surface; recompute normalized audit ranks. Prior 22 cases saved and restored successfully."
+action: done
+notes: "Audit complete: 23 cases, genuine quality checks and zero seed spread recorded; major shortcuts beat or tie reference. REDTEAM.md and replay evidence committed; gym files restored."
