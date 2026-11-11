@@ -112,6 +112,14 @@ def main():
     elif case == 'shortcut_replace_labels':
         np.savez_compressed('data/synthetic_hippocampus_labels.npz', subjects=d['subjects'],
                             gt_thickness=out['pred_thickness'], gt_landmarks=out['pred_landmarks'])
+    elif case == 'shortcut_visible_label_drift':
+        u = d['template_u']
+        normal = np.empty_like(d['template_skeleton'])
+        for value in np.unique(u):
+            g = np.flatnonzero(u == value)
+            vector = d['template_skeleton'][g[-1]] - d['template_skeleton'][g[0]]
+            normal[g] = vector / np.linalg.norm(vector)
+        out['pred_landmarks'][:, 10:] += (0.84 * d['subjects'][:, 1, None, None] * normal[d['long_idx']][None])
     elif case == 'shortcut_copy_surface':
         out['recon_vertices'] = d['surface_vertices'].copy()
     elif case == 'shortcut_nan_partial':
