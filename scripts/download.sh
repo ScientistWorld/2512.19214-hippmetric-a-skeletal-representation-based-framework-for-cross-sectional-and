@@ -1,25 +1,26 @@
 #!/bin/bash
-# Download all data and models needed for this environment.
+# Fetch external data and models for this environment.
 #
-# Run on a node with internet access BEFORE building the container
-# or submitting compute jobs.
+# Estimated total download size: 0 GB.
 #
-# This script is idempotent: the procedural generator is deterministic with
-# default arguments, so rerunning it recreates the same benchmark files.
+# This benchmark has no external downloads. Its inputs are agent-authored and
+# tracked in git under data/:
+#   data/hippo_template.npz        public template s-rep and template segmentation
+#   data/hippo_train.npz           visible development cohort (segmentations)
+#   data/hippo_train_labels.npz    visible development ground truth
+# The clinical cohorts used by the paper (ADNI, GHABS) require data-use
+# agreements and are not used. The held-out test cohort is generated inside
+# eval/test/ at evaluation time and is never written to data/.
 #
-# Update the storage estimate below as you add downloads.
-#
-# Estimated total download size: 0 GB
-# Estimated disk usage after generation: <1 MB
-#
-# No external assets are required. This script regenerates the tracked
-# procedural benchmark in a portable workspace-local location.
-
+# The script fails loudly if a tracked input is missing from the checkout.
 set -e
-
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
-
-python data/synthetic_hippocampus.py \
-  --output data/synthetic_hippocampus.npz \
-  --labels-output data/synthetic_hippocampus_labels.npz
+mkdir -p data/downloads
+for f in data/hippo_template.npz data/hippo_train.npz data/hippo_train_labels.npz; do
+  if [ ! -s "$f" ]; then
+    echo "missing tracked input $f: restore it with 'git checkout -- $f'" >&2
+    exit 1
+  fi
+done
+echo "No external downloads required."

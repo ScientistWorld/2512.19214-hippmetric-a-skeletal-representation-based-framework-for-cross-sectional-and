@@ -1,20 +1,9 @@
 #!/bin/bash
-# Held-out test-slice evaluation for precomputed method outputs.
-#
-# This mirrors scripts/evaluate_train.sh but uses eval/test/ and writes
-# scoring/scores_test.json. When train scores exist, the same method entries
-# are scored on the held-out slice.
-
+# Hidden test evaluation: eval/test/ generates the held-out cohort, runs every
+# scripts/predict_<name>.sh on its segmentations only, and scores the outputs.
+# Writes scoring/scores_test.json. No arguments; every predictor on disk is scored.
 set -e
-
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
-
 mkdir -p scoring
-
-python eval/test/evaluate.py \
-  --dataset data/synthetic_hippocampus.npz \
-  --labels data/synthetic_hippocampus_labels.npz \
-  --outputs-dir "${OUTPUTS_DIR:-checkpoints}" \
-  --methods-from scoring/scores_train.json \
-  --scores scoring/scores_test.json
+python eval/test/evaluate.py --scores scoring/scores_test.json

@@ -1,19 +1,10 @@
 #!/bin/bash
-# Visible train-slice evaluation for precomputed method outputs.
-#
-# Positional arguments are accepted for compatibility with scripts/evaluate.sh,
-# but scoring is intentionally method-agnostic: every checkpoints/*_outputs.npz
-# artifact is evaluated and written under its filename-derived method name.
-
+# Train-split evaluation: runs every scripts/predict_<name>.sh on the visible
+# development cohort (data/hippo_train.npz) and scores it against
+# data/hippo_train_labels.npz. Writes scoring/scores_train.json.
+# No arguments; every predictor on disk is scored.
 set -e
-
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
-
 mkdir -p scoring
-
-python eval/train/evaluate.py \
-  --dataset data/synthetic_hippocampus.npz \
-  --labels data/synthetic_hippocampus_labels.npz \
-  --outputs-dir "${OUTPUTS_DIR:-checkpoints}" \
-  --scores scoring/scores_train.json
+python eval/train/evaluate.py --scores scoring/scores_train.json

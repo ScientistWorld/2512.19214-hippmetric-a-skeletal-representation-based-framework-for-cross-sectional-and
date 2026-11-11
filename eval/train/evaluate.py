@@ -1,273 +1,364 @@
 #!/usr/bin/env python3
-"""Visible train-slice scorer for precomputed hippocampal morphometry outputs."""
+"""Train-split scorer: runs every predictor on the visible development cohort.
+
+A predictor is any ``scripts/predict_<name>.sh`` taking ``INPUT_NPZ OUTPUT_NPZ``.
+It reads scans in the format documented in ``data/hippo_io.py`` and writes, per
+scan, the skeletal point and superior/inferior spoke endpoints at every template
+skeletal point:
+
+    subjects (N, 2), skeleton (N, 549, 3), sup_end (N, 549, 3), inf_end (N, 549, 3)
+
+Every scored number is recomputed here from those raw coordinates. Nothing a
+predictor reports about itself is read. A predictor that crashes, writes
+malformed / non-finite / absurd coordinates, leaves fewer than half of its
+spokes valid, or does worse than a trivial evaluator-side predictor on any
+task receives the worst value of every scored metric in every experiment.
+"""
 
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 import numpy as np
 from scipy.spatial import cKDTree
 
+ROOT = Path(__file__).resolve().parents[2]
+GRID_SHAPE = (61, 9)
+N_POINTS = GRID_SHAPE[0] * GRID_SHAPE[1]
+ADHERENCE_MM = 1.0
+MIN_VALIDITY = 0.5
+MAX_ABS_COORD = 1.0e4
+EXPERIMENTS = {
+    "subfield_thickness_accuracy": (
+        "thickness_mae_mm",
+        "thickness_p95_abs_error_mm",
+        "subfield_mean_thickness_error_mm",
+        "valid_spoke_fraction",
+    ),
+    "correspondence_stability": (
+        "cross_sectional_correspondence_error_mm",
+        "cross_sectional_p95_correspondence_error_mm",
+        "longitudinal_correspondence_error_mm",
+        "longitudinal_p95_correspondence_error_mm",
+    ),
+    "surface_robustness": ("surface_Q_mm", "surface_HD_mm", "surface_p95_mm"),
+}
+WORST = {
+    "thickness_mae_mm": 5.0,
+    "thickness_p95_abs_error_mm": 10.0,
+    "subfield_mean_thickness_error_mm": 5.0,
+    "valid_spoke_fraction": 0.0,
+    "cross_sectional_correspondence_error_mm": 20.0,
+    "cross_sectional_p95_correspondence_error_mm": 30.0,
+    "longitudinal_correspondence_error_mm": 20.0,
+    "longitudinal_p95_correspondence_error_mm": 30.0,
+    "surface_Q_mm": 10.0,
+    "surface_HD_mm": 30.0,
+    "surface_p95_mm": 15.0,
+}
+GATED = {
+    "thickness_mae_mm": "trivial_thickness_mae_mm",
+    "cross_sectional_correspondence_error_mm": "trivial_cross_sectional_error_mm",
+    "longitudinal_correspondence_error_mm": "trivial_longitudinal_error_mm",
+    "surface_Q_mm": "trivial_surface_Q_mm",
+}
 
-SPLIT_SALT = "25121914"
-FEATURE_SALT = "visible-anatomy-25121914"
-OUTPUT_SUFFIX = "_outputs.npz"
+
+# ---------------------------------------------------------------------------
+# Inputs
+# ---------------------------------------------------------------------------
 
 
-def _row_order(output_subjects: np.ndarray, dataset_subjects: np.ndarray, output_file: Path) -> np.ndarray:
-    if output_subjects.shape != dataset_subjects.shape:
-        raise ValueError(
-            f"{output_file} subjects has shape {output_subjects.shape}, expected {dataset_subjects.shape}."
-        )
-    if np.array_equal(output_subjects, dataset_subjects):
-        return np.arange(len(dataset_subjects))
-    positions = {tuple(row.tolist()): idx for idx, row in enumerate(output_subjects)}
+def _unpack(bits, shape):
+    shape = tuple(int(s) for s in shape)
+    return np.unpackbits(bits, count=int(np.prod(shape))).astype(bool).reshape(shape)
+
+
+def _mask_centroid(mask, origin, spacing):
+    idx = np.argwhere(mask)
+    if len(idx) == 0:
+        return np.asarray(origin, dtype=float)
+    return np.asarray(origin, dtype=float) + float(spacing) * idx.mean(axis=0)
+
+
+def scan_centroids(inputs: dict) -> np.ndarray:
+    out = []
+    for i in range(len(inputs["subjects"])):
+        bits = inputs["mask_bits"][inputs["mask_offsets"][i] : inputs["mask_offsets"][i + 1]]
+        out.append(_mask_centroid(_unpack(bits, inputs["mask_shapes"][i]), inputs["origins"][i], inputs["spacing"][i]))
+    return np.asarray(out)
+
+
+def trivial_prediction(template: dict, centroids: np.ndarray) -> dict:
+    """Template s-rep placed at each scan's segmentation centroid (no fitting)."""
+    tpl_c = _mask_centroid(_unpack(template["mask_bits"], template["mask_shape"]), template["origin"], template["spacing"])
+    skel = template["skeleton"].astype(float)
+    sup = skel + template["sup_dir"] * template["sup_len"][:, None]
+    inf = skel + template["inf_dir"] * template["inf_len"][:, None]
+    shift = (centroids - tpl_c)[:, None, :]
+    return {"skeleton": skel[None] + shift, "sup_end": sup[None] + shift, "inf_end": inf[None] + shift}
+
+
+# ---------------------------------------------------------------------------
+# Predictors
+# ---------------------------------------------------------------------------
+
+
+def discover_predictors() -> dict[str, Path]:
+    found = {}
+    for path in sorted((ROOT / "scripts").glob("predict_*.sh")):
+        found[path.stem[len("predict_") :]] = path
+    return found
+
+
+def run_predictor(script: Path, input_path: Path, output_path: Path, log_path: Path, timeout: float) -> str | None:
+    """Run one predictor; return a failure reason or None."""
+    if output_path.exists():
+        output_path.unlink()
+    log_path.parent.mkdir(parents=True, exist_ok=True)
     try:
-        return np.asarray([positions[tuple(row.tolist())] for row in dataset_subjects], dtype=int)
+        with open(log_path, "w") as log:
+            proc = subprocess.run(
+                ["bash", str(script), str(input_path), str(output_path)],
+                cwd=ROOT,
+                stdout=log,
+                stderr=subprocess.STDOUT,
+                timeout=timeout,
+            )
+    except subprocess.TimeoutExpired:
+        return f"timed out after {timeout:.0f} s"
+    if proc.returncode != 0:
+        return f"exit code {proc.returncode}"
+    if not output_path.is_file():
+        return "no output file written"
+    return None
+
+
+def load_prediction(path: Path, subjects: np.ndarray) -> dict:
+    with np.load(path, allow_pickle=False) as z:
+        missing = [k for k in ("subjects", "skeleton", "sup_end", "inf_end") if k not in z.files]
+        if missing:
+            raise ValueError(f"missing arrays: {', '.join(missing)}")
+        out_subjects = np.asarray(z["subjects"])
+        arrays = {k: np.asarray(z[k]) for k in ("skeleton", "sup_end", "inf_end")}
+    if out_subjects.shape != subjects.shape:
+        raise ValueError(f"subjects has shape {out_subjects.shape}, expected {subjects.shape}")
+    position = {}
+    for idx, row in enumerate(out_subjects.astype(np.int64).tolist()):
+        if tuple(row) in position:
+            raise ValueError(f"duplicate scan {tuple(row)}")
+        position[tuple(row)] = idx
+    try:
+        order = np.asarray([position[tuple(r)] for r in subjects.astype(np.int64).tolist()], dtype=np.int64)
     except KeyError as exc:
-        raise ValueError(f"{output_file} subjects do not match the evaluation dataset.") from exc
+        raise ValueError(f"scan {exc} missing from output") from exc
+    pred = {}
+    for key, arr in arrays.items():
+        if arr.shape != (len(subjects), N_POINTS, 3):
+            raise ValueError(f"{key} has shape {arr.shape}, expected {(len(subjects), N_POINTS, 3)}")
+        if not np.issubdtype(arr.dtype, np.number):
+            raise ValueError(f"{key} is not numeric")
+        arr = arr[order].astype(np.float64)
+        if not np.all(np.isfinite(arr)):
+            raise ValueError(f"{key} contains non-finite values")
+        if np.abs(arr).max() > MAX_ABS_COORD:
+            raise ValueError(f"{key} contains impossible coordinates (> {MAX_ABS_COORD:g} mm)")
+        pred[key] = arr
+    return pred
 
 
-def _surface_metrics(pred: np.ndarray, gt: np.ndarray) -> tuple[float, float, float, float]:
-    fwd = cKDTree(gt).query(pred)[0]
-    rev = cKDTree(pred).query(gt)[0]
-    both = np.concatenate([fwd, rev])
-    q_mean = float(np.sqrt(np.mean(both**2)))
-    q_max = float(np.max(both))
-    # Keep the train-slice HD on the same symmetric bidirectional scale as the
-    # full evaluator and paper-reported surface discrepancy.
-    hd = float(2.0 * np.max(both))
-    p95 = float(np.quantile(both, 0.95))
-    return q_mean, q_max, hd, p95
+# ---------------------------------------------------------------------------
+# Metrics
+# ---------------------------------------------------------------------------
 
 
-def _train_mask(subjects: np.ndarray) -> np.ndarray:
-    subject_ids = np.array(sorted(np.unique(subjects[:, 0])))
-    ranked = sorted(
-        subject_ids.tolist(),
-        key=lambda sid: hashlib.blake2b(f"{SPLIT_SALT}:{int(sid)}".encode(), digest_size=8).digest(),
+def _upsample(grid: np.ndarray) -> np.ndarray:
+    nu, nv = grid.shape[:2]
+    a = np.empty((2 * nu - 1, nv, 3))
+    a[0::2] = grid
+    a[1::2] = 0.5 * (grid[1:] + grid[:-1])
+    b = np.empty((2 * nu - 1, 2 * nv - 1, 3))
+    b[:, 0::2] = a
+    b[:, 1::2] = 0.5 * (a[:, 1:] + a[:, :-1])
+    return b.reshape(-1, 3)
+
+
+def _no_fold(ends: np.ndarray, skel: np.ndarray) -> np.ndarray:
+    e = ends.reshape(GRID_SHAPE + (3,))
+    s = skel.reshape(GRID_SHAPE + (3,))
+    ok = np.ones(GRID_SHAPE, dtype=bool)
+    # A spoke pair crosses when the endpoint order reverses the skeletal order.
+    du = np.sum((e[1:] - e[:-1]) * (s[1:] - s[:-1]), axis=-1) >= 0.0
+    ok[1:] &= du
+    ok[:-1] &= du
+    dv = np.sum((e[:, 1:] - e[:, :-1]) * (s[:, 1:] - s[:, :-1]), axis=-1) >= 0.0
+    ok[:, 1:] &= dv
+    ok[:, :-1] &= dv
+    return ok.ravel()
+
+
+def compute_metrics(pred: dict, labels: dict, subjects: np.ndarray, subfield_id: np.ndarray):
+    sk, su, inf = pred["skeleton"], pred["sup_end"], pred["inf_end"]
+    gt_t = labels["thickness_gt"].astype(float)
+    thick = np.linalg.norm(su - sk, axis=2) + np.linalg.norm(inf - sk, axis=2)
+    abs_err = np.abs(thick - gt_t)
+    sf_err = np.stack(
+        [np.abs(thick[:, subfield_id == k].mean(axis=1) - gt_t[:, subfield_id == k].mean(axis=1)) for k in np.unique(subfield_id)],
+        axis=1,
     )
-    train_subjects = set(ranked[: len(ranked) // 2])
-    return np.array([row[0] in train_subjects for row in subjects], dtype=bool)
+    e_sup = np.linalg.norm(su - labels["sup_gt"].astype(float), axis=2)
+    e_inf = np.linalg.norm(inf - labels["inf_gt"].astype(float), axis=2)
+    base = subjects[:, 1] == 0
+    fol = ~base
+    region = labels["atrophy_region"].astype(bool)
+    cross_err = np.concatenate([e_sup[base], e_inf[base]], axis=1)
+    long_err = np.concatenate([e_sup[fol][region[fol]], e_inf[fol][region[fol]]])
+    n = len(subjects)
+    q, hd, p95, valid, long_scan = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.full(n, np.nan)
+    for i in range(n):
+        gt_surface = labels["surface_gt"][i].astype(float)
+        gtree = cKDTree(gt_surface)
+        recon = np.concatenate([_upsample(su[i].reshape(GRID_SHAPE + (3,))), _upsample(inf[i].reshape(GRID_SHAPE + (3,)))])
+        d_rg = gtree.query(recon)[0]
+        d_gr = cKDTree(recon).query(gt_surface)[0]
+        both = np.concatenate([d_rg, d_gr])
+        q[i] = np.sqrt(np.mean(both**2))
+        hd[i] = max(d_rg.max(), d_gr.max())
+        p95[i] = np.quantile(both, 0.95)
+        adherent = gtree.query(np.concatenate([su[i], inf[i]]))[0] <= ADHERENCE_MM
+        unfolded = np.concatenate([_no_fold(su[i], sk[i]), _no_fold(inf[i], sk[i])])
+        valid[i] = np.mean(adherent & unfolded)
+        if fol[i] and region[i].any():
+            long_scan[i] = np.concatenate([e_sup[i][region[i]], e_inf[i][region[i]]]).mean()
+    metrics = {
+        "thickness_mae_mm": float(abs_err.mean()),
+        "thickness_p95_abs_error_mm": float(np.quantile(abs_err, 0.95)),
+        "subfield_mean_thickness_error_mm": float(sf_err.mean()),
+        "valid_spoke_fraction": float(valid.mean()),
+        "cross_sectional_correspondence_error_mm": float(cross_err.mean()),
+        "cross_sectional_p95_correspondence_error_mm": float(np.quantile(cross_err, 0.95)),
+        "longitudinal_correspondence_error_mm": float(long_err.mean()),
+        "longitudinal_p95_correspondence_error_mm": float(np.quantile(long_err, 0.95)),
+        "surface_Q_mm": float(q.mean()),
+        "surface_HD_mm": float(hd.mean()),
+        "surface_p95_mm": float(p95.mean()),
+    }
+    per_subject = {}
+    for sid in np.unique(subjects[:, 0]):
+        rows = subjects[:, 0] == sid
+        per_subject[str(int(sid))] = {
+            "thickness_mae_mm": float(abs_err[rows].mean()),
+            "cross_sectional_correspondence_error_mm": float(cross_err[rows[base]].mean()) if np.any(rows & base) else None,
+            "longitudinal_correspondence_error_mm": float(np.nanmean(long_scan[rows & fol])) if np.any(np.isfinite(long_scan[rows & fol])) else None,
+            "surface_Q_mm": float(q[rows].mean()),
+            "surface_HD_mm": float(hd[rows].mean()),
+            "valid_spoke_fraction": float(valid[rows].mean()),
+        }
+    return metrics, per_subject
 
 
-def _hashed_feature_indices(n_items: int, namespace: str, holdout: str) -> np.ndarray:
-    if n_items <= 1:
-        return np.arange(n_items, dtype=int)
-    ranked = sorted(
-        range(n_items),
-        key=lambda idx: hashlib.blake2b(
-            f"{FEATURE_SALT}:{namespace}:{idx}".encode(),
-            digest_size=8,
-        ).digest(),
-    )
-    split = max(1, min(n_items - 1, n_items // 2))
-    selected = ranked[:split] if holdout == "train" else ranked[split:]
-    return np.asarray(sorted(selected), dtype=int)
-
-
-def _feature_slices(dataset: dict, labels: dict) -> dict[str, np.ndarray]:
-    n_thickness = int(labels["gt_thickness"].shape[1])
-    n_surface = int(dataset["surface_vertices"].shape[1])
+def failure_thresholds(template, centroids, labels, subjects, subfield_id) -> dict:
+    trivial, _ = compute_metrics(trivial_prediction(template, centroids), labels, subjects, subfield_id)
+    gt_t = labels["thickness_gt"].astype(float)
+    constant_mae = float(np.abs(gt_t - gt_t.mean(axis=1, keepdims=True)).mean())
     return {
-        "thickness": _hashed_feature_indices(n_thickness, "thickness", "train"),
-        "surface": _hashed_feature_indices(n_surface, "surface", "train"),
-        "cross_landmarks": np.asarray([0, 2, 5, 7, 9], dtype=int),
-        "longitudinal_landmarks": np.asarray([10, 12], dtype=int),
+        "trivial_thickness_mae_mm": constant_mae,
+        "trivial_cross_sectional_error_mm": trivial["cross_sectional_correspondence_error_mm"],
+        "trivial_longitudinal_error_mm": trivial["longitudinal_correspondence_error_mm"],
+        "trivial_surface_Q_mm": trivial["surface_Q_mm"],
+        "min_valid_spoke_fraction": MIN_VALIDITY,
     }
 
 
-def _align_full_outputs(
-    out: dict[str, np.ndarray],
-    dataset_subjects: np.ndarray,
-    output_file: Path,
-) -> dict[str, np.ndarray]:
-    if "subjects" not in out:
-        raise ValueError(
-            f"{output_file} must contain a subjects array for split-safe evaluation. "
-            "Write full-dataset outputs using the same row contract as scripts/evaluate.sh."
-        )
-    output_subjects = np.asarray(out["subjects"])
-    order = _row_order(output_subjects, dataset_subjects, output_file)
-    n_rows = len(order)
-    aligned: dict[str, np.ndarray] = {}
-    for key, value in out.items():
-        arr = np.asarray(value)
-        if arr.ndim > 0 and arr.shape[0] == n_rows:
-            aligned[key] = arr[order]
+def gate(metrics: dict, thresholds: dict) -> str | None:
+    reasons = []
+    if metrics["valid_spoke_fraction"] < MIN_VALIDITY:
+        reasons.append(f"valid_spoke_fraction {metrics['valid_spoke_fraction']:.3f} < {MIN_VALIDITY}")
+    for metric, key in GATED.items():
+        if not metrics[metric] < thresholds[key]:
+            reasons.append(f"{metric} {metrics[metric]:.3f} not better than trivial {thresholds[key]:.3f}")
+    return "; ".join(reasons) or None
+
+
+def finalize(metrics: dict | None) -> dict:
+    if metrics is None:
+        return dict(WORST)
+    out = {}
+    for name, worst in WORST.items():
+        value = float(metrics[name])
+        if not np.isfinite(value):
+            out[name] = worst
         else:
-            aligned[key] = arr
-    return aligned
+            out[name] = max(value, worst) if name == "valid_spoke_fraction" else min(value, worst)
+    return out
 
 
-def _slice_rows(value: np.ndarray, mask: np.ndarray, name: str) -> np.ndarray:
-    arr = np.asarray(value)
-    if arr.ndim == 0:
-        return arr
-    if arr.shape[0] == mask.shape[0]:
-        return arr[mask]
-    raise ValueError(
-        f"{name} has {arr.shape[0]} rows, expected full dataset length {mask.shape[0]}. "
-        "Train-slice-only artifacts are not accepted because the held-out test scorer "
-        "must rescore the same full method outputs."
-    )
-
-
-def _valid_spoke_fraction(
-    out: dict[str, np.ndarray],
-    mask: np.ndarray,
-    pred_t: np.ndarray,
-    pred_lm: np.ndarray,
-    recon: np.ndarray,
-) -> float:
-    value = np.asarray(out["valid_spoke_fraction"])
-    if value.ndim == 0:
-        reported_validity = float(value)
-    else:
-        reported_validity = float(np.mean(_slice_rows(value, mask, "valid_spoke_fraction")))
-    output_validity = float(
-        np.mean(np.isfinite(pred_t) & (pred_t >= 0.0))
-        * np.mean(np.all(np.isfinite(pred_lm), axis=(1, 2)))
-        * np.mean(np.all(np.isfinite(recon), axis=(1, 2)))
-    )
-    return min(reported_validity, output_validity)
-
-
-def _metric_block(
-    dataset: dict,
-    labels: dict,
-    output_file: Path,
-    mask: np.ndarray,
-    features: dict[str, np.ndarray],
-) -> dict[str, float]:
-    out = dict(np.load(output_file, allow_pickle=True))
-    out = _align_full_outputs(out, dataset["subjects"], output_file)
-    pred_t = _slice_rows(out["pred_thickness"], mask, "pred_thickness")
-    gt_t = labels["gt_thickness"][mask]
-    pred_lm = _slice_rows(out["pred_landmarks"], mask, "pred_landmarks")
-    gt_lm = labels["gt_landmarks"][mask]
-    subjects = dataset["subjects"][mask]
-    gt_surface = dataset["surface_vertices"][mask]
-    recon = _slice_rows(out["recon_vertices"], mask, "recon_vertices")
-    cross = subjects[:, 1] == 0
-    longitudinal = subjects[:, 1] > 0
-    if not np.any(cross) or not np.any(longitudinal):
-        raise ValueError("Train slice must contain both cross-sectional and longitudinal rows.")
-
-    thickness_abs = np.abs(pred_t[:, features["thickness"]] - gt_t[:, features["thickness"]])
-    cross_idx = features["cross_landmarks"]
-    long_idx = features["longitudinal_landmarks"]
-    cross_errors = np.linalg.norm(pred_lm[cross][:, cross_idx] - gt_lm[cross][:, cross_idx], axis=2)
-    long_errors = np.linalg.norm(pred_lm[longitudinal][:, long_idx] - gt_lm[longitudinal][:, long_idx], axis=2)
-    thickness_mae = float(np.mean(thickness_abs))
-    thickness_p95 = float(np.quantile(thickness_abs, 0.95))
-    cross_error = float(np.mean(cross_errors))
-    long_error = float(np.mean(long_errors))
-    surface_idx = features["surface"]
-    surface = np.array(
-        [_surface_metrics(recon[i, surface_idx], gt_surface[i, surface_idx]) for i in range(len(recon))]
-    )
-    return {
-        "thickness_mae_mm": thickness_mae,
-        "thickness_p95_abs_error_mm": thickness_p95,
-        "cross_sectional_correspondence_error_mm": cross_error,
-        "cross_sectional_p95_correspondence_error_mm": float(np.quantile(cross_errors, 0.95)),
-        "longitudinal_correspondence_error_mm": long_error,
-        "longitudinal_p95_correspondence_error_mm": float(np.quantile(long_errors, 0.95)),
-        "surface_Q_mm": float(surface[:, 0].mean()),
-        "surface_q_mm": float(surface[:, 1].mean()),
-        "surface_HD_mm": float(surface[:, 2].mean()),
-        "surface_p95_mm": float(surface[:, 3].mean()),
-        "valid_spoke_fraction": _valid_spoke_fraction(out, mask, pred_t, pred_lm, recon),
+def write_scores(path: Path, slice_name: str, blocks: dict, status: dict, thresholds: dict) -> dict:
+    scores = {
+        "_slice": slice_name,
+        "_methods": status,
+        "_failure_thresholds": thresholds,
+        "experiments": {
+            exp: {"results": {m: {k: blocks[m][k] for k in names} for m, _ in sorted(blocks.items())}}
+            for exp, names in EXPERIMENTS.items()
+        },
     }
-
-
-def _discover_methods(outputs_dir: Path) -> dict[str, Path]:
-    outputs = {}
-    for path in sorted(outputs_dir.glob(f"*{OUTPUT_SUFFIX}")):
-        method_name = path.name[: -len(OUTPUT_SUFFIX)]
-        outputs[method_name] = path
-    if not outputs:
-        raise FileNotFoundError(f"No method output files matching *{OUTPUT_SUFFIX} in {outputs_dir}.")
-    return outputs
-
-
-def _keep(block: dict[str, float], names: tuple[str, ...]) -> dict[str, float]:
-    return {name: block[name] for name in names}
-
-
-def _score_methods(
-    dataset: dict,
-    labels: dict,
-    outputs: dict[str, Path],
-    mask: np.ndarray,
-    features: dict[str, np.ndarray],
-) -> dict[str, dict[str, float]]:
-    return {name: _metric_block(dataset, labels, path, mask, features) for name, path in sorted(outputs.items())}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(scores, indent=2) + "\n")
+    os.replace(tmp, path)
+    return scores
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", default="data/synthetic_hippocampus.npz")
-    parser.add_argument("--labels", default="data/synthetic_hippocampus_labels.npz")
-    parser.add_argument("--outputs-dir", default="checkpoints")
-    parser.add_argument("--scores", default="scoring/scores_train.json")
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--inputs", type=Path, default=ROOT / "data/hippo_train.npz")
+    parser.add_argument("--labels", type=Path, default=ROOT / "data/hippo_train_labels.npz")
+    parser.add_argument("--template", type=Path, default=ROOT / "data/hippo_template.npz")
+    parser.add_argument("--outputs-dir", type=Path, default=ROOT / "checkpoints/train")
+    parser.add_argument("--scores", type=Path, default=ROOT / "scoring/scores_train.json")
+    parser.add_argument("--timeout", type=float, default=3600.0)
     args = parser.parse_args()
 
-    dataset = dict(np.load(args.dataset, allow_pickle=True))
-    labels = dict(np.load(args.labels, allow_pickle=True))
-    if not np.array_equal(dataset["subjects"], labels["subjects"]):
-        raise ValueError("Dataset and label files describe different subject/timepoint rows.")
+    with np.load(args.inputs, allow_pickle=False) as z:
+        inputs = {k: np.asarray(z[k]) for k in z.files}
+    with np.load(args.labels, allow_pickle=False) as z:
+        labels = {k: np.asarray(z[k]) for k in z.files}
+    with np.load(args.template, allow_pickle=False) as z:
+        template = {k: np.asarray(z[k]) for k in z.files}
+    subjects = inputs["subjects"].astype(np.int64)
+    if not np.array_equal(subjects, labels["subjects"]):
+        raise ValueError("inputs and labels describe different scans")
+    subfield_id = template["subfield_id"].astype(np.int64)
+    thresholds = failure_thresholds(template, scan_centroids(inputs), labels, subjects, subfield_id)
 
-    mask = _train_mask(dataset["subjects"])
-    features = _feature_slices(dataset, labels)
-    outputs = _discover_methods(Path(args.outputs_dir))
-    blocks = _score_methods(dataset, labels, outputs, mask, features)
-    scores = {
-        "_slice": "train",
-        "experiments": {
-            "subfield_thickness_accuracy": {
-                "results": {
-                    method: _keep(
-                        block,
-                        ("thickness_mae_mm", "thickness_p95_abs_error_mm", "valid_spoke_fraction"),
-                    )
-                    for method, block in blocks.items()
-                }
-            },
-            "correspondence_stability": {
-                "results": {
-                    method: _keep(
-                        block,
-                        (
-                            "cross_sectional_correspondence_error_mm",
-                            "cross_sectional_p95_correspondence_error_mm",
-                            "longitudinal_correspondence_error_mm",
-                            "longitudinal_p95_correspondence_error_mm",
-                            "valid_spoke_fraction",
-                        ),
-                    )
-                    for method, block in blocks.items()
-                }
-            },
-            "surface_robustness": {
-                "results": {
-                    method: _keep(
-                        block,
-                        ("surface_Q_mm", "surface_q_mm", "surface_HD_mm", "surface_p95_mm", "valid_spoke_fraction"),
-                    )
-                    for method, block in blocks.items()
-                }
-            },
-        }
-    }
-    output_path = Path(args.scores)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(scores, indent=2) + "\n")
-    print(json.dumps(scores, indent=2))
+    predictors = discover_predictors()
+    if not predictors:
+        raise FileNotFoundError("no scripts/predict_*.sh predictors found")
+    blocks, status, diagnostics = {}, {}, {}
+    for name, script in predictors.items():
+        out_path = args.outputs_dir / f"{name}.npz"
+        reason = run_predictor(script, args.inputs, out_path, args.outputs_dir / "logs" / f"{name}.log", args.timeout)
+        metrics = None
+        if reason is None:
+            try:
+                metrics, diagnostics[name] = compute_metrics(load_prediction(out_path, subjects), labels, subjects, subfield_id)
+                reason = gate(metrics, thresholds)
+            except Exception as exc:  # malformed output counts as a failed run
+                reason = f"invalid output: {exc}"
+        status[name] = {"status": "failed" if reason else "ok", "reason": reason, "raw": metrics}
+        blocks[name] = finalize(None if reason else metrics)
+        print(f"[train] {name}: {'FAILED (' + reason + ')' if reason else 'ok'}", file=sys.stderr)
+    scores = write_scores(args.scores, "train", blocks, status, thresholds)
+    diag_path = os.environ.get("EVAL_DIAGNOSTICS")
+    if diag_path:
+        Path(diag_path).write_text(json.dumps(diagnostics, indent=2) + "\n")
+    print(json.dumps(scores["experiments"], indent=2))
 
 
 if __name__ == "__main__":

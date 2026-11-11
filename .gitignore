@@ -9,8 +9,9 @@ core.*
 *.bin
 *.npy
 *.npz
-!data/synthetic_hippocampus.npz
-!data/synthetic_hippocampus_labels.npz
+!data/hippo_template.npz
+!data/hippo_train.npz
+!data/hippo_train_labels.npz
 *.h5
 *.hdf5
 *.pkl

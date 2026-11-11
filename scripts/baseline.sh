@@ -1,24 +1,8 @@
 #!/bin/bash
-# Run a baseline method from the paper.
-#
-# Baselines are simple reference methods the paper compares against. 
-# Implement this only if applicable, i.e. the paper has baselines.
-# You do not need to implement all baselines to begin — 
-# just enough to validate that the evaluation pipeline works 
-# and provide a reference point. You can decide to expand more baselines later.
-# Each baseline must be actually run and scored through evaluate.sh
-# so the numbers are verified, not self-reported.
-# You can decide what this baseline script should do yourself.
-#
-# Usage:
-#   bash scripts/baseline.sh <name>
-
+# Run the boundary-driven baseline on the visible development cohort.
+# Usage: bash scripts/baseline.sh
 set -e
-
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
-
 mkdir -p checkpoints
-python baseline/boundary_model.py \
-  --dataset data/synthetic_hippocampus.npz \
-  --output checkpoints/boundary_baseline_outputs.npz
+bash scripts/predict_boundary_baseline.sh data/hippo_train.npz checkpoints/boundary_baseline_train.npz

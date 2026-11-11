@@ -1,26 +1,14 @@
 #!/bin/bash
-# Reproduce the paper's results end-to-end.
-#
-# This script runs inside the compute container and should call
-# scripts/baseline.sh and scripts/method.sh to run baselines and
-# the paper's method, each of which calls scripts/evaluate.sh.
-#
-# Assumes:
-#   - Container is built (environment/container.sif)
-#   - Data and models are downloaded (via scripts/download.sh)
-#   - Data and outputs are written relative to the repository root
-#
-# This is the "gold standard" reproduction — 
-# You do not need to run this, but keep this in good shape
-# so other agents can easily run a full loop of reproduction and get the paper's numbers.
-
+# Reproduce the reference results end-to-end (CPU only, no internet needed).
+#   1. baseline and HippMetric on the visible development cohort
+#   2. train/full scores (scripts/evaluate_train.sh, scripts/evaluate.sh)
+#   3. hidden-test scores (scripts/evaluate_test.sh)
 set -e
-
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
-
 bash scripts/download.sh
-rm -f checkpoints/*_outputs.npz
 bash scripts/baseline.sh
 bash scripts/method.sh
+bash scripts/evaluate_train.sh
 bash scripts/evaluate.sh
+bash scripts/evaluate_test.sh
