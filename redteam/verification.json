@@ -1,0 +1,35 @@
+{
+  "cases": 23,
+  "hidden_test_successes": 21,
+  "intentional_hidden_test_failures": [
+    "shortcut_empty_output",
+    "shortcut_missing_output"
+  ],
+  "candidate_producer_exits_before_hidden_test": true,
+  "hidden_test_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "all_recorded_evaluator_hashes_unchanged": true,
+  "three_seed_results_and_original_reference_identical": true,
+  "tying_shortcut_results_checked": true,
+  "label_shortcuts_at_all_error_bounds": true,
+  "finite_zero_thickness_shortcut_beats_audit_rank_reference": true,
+  "replay_shell_syntax_and_python_ast": "pass",
+  "gym_paths_restored_to_revision": "df927da0c29632738c3a52635029c475f2912a7f",
+  "restored_paths": [
+    "scripts",
+    "data",
+    "method",
+    "baseline",
+    "eval",
+    "scoring",
+    "environment",
+    "briefing",
+    "paper",
+    ".gitignore",
+    "MILESTONES.md",
+    "PROGRESS.md"
+  ],
+  "verification_scope": "lightweight saved-evidence and git checks; no training or inference on login node"
+}

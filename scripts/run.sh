@@ -1,9 +1,16 @@
 #!/bin/bash
-set -euo pipefail
-cd /home/user
-export OPENBLAS_NUM_THREADS=1
-export OMP_NUM_THREADS=1
-export MKL_NUM_THREADS=1
-# One additional finite-output test of additive compensation for failed thickness.
-bash redteam/shortcut_zero_thickness/run.sh
-python redteam/analyze.py
+# End-to-end CPU reproduction job.
+
+set -e
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+rm -f checkpoints/*_outputs.npz
+bash scripts/download.sh
+bash scripts/baseline.sh
+bash scripts/method.sh
+bash scripts/evaluate.sh
+bash scripts/evaluate_train.sh
+bash scripts/evaluate_test.sh
+python validate.py --compare
