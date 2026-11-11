@@ -1,0 +1,11 @@
+
+COMMAND ["bash", "scripts/evaluate_test.sh"]
+Traceback (most recent call last):
+  File "/home/user/eval/test/evaluate.py", line 298, in <module>
+    main()
+  File "/home/user/eval/test/evaluate.py", line 251, in main
+    outputs = _select_outputs(Path(args.outputs_dir), Path(args.methods_from))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 214, in _select_outputs
+    raise FileNotFoundError(
+FileNotFoundError: Train scores contain methods with no matching test output file in checkpoints: hippmetric

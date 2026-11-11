@@ -1,0 +1,30 @@
+{
+  "case": "shortcut_whitelist",
+  "test_invocation": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "evaluator_modified": false,
+  "artifact_producer_exits_before_test": true,
+  "method": {
+    "returncode": 0,
+    "elapsed_seconds": 4.11566485799267
+  },
+  "train": {
+    "returncode": 0,
+    "elapsed_seconds": 1.1883362469961867
+  },
+  "methods_on_disk": [
+    "boundary_baseline",
+    "hippmetric",
+    "ignored_method"
+  ],
+  "test": {
+    "returncode": 0,
+    "elapsed_seconds": 2.9833267529902514
+  },
+  "methods_in_test_scores": [
+    "hippmetric"
+  ],
+  "evaluator_hashes_unchanged": true
+}

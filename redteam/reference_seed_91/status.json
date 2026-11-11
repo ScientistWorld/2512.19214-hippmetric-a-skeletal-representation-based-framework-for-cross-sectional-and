@@ -1,0 +1,30 @@
+{
+  "case": "reference_seed_91",
+  "test_invocation": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "evaluator_modified": false,
+  "artifact_producer_exits_before_test": true,
+  "method": {
+    "returncode": 0,
+    "elapsed_seconds": 35.11061620200053
+  },
+  "train": {
+    "returncode": 0,
+    "elapsed_seconds": 1.9555637600133196
+  },
+  "methods_on_disk": [
+    "boundary_baseline",
+    "hippmetric"
+  ],
+  "test": {
+    "returncode": 0,
+    "elapsed_seconds": 1.172024498024257
+  },
+  "methods_in_test_scores": [
+    "boundary_baseline",
+    "hippmetric"
+  ],
+  "evaluator_hashes_unchanged": true
+}

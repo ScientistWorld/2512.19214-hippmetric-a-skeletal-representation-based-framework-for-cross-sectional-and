@@ -1,0 +1,36 @@
+{
+  "_slice": "test",
+  "experiments": {
+    "subfield_thickness_accuracy": {
+      "results": {
+        "hippmetric": {
+          "thickness_mae_mm": 0.33364271458504485,
+          "thickness_p95_abs_error_mm": 0.8643403543406454,
+          "valid_spoke_fraction": 1.0
+        }
+      }
+    },
+    "correspondence_stability": {
+      "results": {
+        "hippmetric": {
+          "cross_sectional_correspondence_error_mm": 0.4931161951475866,
+          "cross_sectional_p95_correspondence_error_mm": 1.1829402462026963,
+          "longitudinal_correspondence_error_mm": 1.635940547394419,
+          "longitudinal_p95_correspondence_error_mm": 2.920178836753692,
+          "valid_spoke_fraction": 1.0
+        }
+      }
+    },
+    "surface_robustness": {
+      "results": {
+        "hippmetric": {
+          "surface_Q_mm": 0.4109456896630291,
+          "surface_q_mm": 1.2392883412904026,
+          "surface_HD_mm": 2.478576682580805,
+          "surface_p95_mm": 0.7890586079464139,
+          "valid_spoke_fraction": 1.0
+        }
+      }
+    }
+  }
+}

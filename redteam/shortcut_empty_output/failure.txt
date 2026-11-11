@@ -1,0 +1,23 @@
+
+COMMAND ["bash", "scripts/evaluate_test.sh"]
+Traceback (most recent call last):
+  File "/home/user/eval/test/evaluate.py", line 298, in <module>
+    main()
+  File "/home/user/eval/test/evaluate.py", line 252, in main
+    blocks = _score_methods(dataset, labels, outputs, mask, features)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 232, in _score_methods
+    return {name: _metric_block(dataset, labels, path, mask, features) for name, path in sorted(outputs.items())}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 232, in <dictcomp>
+    return {name: _metric_block(dataset, labels, path, mask, features) for name, path in sorted(outputs.items())}
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 146, in _metric_block
+    out = _align_full_outputs(out, dataset["subjects"], output_file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 94, in _align_full_outputs
+    order = _row_order(output_subjects, dataset_subjects, output_file)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 22, in _row_order
+    raise ValueError(
+ValueError: checkpoints/hippmetric_outputs.npz subjects has shape (0, 2), expected (96, 2).

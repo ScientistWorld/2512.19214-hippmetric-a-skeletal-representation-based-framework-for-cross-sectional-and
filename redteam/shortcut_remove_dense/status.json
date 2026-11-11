@@ -1,0 +1,30 @@
+{
+  "case": "shortcut_remove_dense",
+  "test_invocation": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "evaluator_modified": false,
+  "artifact_producer_exits_before_test": true,
+  "method": {
+    "returncode": 0,
+    "elapsed_seconds": 19.817369340977166
+  },
+  "train": {
+    "returncode": 0,
+    "elapsed_seconds": 0.9970698090037331
+  },
+  "methods_on_disk": [
+    "boundary_baseline",
+    "hippmetric"
+  ],
+  "test": {
+    "returncode": 0,
+    "elapsed_seconds": 2.2119252110132948
+  },
+  "methods_in_test_scores": [
+    "boundary_baseline",
+    "hippmetric"
+  ],
+  "evaluator_hashes_unchanged": true
+}

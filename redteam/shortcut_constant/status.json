@@ -1,0 +1,30 @@
+{
+  "case": "shortcut_constant",
+  "test_invocation": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "evaluator_modified": false,
+  "artifact_producer_exits_before_test": true,
+  "method": {
+    "returncode": 0,
+    "elapsed_seconds": 1.361194566998165
+  },
+  "train": {
+    "returncode": 0,
+    "elapsed_seconds": 1.1453893390134908
+  },
+  "methods_on_disk": [
+    "boundary_baseline",
+    "hippmetric"
+  ],
+  "test": {
+    "returncode": 0,
+    "elapsed_seconds": 1.4316010430047754
+  },
+  "methods_in_test_scores": [
+    "boundary_baseline",
+    "hippmetric"
+  ],
+  "evaluator_hashes_unchanged": true
+}
