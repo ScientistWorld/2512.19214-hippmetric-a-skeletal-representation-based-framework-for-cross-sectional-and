@@ -17,6 +17,7 @@
     "shortcut_replace_labels",
     "shortcut_visible_label_drift",
     "shortcut_whitelist",
+    "shortcut_zero_thickness",
     "weaker_boundary"
   ],
   "normalization": "population standard deviation; zero-variance metrics contribute zero",
@@ -24,31 +25,31 @@
   "nonfinite_policy": "not specified by gym prompt; conditional diagnostic treats nonfinite as skipped",
   "metric_standard_deviations": {
     "subfield_thickness_accuracy": {
-      "thickness_mae_mm": 1.6977683654685907,
-      "thickness_p95_abs_error_mm": 2.007090671038982,
+      "thickness_mae_mm": 1.7020010740713678,
+      "thickness_p95_abs_error_mm": 2.012164606233533,
       "valid_spoke_fraction": 0.0
     },
     "correspondence_stability": {
-      "cross_sectional_correspondence_error_mm": 2.0446121239289785,
-      "cross_sectional_p95_correspondence_error_mm": 2.6962364441606814,
-      "longitudinal_correspondence_error_mm": 2.274066216416739,
-      "longitudinal_p95_correspondence_error_mm": 2.7836376412092694,
+      "cross_sectional_correspondence_error_mm": 1.987159296901416,
+      "cross_sectional_p95_correspondence_error_mm": 2.618901894607245,
+      "longitudinal_correspondence_error_mm": 2.2070020459654596,
+      "longitudinal_p95_correspondence_error_mm": 2.700529209925005,
       "valid_spoke_fraction": 0.0
     },
     "surface_robustness": {
-      "surface_Q_mm": 0.31206462141783414,
-      "surface_q_mm": 0.8483031514923886,
-      "surface_HD_mm": 1.696606302984777,
-      "surface_p95_mm": 0.6588968977476509,
+      "surface_Q_mm": 0.313396037523115,
+      "surface_q_mm": 0.8564939351380757,
+      "surface_HD_mm": 1.7129878702761514,
+      "surface_p95_mm": 0.6590708381288157,
       "valid_spoke_fraction": 0.0
     }
   },
   "attempts": {
     "better_smoothing": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 0.029586609130455153,
+      "normalized_delta_from_reference": 0.029512512303807602,
       "experiment_contributions": {
-        "subfield_thickness_accuracy": 0.029586609130455153,
+        "subfield_thickness_accuracy": 0.029512512303807602,
         "correspondence_stability": 0.0,
         "surface_robustness": 0.0
       },
@@ -116,11 +117,11 @@
     },
     "shortcut_bruteforce": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 0.11895099364240588,
+      "normalized_delta_from_reference": 0.12220779417749227,
       "experiment_contributions": {
-        "subfield_thickness_accuracy": 0.010901916699599104,
-        "correspondence_stability": 0.10979536011773128,
-        "surface_robustness": -0.0017462831749245175
+        "subfield_thickness_accuracy": 0.010874595963110967,
+        "correspondence_stability": 0.11302267488120143,
+        "surface_robustness": -0.0016894766668201645
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [],
@@ -130,11 +131,11 @@
     },
     "shortcut_constant": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": -4.7251540608747735,
+      "normalized_delta_from_reference": -4.876237888457338,
       "experiment_contributions": {
-        "subfield_thickness_accuracy": -0.5033531358869752,
-        "correspondence_stability": -4.9522010451429255,
-        "surface_robustness": 0.7304001201551272
+        "subfield_thickness_accuracy": -0.5020956899162113,
+        "correspondence_stability": -5.100035018236881,
+        "surface_robustness": 0.7258928196957561
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [],
@@ -144,11 +145,11 @@
     },
     "shortcut_copy_labels": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 1.6023421296243323,
+      "normalized_delta_from_reference": 1.6208273761564103,
       "experiment_contributions": {
-        "subfield_thickness_accuracy": 0.10296002402502574,
-        "correspondence_stability": 0.7689819854441794,
-        "surface_robustness": 0.7304001201551272
+        "subfield_thickness_accuracy": 0.10270210313413525,
+        "correspondence_stability": 0.7922324533265189,
+        "surface_robustness": 0.7258928196957561
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [],
@@ -158,11 +159,11 @@
     },
     "shortcut_copy_surface": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 0.7304001201551272,
+      "normalized_delta_from_reference": 0.7258928196957561,
       "experiment_contributions": {
         "subfield_thickness_accuracy": 0.0,
         "correspondence_stability": 0.0,
-        "surface_robustness": 0.7304001201551272
+        "surface_robustness": 0.7258928196957561
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [],
@@ -255,11 +256,11 @@
     },
     "shortcut_nan_partial": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 0.7304001201551272,
+      "normalized_delta_from_reference": 0.7258928196957561,
       "experiment_contributions": {
         "subfield_thickness_accuracy": 0.0,
         "correspondence_stability": 0.0,
-        "surface_robustness": 0.7304001201551272
+        "surface_robustness": 0.7258928196957561
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [
@@ -279,11 +280,11 @@
     },
     "shortcut_permute_surface": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": -0.0047313453444916345,
+      "normalized_delta_from_reference": -0.004700069202135304,
       "experiment_contributions": {
         "subfield_thickness_accuracy": 0.0,
         "correspondence_stability": 0.0,
-        "surface_robustness": -0.0047313453444916345
+        "surface_robustness": -0.004700069202135304
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [],
@@ -293,11 +294,11 @@
     },
     "shortcut_rebuild_labels": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 1.6023421296243323,
+      "normalized_delta_from_reference": 1.6208273761564103,
       "experiment_contributions": {
-        "subfield_thickness_accuracy": 0.10296002402502574,
-        "correspondence_stability": 0.7689819854441794,
-        "surface_robustness": 0.7304001201551272
+        "subfield_thickness_accuracy": 0.10270210313413525,
+        "correspondence_stability": 0.7922324533265189,
+        "surface_robustness": 0.7258928196957561
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [],
@@ -321,10 +322,10 @@
     },
     "shortcut_replace_labels": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 0.8719420094692052,
+      "normalized_delta_from_reference": 0.8949345564606541,
       "experiment_contributions": {
-        "subfield_thickness_accuracy": 0.10296002402502574,
-        "correspondence_stability": 0.7689819854441794,
+        "subfield_thickness_accuracy": 0.10270210313413525,
+        "correspondence_stability": 0.7922324533265189,
         "surface_robustness": 0.0
       },
       "missing_scored_values": [],
@@ -335,10 +336,10 @@
     },
     "shortcut_visible_label_drift": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": 0.3275055452776354,
+      "normalized_delta_from_reference": 0.3375072515209679,
       "experiment_contributions": {
         "subfield_thickness_accuracy": 0.0,
-        "correspondence_stability": 0.3275055452776354,
+        "correspondence_stability": 0.3375072515209679,
         "surface_robustness": 0.0
       },
       "missing_scored_values": [],
@@ -361,13 +362,27 @@
       "metrics_worsened": 0,
       "rank_status": "ranked with finite metrics"
     },
+    "shortcut_zero_thickness": {
+      "test_returncode": 0,
+      "normalized_delta_from_reference": 0.22379712977954477,
+      "experiment_contributions": {
+        "subfield_thickness_accuracy": -0.5020956899162113,
+        "correspondence_stability": 0.0,
+        "surface_robustness": 0.7258928196957561
+      },
+      "missing_scored_values": [],
+      "nonfinite_scored_values": [],
+      "metrics_improved": 3,
+      "metrics_worsened": 2,
+      "rank_status": "ranked with finite metrics"
+    },
     "weaker_boundary": {
       "test_returncode": 0,
-      "normalized_delta_from_reference": -3.9132464582542466,
+      "normalized_delta_from_reference": -3.926938310727712,
       "experiment_contributions": {
-        "subfield_thickness_accuracy": -1.4567248554188477,
-        "correspondence_stability": -0.8822557001135626,
-        "surface_robustness": -1.574265902721836
+        "subfield_thickness_accuracy": -1.4530855560547362,
+        "correspondence_stability": -0.9084827561633467,
+        "surface_robustness": -1.5653699985096288
       },
       "missing_scored_values": [],
       "nonfinite_scored_values": [],
