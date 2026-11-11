@@ -1,7 +1,8 @@
-# Split evaluation complete.
 # Once you set action to 'submit' or 'done', STOP immediately.
-# Do NOT sleep, poll, or wait. The system reads this file
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: done
+action: pending
+gpus: 0
+test: false
 milestone: core_claim
-notes: "Verified core_claim: job 922c7a3d-b2d passed validation and HippMetric beats the boundary baseline on thickness, correspondence, and surface robustness in the packaged procedural gym."
+notes: ""
