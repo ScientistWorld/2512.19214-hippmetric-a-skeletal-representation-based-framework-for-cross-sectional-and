@@ -1,0 +1,6 @@
+runtime/
+**/test.log
+**/train.log
+**/method.log
+**/__pycache__/
+**/*.npz
