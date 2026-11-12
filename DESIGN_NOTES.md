@@ -1,30 +1,10 @@
 # Train/Test Evaluation Design Notes
 
-## Checked
+Current design (hardening iteration; see `HARDENING.md` for the audit).
 
-- Read `scripts/evaluate_train.sh` and `scripts/evaluate_test.sh` side by side. The train wrapper calls `eval/train/evaluate.py` and writes `scoring/scores_train.json`; the test wrapper calls `eval/test/evaluate.py` and writes `scoring/scores_test.json`.
-- Checked for hardcoded method defaults. Both split evaluators discover `checkpoints/*_outputs.npz` artifacts instead of naming a fixed method.
-- Checked that split evaluators read method-produced artifacts and do not import from `method/`.
-- Grepped the split evaluators, wrappers, and `scoring/reference.json` for train/test cross-imports and paper-agreement metric names.
-- Confirmed no `scoring/scores_train.json` or `scoring/scores_test.json` stubs are present.
-- Ran `bash -n` on both train/test wrapper scripts.
-
-## Changed
-
-- Strengthened the split from subject-only holdout to subject plus anatomical-feature holdout:
-  - `eval/train/evaluate.py` scores the visible subject half and visible subsets of thickness positions, surface positions, cross-sectional landmarks, and longitudinal landmarks.
-  - `eval/test/evaluate.py` scores the held-out subject half and complementary hidden anatomical feature subsets through the same method-output contract.
-- Kept all scoring artifact requirements method-agnostic: both split evaluators still consume full-dataset `checkpoints/*_outputs.npz` files and do not call method code or regenerate method outputs.
-- Preserved the first-pass `_slice` markers and p95 tail metrics.
-- Updated `scoring/reference.json` metric descriptions to clarify that split metrics are computed on the scored anatomical positions.
-
-## Design Rationale
-
-The first-pass subject-level 50/50 split was useful but still vulnerable to a method that optimizes only the visible anatomical positions while preserving plausible outputs elsewhere. The new feature-level holdout adds an orthogonal shortcut check: a genuine HippMetric-style method should generalize across subjects and anatomical locations, while a method tuned narrowly to the visible thickness coordinates, landmarks, or surface vertices should show a train/test gap. This still avoids rerunning inference because both slices rescore the same full output artifact.
-
-## Runtime Concerns For Next Iteration
-
-- The split evaluators were not executed in this edit-only pass. The runner should verify that all added feature-index selections are nonempty and that all metrics are finite for each method artifact.
-- The surface feature holdout assumes `recon_vertices` follows the benchmark's ordered surface-position contract, as produced by the packaged method and baseline. A future method that emits unordered surface point clouds may need to reorder outputs before evaluation.
-- `surface_q_mm` and `surface_HD_mm` remain maximum-style diagnostics and may be highly redundant. `surface_p95_mm` provides the less brittle tail metric.
-- Test evaluation optionally reads `scoring/scores_train.json` to restrict test scoring to methods seen during train scoring. If test runs without train scores, it falls back to discovered output artifacts, which is intentional.
+- **Interface.** Every `scripts/predict_<name>.sh INPUT_NPZ OUTPUT_NPZ` on disk is a method. Inputs are binary segmentations (format in `data/hippo_io.py`); outputs are, per scan and per template skeletal point (61 x 9 grid), the skeletal point and the superior/inferior spoke endpoints. Nothing else a method writes is read.
+- **Train.** `eval/train/evaluate.py` runs all predictors on `data/hippo_train.npz` (32 subjects x 4 timepoints) and scores against `data/hippo_train_labels.npz`.
+- **Test.** `eval/test/evaluate.py` generates the hidden cohort (32 subjects x 4 timepoints, fixed seed) with `eval/test/hidden_cohort.py` at evaluation time, writes only the segmentations to a temporary file, runs all predictors on it, and scores in memory. The public template used for the failure gate is regenerated inside `eval/test/`, not read from editable data files. `eval/train` and `eval/test` share no code.
+- **Recomputed metrics.** Thickness (sum of spoke lengths), thickness change, subfield means, correspondence (endpoint vs true boundary point of the same template index), implied-surface distances to the clean true boundary, and validity (endpoint within 1 mm of the true boundary, no endpoint-order reversal) are all computed from the raw coordinates.
+- **Failure rule.** Crash, timeout, missing/malformed/non-finite/absurd output, validity < 0.5, or no better than an evaluator-side trivial reference on thickness, thickness change, cross-sectional or longitudinal correspondence, or surface RMS => worst value in every scored metric of every experiment.
+- **Data provenance.** `data/hippo_template.npz`, `data/hippo_train*.npz` are exported by `python eval/test/hidden_cohort.py --export-public data` (development seed 20251219); the test seed lives only in `eval/test/evaluate.py`.
