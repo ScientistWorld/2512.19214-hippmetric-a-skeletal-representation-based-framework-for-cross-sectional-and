@@ -38,6 +38,7 @@ EXPERIMENTS = {
         "thickness_mae_mm",
         "thickness_p95_abs_error_mm",
         "subfield_mean_thickness_error_mm",
+        "longitudinal_thickness_change_error_mm",
         "valid_spoke_fraction",
     ),
     "correspondence_stability": (
@@ -52,6 +53,7 @@ WORST = {
     "thickness_mae_mm": 5.0,
     "thickness_p95_abs_error_mm": 10.0,
     "subfield_mean_thickness_error_mm": 5.0,
+    "longitudinal_thickness_change_error_mm": 5.0,
     "valid_spoke_fraction": 0.0,
     "cross_sectional_correspondence_error_mm": 20.0,
     "cross_sectional_p95_correspondence_error_mm": 30.0,
@@ -63,6 +65,7 @@ WORST = {
 }
 GATED = {
     "thickness_mae_mm": "trivial_thickness_mae_mm",
+    "longitudinal_thickness_change_error_mm": "trivial_thickness_change_error_mm",
     "cross_sectional_correspondence_error_mm": "trivial_cross_sectional_error_mm",
     "longitudinal_correspondence_error_mm": "trivial_longitudinal_error_mm",
     "surface_Q_mm": "trivial_surface_Q_mm",
@@ -219,6 +222,17 @@ def compute_metrics(pred: dict, labels: dict, subjects: np.ndarray, subfield_id:
     cross_err = np.concatenate([e_sup[base], e_inf[base]], axis=1)
     long_err = np.concatenate([e_sup[fol][region[fol]], e_inf[fol][region[fol]]])
     n = len(subjects)
+    # Longitudinal thickness change (follow-up minus same-subject baseline) inside the atrophic region.
+    baseline_row = {int(sid): i for i, (sid, tp) in enumerate(subjects) if tp == 0}
+    change_err, change_scan = [], np.full(n, np.nan)
+    for i in np.where(fol)[0]:
+        b = baseline_row.get(int(subjects[i, 0]))
+        if b is None or not region[i].any():
+            continue
+        err = np.abs((thick[i] - thick[b]) - (gt_t[i] - gt_t[b]))[region[i]]
+        change_err.append(err)
+        change_scan[i] = err.mean()
+    change_err = np.concatenate(change_err) if change_err else np.array([np.nan])
     q, hd, p95, valid, long_scan = np.zeros(n), np.zeros(n), np.zeros(n), np.zeros(n), np.full(n, np.nan)
     for i in range(n):
         gt_surface = labels["surface_gt"][i].astype(float)
@@ -239,6 +253,7 @@ def compute_metrics(pred: dict, labels: dict, subjects: np.ndarray, subfield_id:
         "thickness_mae_mm": float(abs_err.mean()),
         "thickness_p95_abs_error_mm": float(np.quantile(abs_err, 0.95)),
         "subfield_mean_thickness_error_mm": float(sf_err.mean()),
+        "longitudinal_thickness_change_error_mm": float(change_err.mean()),
         "valid_spoke_fraction": float(valid.mean()),
         "cross_sectional_correspondence_error_mm": float(cross_err.mean()),
         "cross_sectional_p95_correspondence_error_mm": float(np.quantile(cross_err, 0.95)),
@@ -247,12 +262,14 @@ def compute_metrics(pred: dict, labels: dict, subjects: np.ndarray, subfield_id:
         "surface_Q_mm": float(q.mean()),
         "surface_HD_mm": float(hd.mean()),
         "surface_p95_mm": float(p95.mean()),
+        "thickness_bias_mm": float((thick - gt_t).mean()),  # diagnostic, not scored
     }
     per_subject = {}
     for sid in np.unique(subjects[:, 0]):
         rows = subjects[:, 0] == sid
         per_subject[str(int(sid))] = {
             "thickness_mae_mm": float(abs_err[rows].mean()),
+            "longitudinal_thickness_change_error_mm": float(np.nanmean(change_scan[rows & fol])) if np.any(np.isfinite(change_scan[rows & fol])) else None,
             "cross_sectional_correspondence_error_mm": float(cross_err[rows[base]].mean()) if np.any(rows & base) else None,
             "longitudinal_correspondence_error_mm": float(np.nanmean(long_scan[rows & fol])) if np.any(np.isfinite(long_scan[rows & fol])) else None,
             "surface_Q_mm": float(q[rows].mean()),
@@ -268,6 +285,7 @@ def failure_thresholds(template, centroids, labels, subjects, subfield_id) -> di
     constant_mae = float(np.abs(gt_t - gt_t.mean(axis=1, keepdims=True)).mean())
     return {
         "trivial_thickness_mae_mm": constant_mae,
+        "trivial_thickness_change_error_mm": trivial["longitudinal_thickness_change_error_mm"],
         "trivial_cross_sectional_error_mm": trivial["cross_sectional_correspondence_error_mm"],
         "trivial_longitudinal_error_mm": trivial["longitudinal_correspondence_error_mm"],
         "trivial_surface_Q_mm": trivial["surface_Q_mm"],

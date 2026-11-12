@@ -83,6 +83,19 @@ def main() -> None:
             tree = cKDTree(v)
             pred["sup_end"][i] = v[tree.query(pred["sup_end"][i])[1]]
             pred["inf_end"][i] = v[tree.query(pred["inf_end"][i])[1]]
+    elif mode == "template_thickness":
+        # Keep the reference correspondence but report the template's spoke lengths,
+        # scaled by the scan's size, instead of the measured lengths.
+        scans = hippo_io.load_scans(args.input)
+        tpl = hippo_io.load_template(ROOT / "data/hippo_template.npz")
+        tvol = tpl["mask"].sum() * tpl["spacing"] ** 3
+        for i, (m, s) in enumerate(zip(scans["masks"], scans["spacing"])):
+            k = float((m.sum() * float(s) ** 3 / tvol) ** (1.0 / 3.0))
+            sk = pred["skeleton"][i]
+            for key, length in (("sup_end", tpl["sup_len"]), ("inf_end", tpl["inf_len"])):
+                d = pred[key][i] - sk
+                d /= np.maximum(np.linalg.norm(d, axis=1, keepdims=True), 1e-12)
+                pred[key][i] = sk + d * (k * length)[:, None]
     elif mode == "label_drift":
         # The old generator moved longitudinal labels by 0.84 mm per timepoint along the
         # lamellar width direction without changing the anatomy; replay that rule.

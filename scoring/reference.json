@@ -2,19 +2,46 @@
   "_note": "Paper: HippMetric (arXiv 2512.19214). The gym scores a procedural, segmentation-based substitute for the ADNI/GHABS cohorts (no clinical data or manual annotations are redistributable). Entries under method keys without a leading underscore are paper numbers on a definition comparable to the gym's metric; entries whose definition or scale differs are kept under '_paper_*' keys and in '_paper_reported' for reference only and are not targets.",
   "_paper_reported": {
     "thickness_accuracy": "Subfield mean thickness error vs manual measurement (10 ADNI subjects): largest single-skeleton error tail 0.5 mm, CA3/CA4/subiculum < 0.25 mm, composite subfields <= 0.20 mm (Section 5.1).",
-    "cross_sectional_correspondence_mm": {"hippmetric_max_mean": 1.66, "cm_rep_max": 4.64, "ds_rep_max": 3.41, "spharm_pdm_max": 9.97},
-    "longitudinal_correspondence_mm": {"hippmetric_mean": 1.68, "hippmetric_max": 2.81, "cm_rep_mean": 10.57, "ds_rep_mean": 4.65, "spharm_pdm_mean": 3.56},
+    "cross_sectional_correspondence_mm": {
+      "hippmetric_max_mean": 1.66,
+      "cm_rep_max": 4.64,
+      "ds_rep_max": 3.41,
+      "spharm_pdm_max": 9.97
+    },
+    "longitudinal_correspondence_mm": {
+      "hippmetric_mean": 1.68,
+      "hippmetric_max": 2.81,
+      "cm_rep_mean": 10.57,
+      "ds_rep_mean": 4.65,
+      "spharm_pdm_mean": 3.56
+    },
     "surface_CI_table2": {
-      "hippmetric": {"Q": 0.003, "q": 0.759, "HD": 1.809},
-      "cm_rep": {"Q": 0.069, "q": 8.686, "HD": 25.035},
-      "ds_rep": {"Q": 0.119, "q": 7.203, "HD": 9.396},
-      "spharm_pdm": {"Q": 0.014, "q": 1.076, "HD": 17.641}
+      "hippmetric": {
+        "Q": 0.003,
+        "q": 0.759,
+        "HD": 1.809
+      },
+      "cm_rep": {
+        "Q": 0.069,
+        "q": 8.686,
+        "HD": 25.035
+      },
+      "ds_rep": {
+        "Q": 0.119,
+        "q": 7.203,
+        "HD": 9.396
+      },
+      "spharm_pdm": {
+        "Q": 0.014,
+        "q": 1.076,
+        "HD": 17.641
+      }
     },
     "surface_Q_definition_note": "The paper's Q is sqrt(sum of squared paired distances)/n, which shrinks with vertex count; the gym's surface_Q_mm is an RMS of unpaired bidirectional distances, so Q values are not comparable."
   },
   "experiments": {
     "subfield_thickness_accuracy": {
-      "description": "Local thickness of the hippocampal sheet at every template skeletal point, recomputed from the submitted skeletal points and superior/inferior spoke endpoints, against procedural ground truth on baseline and atrophied follow-up scans. Validity guards against thickness obtained from geometry that does not reach the true boundary or folds over.",
+      "description": "Local thickness of the hippocampal sheet at every template skeletal point, recomputed from the submitted skeletal points and superior/inferior spoke endpoints, against procedural ground truth on baseline (including disease-thinned subjects) and atrophied follow-up scans, plus the accuracy of measured longitudinal thinning. Validity guards against thickness obtained from geometry that does not reach the true boundary or folds over.",
       "weight": 0.25,
       "primary_metric": "thickness_mae_mm",
       "metrics": {
@@ -33,6 +60,11 @@
           "coefficient": -0.5,
           "description": "Absolute difference between predicted and true mean thickness within each subfield (the paper's D statistic), averaged over subfields and scans."
         },
+        "longitudinal_thickness_change_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Mean absolute error of the measured thickness change (follow-up minus the same subject's baseline) at skeletal points inside the eroded region. Doing worse than predicting no change fails the run."
+        },
         "valid_spoke_fraction": {
           "higher_is_better": true,
           "coefficient": 0.4,
@@ -40,8 +72,13 @@
         }
       },
       "results": {
-        "boundary_baseline": {"type": "baseline"},
-        "hippmetric": {"type": "proposed", "thickness_mae_mm": 0.5}
+        "boundary_baseline": {
+          "type": "baseline"
+        },
+        "hippmetric": {
+          "type": "proposed",
+          "thickness_mae_mm": 0.5
+        }
       }
     },
     "correspondence_stability": {
@@ -71,11 +108,29 @@
         }
       },
       "results": {
-        "boundary_baseline": {"type": "baseline"},
-        "cm_rep": {"type": "baseline", "cross_sectional_correspondence_error_mm": 4.64, "longitudinal_correspondence_error_mm": 10.57},
-        "ds_rep": {"type": "baseline", "cross_sectional_correspondence_error_mm": 3.41, "longitudinal_correspondence_error_mm": 4.65},
-        "spharm_pdm": {"type": "baseline", "cross_sectional_correspondence_error_mm": 9.97, "longitudinal_correspondence_error_mm": 3.56},
-        "hippmetric": {"type": "proposed", "cross_sectional_correspondence_error_mm": 1.66, "longitudinal_correspondence_error_mm": 1.68}
+        "boundary_baseline": {
+          "type": "baseline"
+        },
+        "cm_rep": {
+          "type": "baseline",
+          "cross_sectional_correspondence_error_mm": 4.64,
+          "longitudinal_correspondence_error_mm": 10.57
+        },
+        "ds_rep": {
+          "type": "baseline",
+          "cross_sectional_correspondence_error_mm": 3.41,
+          "longitudinal_correspondence_error_mm": 4.65
+        },
+        "spharm_pdm": {
+          "type": "baseline",
+          "cross_sectional_correspondence_error_mm": 9.97,
+          "longitudinal_correspondence_error_mm": 3.56
+        },
+        "hippmetric": {
+          "type": "proposed",
+          "cross_sectional_correspondence_error_mm": 1.66,
+          "longitudinal_correspondence_error_mm": 1.68
+        }
       }
     },
     "surface_robustness": {
@@ -100,12 +155,33 @@
         }
       },
       "results": {
-        "boundary_baseline": {"type": "baseline"},
-        "hippmetric": {"type": "proposed", "surface_HD_mm": 1.809},
-        "_paper_hippmetric": {"type": "proposed", "surface_Q_mm": 0.003, "surface_HD_mm": 1.809},
-        "_paper_cm_rep": {"type": "baseline", "surface_Q_mm": 0.069, "surface_HD_mm": 25.035},
-        "_paper_ds_rep": {"type": "baseline", "surface_Q_mm": 0.119, "surface_HD_mm": 9.396},
-        "_paper_spharm_pdm": {"type": "baseline", "surface_Q_mm": 0.014, "surface_HD_mm": 17.641}
+        "boundary_baseline": {
+          "type": "baseline"
+        },
+        "hippmetric": {
+          "type": "proposed",
+          "surface_HD_mm": 1.809
+        },
+        "_paper_hippmetric": {
+          "type": "proposed",
+          "surface_Q_mm": 0.003,
+          "surface_HD_mm": 1.809
+        },
+        "_paper_cm_rep": {
+          "type": "baseline",
+          "surface_Q_mm": 0.069,
+          "surface_HD_mm": 25.035
+        },
+        "_paper_ds_rep": {
+          "type": "baseline",
+          "surface_Q_mm": 0.119,
+          "surface_HD_mm": 9.396
+        },
+        "_paper_spharm_pdm": {
+          "type": "baseline",
+          "surface_Q_mm": 0.014,
+          "surface_HD_mm": 17.641
+        }
       }
     }
   }

@@ -26,7 +26,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
-from scipy import sparse
+from scipy import ndimage, sparse
 from scipy.sparse.csgraph import connected_components
 
 
@@ -140,8 +140,31 @@ def taubin_smooth(vertices: np.ndarray, faces: np.ndarray, iterations: int = 20,
     return x
 
 
-def surface_from_mask(mask: np.ndarray, origin: np.ndarray, spacing: float, smooth_iterations: int = 20):
+def refine_mask(mask: np.ndarray, origin: np.ndarray, spacing: float, closing_iterations: int = 2):
+    """Shrink-wrap style mask clean-up: closing, hole filling, largest 6-connected component.
+
+    Returns the cleaned (padded) mask and its origin.
+    """
+    pad = closing_iterations + 1
+    m = np.pad(mask.astype(bool), pad)
+    origin = np.asarray(origin, dtype=float) - pad * float(spacing)
+    cross = ndimage.generate_binary_structure(3, 1)
+    if closing_iterations > 0:
+        m = ndimage.binary_closing(m, structure=cross, iterations=closing_iterations)
+    m = ndimage.binary_fill_holes(m)
+    labels, n = ndimage.label(m, structure=cross)
+    if n > 1:
+        sizes = np.bincount(labels.ravel())
+        sizes[0] = 0
+        m = labels == int(np.argmax(sizes))
+    return m, origin
+
+
+def surface_from_mask(
+    mask: np.ndarray, origin: np.ndarray, spacing: float, smooth_iterations: int = 20, closing_iterations: int = 2
+):
     """Segmentation -> cleaned, smoothed, outward-oriented triangle surface (V, F, vertex normals)."""
+    mask, origin = refine_mask(mask, origin, spacing, closing_iterations)
     v, f = mask_to_mesh(mask, origin, spacing)
     v, f = largest_component(v, f)
     if smooth_iterations > 0 and len(f):

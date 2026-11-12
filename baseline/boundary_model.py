@@ -44,11 +44,34 @@ def _umeyama(src, dst):
     return scale, rot, mu_d - scale * rot @ mu_s
 
 
+def _turn(axis, angle):
+    c, s = np.cos(angle), np.sin(angle)
+    i, j = [a for a in range(3) if a != axis]
+    rot = np.eye(3)
+    rot[i, i], rot[i, j], rot[j, i], rot[j, j] = c, -s, s, c
+    return rot
+
+
+_STARTS = [np.eye(3)] + [_turn(a, sgn * 0.35) for a in range(3) for sgn in (-1.0, 1.0)]
+
+
 def _icp(src, src_n, dst, dst_n, iters=40):
+    """Similarity ICP from several initial rotations; keeps the best-fitting start."""
     mu_s, mu_d = src.mean(axis=0), dst.mean(axis=0)
     s = float(np.sqrt(np.mean(np.sum((dst - mu_d) ** 2, axis=1)) / np.mean(np.sum((src - mu_s) ** 2, axis=1))))
-    s, rot, t = s, np.eye(3), mu_d - s * mu_s
     tree = cKDTree(dst)
+    best, best_cost = None, np.inf
+    for rot0 in _STARTS:
+        tf = _icp_run(src, src_n, dst, dst_n, tree, (s, rot0, mu_d - s * rot0 @ mu_s), 12)
+        x = tf[0] * src @ tf[1].T + tf[2]
+        cost = 0.5 * (tree.query(x)[0].mean() + cKDTree(x).query(dst)[0].mean())
+        if cost < best_cost:
+            best, best_cost = tf, cost
+    return _icp_run(src, src_n, dst, dst_n, tree, best, iters)
+
+
+def _icp_run(src, src_n, dst, dst_n, tree, tf, iters):
+    s, rot, t = tf
     for _ in range(iters):
         x = s * src @ rot.T + t
         xn = src_n @ rot.T

@@ -2,16 +2,16 @@
 
 ## Research Problem
 
-This benchmark concerns hippocampal substructure morphometry from 3D shape data, especially stable correspondence across subjects and longitudinal atrophy.
+Anatomically consistent local morphometry of the hippocampus from noisy 3D segmentations: placing a fixed lamellar coordinate system into each subject and each follow-up scan, and measuring local thickness and its change at corresponding locations.
 
-## Core Contribution
+## Core Contribution Sought
 
-The research goal is anatomically consistent local morphometry from hippocampal shape data. Improvements should target geometric modeling, correspondence, local thickness estimation, or robustness of hippocampal shape measurements.
+Better correspondence across subjects and over time, more accurate local thickness and thickness change, and an implied boundary that follows the true anatomy rather than the segmentation noise.
 
 ## Approach Scope
 
-In-scope work includes better shape parameterizations, more robust surface matching, improved local measurement validity, and stronger handling of longitudinal shape change. Methods may change the geometric optimization strategy as long as they still solve the same hippocampal morphometry and correspondence problem.
+In scope: registration and deformation models, use of interior (skeletal) versus boundary information, surface reconstruction and denoising, spoke/measurement optimisation, longitudinal modelling, statistical shape priors learned from the development cohort.
 
 ## Out of Bounds
 
-Do not switch to a task that bypasses morphometry, such as directly predicting the procedural labels from sample indices. Do not use external clinical labels, larger generated datasets, or leaked ground-truth arrays to improve benchmark scores. Do not replace the evaluation with a method-specific scorer.
+Reading or reconstructing the hidden evaluation cohort or evaluator code; reporting thickness or positions that ignore the subject's anatomy; changing the evaluator.

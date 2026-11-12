@@ -52,7 +52,7 @@ def paired(diag: dict, method: str) -> dict:
     if method not in diag or REFERENCE not in diag:
         return res
     ref, alt = diag[REFERENCE], diag[method]
-    for met in ("thickness_mae_mm", "cross_sectional_correspondence_error_mm", "longitudinal_correspondence_error_mm", "surface_Q_mm", "surface_HD_mm"):
+    for met in ("thickness_mae_mm", "longitudinal_thickness_change_error_mm", "cross_sectional_correspondence_error_mm", "longitudinal_correspondence_error_mm", "surface_Q_mm", "surface_HD_mm"):
         diffs = [alt[s][met] - ref[s][met] for s in ref if s in alt and ref[s][met] is not None and alt[s][met] is not None]
         if len(diffs) > 1:
             mean = statistics.fmean(diffs)

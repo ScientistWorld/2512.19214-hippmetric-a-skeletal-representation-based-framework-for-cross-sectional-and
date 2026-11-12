@@ -89,14 +89,49 @@ def apply(tf, x: np.ndarray) -> np.ndarray:
     return s * x @ rot.T + t
 
 
-def similarity_icp(src, src_n, dst, dst_n, with_scale=True, iters=40, trim=0.9):
-    """Symmetric, normal-compatible ICP; returns (s, R, t) with dst ~ s R src + t."""
+def _axis_rotation(axis: int, angle: float) -> np.ndarray:
+    c, s = np.cos(angle), np.sin(angle)
+    i, j = [a for a in range(3) if a != axis]
+    rot = np.eye(3)
+    rot[i, i], rot[i, j], rot[j, i], rot[j, j] = c, -s, s, c
+    return rot
+
+
+# Identity plus +-20 degree turns about each axis: starts for the rigid alignment.
+INIT_ROTATIONS = [np.eye(3)] + [_axis_rotation(a, sgn * 0.35) for a in range(3) for sgn in (-1.0, 1.0)]
+
+
+def _alignment_cost(tf, src, src_n, dst, dst_n, dtree):
+    x = apply(tf, src)
+    d1, j = dtree.query(x)
+    d2, _ = cKDTree(x).query(dst)
+    agree = np.sum((src_n @ tf[1].T) * dst_n[j], axis=1)
+    return 0.5 * (d1.mean() + d2.mean()) + np.mean(1.0 - np.clip(agree, -1.0, 1.0))
+
+
+def similarity_icp(src, src_n, dst, dst_n, with_scale=True, iters=40, trim=0.9, multistart=True):
+    """Rigid/similarity alignment, dst ~ s R src + t, from several initial rotations.
+
+    Each start is refined briefly; the start with the lowest symmetric surface
+    distance (plus normal disagreement) is then refined to convergence.
+    """
     mu_s, mu_d = src.mean(axis=0), dst.mean(axis=0)
     s = 1.0
     if with_scale:
         s = float(np.sqrt(np.mean(np.sum((dst - mu_d) ** 2, axis=1)) / np.mean(np.sum((src - mu_s) ** 2, axis=1))))
-    tf = (s, np.eye(3), mu_d - s * mu_s)
     dtree = cKDTree(dst)
+    if not multistart:
+        return _icp_refine((s, np.eye(3), mu_d - s * mu_s), src, src_n, dst, dst_n, dtree, with_scale, iters, trim)
+    best, best_cost = None, np.inf
+    for rot0 in INIT_ROTATIONS:
+        tf = _icp_refine((s, rot0, mu_d - s * rot0 @ mu_s), src, src_n, dst, dst_n, dtree, with_scale, 12, trim)
+        cost = _alignment_cost(tf, src, src_n, dst, dst_n, dtree)
+        if cost < best_cost:
+            best, best_cost = tf, cost
+    return _icp_refine(best, src, src_n, dst, dst_n, dtree, with_scale, iters, trim)
+
+
+def _icp_refine(tf, src, src_n, dst, dst_n, dtree, with_scale, iters, trim):
     for _ in range(iters):
         x = apply(tf, src)
         xn = src_n @ tf[1].T
@@ -418,7 +453,7 @@ def process_subject(rows):
             out[row] = _emit(*_fit_scan(vf, ff, nf, cfg), cfg)
             continue
         # Follow-up -> baseline rigid registration; reuse baseline spokes, re-optimise lengths.
-        tf = similarity_icp(vb, nb, vf, nf, with_scale=False, trim=0.8)
+        tf = similarity_icp(vb, nb, vf, nf, with_scale=False, trim=0.8, multistart=False)
         pf = apply(tf, p)
         dsf, dif = ds @ tf[1].T, di @ tf[1].T
         mesh = MeshQuery(vf, ff, nf)

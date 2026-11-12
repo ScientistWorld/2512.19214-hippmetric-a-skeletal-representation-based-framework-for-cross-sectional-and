@@ -1,27 +1,22 @@
 # Evaluation Targets
 
-## Primary: subfield_thickness_accuracy
+All experiments are scored by `bash scripts/evaluate_test.sh` (hidden cohort) and `bash scripts/evaluate_train.sh` (development cohort) from predictor outputs; see `briefing/evaluation.md` for the interface.
 
-Tests whether local hippocampal subfield thickness can be estimated accurately from 3D surfaces.
+## Primary: correspondence_stability (weight 0.50)
 
-- **Metric**: `thickness_mae_mm` (lower is better)
-- **Constraint**: `valid_spoke_fraction` (higher is better)
-- **How to run**: `bash scripts/evaluate.sh` after producing outputs in `checkpoints/`.
+- **Metrics**: `longitudinal_correspondence_error_mm` (primary), `longitudinal_p95_correspondence_error_mm`, `cross_sectional_correspondence_error_mm`, `cross_sectional_p95_correspondence_error_mm` (lower is better)
+- **Paper direction**: the skeletal method beats boundary-driven shape models cross-sectionally and longitudinally (paper: 1.66 / 1.68 mm vs 3.4-10.6 mm).
 
-## Primary: correspondence_stability
+## Primary: subfield_thickness_accuracy (weight 0.25)
 
-Tests whether anatomical landmarks remain consistently localized across baseline subjects and longitudinal atrophy-like follow-ups.
+- **Metrics**: `thickness_mae_mm` (primary), `thickness_p95_abs_error_mm`, `subfield_mean_thickness_error_mm`, `longitudinal_thickness_change_error_mm` (lower is better)
+- **Constraint**: `valid_spoke_fraction` (higher is better; below 0.5 fails the run)
 
-- **Metric**: `longitudinal_correspondence_error_mm` (lower is better)
-- **Secondary metric**: `cross_sectional_correspondence_error_mm` (lower is better)
-- **Constraint**: `valid_spoke_fraction` (higher is better)
-- **How to run**: `bash scripts/evaluate.sh` after producing outputs in `checkpoints/`.
+## Constraint: surface_robustness (weight 0.25)
 
-## Constraint: surface_robustness
+- **Metrics**: `surface_HD_mm` (primary), `surface_Q_mm`, `surface_p95_mm` (lower is better)
+- **Purpose**: the implied boundary must stay on the true anatomy for baseline and atrophied scans.
 
-Tests whether improved correspondence is achieved while maintaining geometric agreement with the observed surface.
+## Failure constraint (all experiments)
 
-- **Metric**: `surface_HD_mm` (lower is better)
-- **Secondary metrics**: `surface_Q_mm`, `surface_q_mm` (lower is better)
-- **Constraint**: `valid_spoke_fraction` (higher is better)
-- **How to run**: `bash scripts/evaluate.sh` after producing outputs in `checkpoints/`.
+A run that crashes, writes invalid output, has validity below 0.5, or is no better than the evaluator's trivial references on thickness, thickness change, correspondence or surface RMS receives the worst value in every metric.

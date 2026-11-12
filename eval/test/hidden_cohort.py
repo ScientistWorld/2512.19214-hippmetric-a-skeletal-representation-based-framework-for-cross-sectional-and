@@ -5,7 +5,8 @@ Each subject is a curved, cupped, twisted lamellar sheet (the skeletal surface)
 with superior/inferior half-thickness fields. Subjects differ from the public
 template by nonlinear shape changes (arc geometry, width profile, head position,
 cupping, thickness modes, head digitations and a random smooth 3D warp), by
-global scale and by scanner pose. Follow-up scans erode a subject-specific
+global scale and by scanner pose; about half carry regional disease-like thinning
+at baseline. Follow-up scans erode a subject-specific
 anterior region by shortening the superior/inferior extent along the true
 skeletal normals; the skeletal sheet itself is unchanged, so anatomical point
 identity across time is well defined.
@@ -62,7 +63,8 @@ def mean_params() -> dict:
         "digits": np.zeros((0, 3)),
         "rbf_c": np.zeros((0, 3)),
         "rbf_d": np.zeros((0, 3)),
-        "rbf_w": 6.5,
+        "rbf_w": 6.0,
+        "disease": np.zeros((0, 5)),
     }
 
 
@@ -125,14 +127,19 @@ def atrophy_weight(u: np.ndarray, v: np.ndarray, a: dict) -> np.ndarray:
 
 def half_thickness(u: np.ndarray, v: np.ndarray, p: dict, atrophy: dict | None = None, t: int = 0):
     uc, vc = np.clip(u, 0.0, 1.0), np.clip(v, -1.0, 1.0)
-    t0 = 3.0 + 2.2 * np.exp(-(((uc - 0.15) / 0.16) ** 2)) - 0.8 * uc
+    t0 = 3.2 + 2.2 * np.exp(-(((uc - 0.15) / 0.16) ** 2)) - 0.6 * uc
     thick = p["ts"] * t0 * (1.0 - 0.35 * vc**2) * (1.0 + 0.08 * np.sin(3.0 * np.pi * vc + 2.0 * np.pi * uc))
     for amp, fu, fv, ph in p["modes"]:
         thick = thick * (1.0 + amp * np.sin(fu * np.pi * uc + fv * np.pi * vc + ph))
+    # Disease-related (A+/CI-like) regional thinning present already at baseline.
+    for depth, du, dv, su, sv in p["disease"]:
+        thick = thick * (1.0 - depth * np.exp(-(((uc - du) / su) ** 2) - (((vc - dv) / sv) ** 2)))
     hs = thick * (0.5 + 0.06 * vc)
     hi = thick * (0.5 - 0.06 * vc)
     for du, dv, amp in p["digits"]:
         hs = hs + amp * np.exp(-(((uc - du) / 0.035) ** 2) - (((vc - dv) / 0.22) ** 2))
+    hs = np.maximum(H_MIN, hs)
+    hi = np.maximum(H_MIN, hi)
     if atrophy is not None and t > 0:
         g = atrophy_weight(u, v, atrophy)
         loss = atrophy["sev"] * (t / 3.0) * g * thick
@@ -148,23 +155,23 @@ def half_thickness(u: np.ndarray, v: np.ndarray, p: dict, atrophy: dict | None =
 def sample_params(rng: np.random.Generator) -> dict:
     p = mean_params()
     p.update(
-        R=18.0 * (1.0 + 0.07 * _z(rng)),
+        R=18.0 * (1.0 + 0.10 * _z(rng)),
         span=0.9 * (1.0 + 0.06 * _z(rng)),
-        zrise=4.0 * (1.0 + 0.3 * _z(rng)),
-        xbow=0.6 * (1.0 + 0.25 * _z(rng)),
-        twist=0.35 + 0.15 * _z(rng),
-        ws=1.0 + 0.10 * _z(rng),
-        m1=0.08 * _z(rng),
-        m2=0.06 * _z(rng),
-        head_u=0.12 + 0.03 * _z(rng),
-        cs=1.0 + 0.25 * _z(rng),
-        ts=1.0 + 0.08 * _z(rng),
-        scale=1.0 + 0.06 * _z(rng),
+        zrise=4.0 * (1.0 + 0.4 * _z(rng)),
+        xbow=0.6 * (1.0 + 0.35 * _z(rng)),
+        twist=0.35 + 0.18 * _z(rng),
+        ws=1.0 + 0.14 * _z(rng),
+        m1=0.10 * _z(rng),
+        m2=0.08 * _z(rng),
+        head_u=0.12 + 0.04 * _z(rng),
+        cs=1.0 + 0.3 * _z(rng),
+        ts=max(0.75, 1.0 + 0.15 * _z(rng)),
+        scale=1.0 + 0.07 * _z(rng),
     )
     n_modes = 4
     p["modes"] = np.column_stack(
         [
-            0.035 * _z(rng, n_modes),
+            0.07 * _z(rng, n_modes),
             rng.integers(1, 4, n_modes),
             rng.integers(1, 3, n_modes),
             rng.uniform(0.0, 2.0 * np.pi, n_modes),
@@ -172,11 +179,15 @@ def sample_params(rng: np.random.Generator) -> dict:
     ).astype(float)
     n_dig = int(rng.integers(2, 5))
     p["digits"] = np.column_stack(
-        [rng.uniform(0.03, 0.22, n_dig), rng.uniform(-0.7, 0.7, n_dig), rng.uniform(0.3, 0.7, n_dig)]
+        [rng.uniform(0.03, 0.22, n_dig), rng.uniform(-0.7, 0.7, n_dig), rng.uniform(0.4, 0.9, n_dig)]
     )
-    n_rbf = 8
+    n_rbf = 12
     p["rbf_c"] = center_curve(rng.uniform(0.0, 1.0, n_rbf), p) + 2.0 * rng.standard_normal((n_rbf, 3))
-    p["rbf_d"] = 1.0 * _z(rng, (n_rbf, 3))
+    p["rbf_d"] = 1.5 * _z(rng, (n_rbf, 3))
+    if rng.random() < 0.5:  # cognitively-impaired-like subject
+        p["disease"] = np.array(
+            [[rng.uniform(0.15, 0.35), rng.uniform(0.2, 0.8), rng.uniform(-0.7, 0.7), rng.uniform(0.12, 0.25), rng.uniform(0.4, 0.8)]]
+        )
     return p
 
 
@@ -184,9 +195,9 @@ def sample_atrophy(rng: np.random.Generator) -> dict:
     return {
         "ua": rng.uniform(0.08, 0.28),
         "va": rng.uniform(-0.5, 0.5),
-        "su": rng.uniform(0.08, 0.14),
+        "su": rng.uniform(0.10, 0.18),
         "sv": rng.uniform(0.5, 0.9),
-        "sev": rng.uniform(0.35, 0.6),
+        "sev": rng.uniform(0.45, 0.75),
         "alpha": rng.uniform(0.3, 0.7),
     }
 
@@ -201,7 +212,7 @@ def _rotvec(r: np.ndarray) -> np.ndarray:
 
 
 def sample_pose(rng: np.random.Generator) -> tuple[np.ndarray, np.ndarray]:
-    rot = _rotvec(np.clip(rng.normal(0.0, 0.12, 3), -0.25, 0.25))
+    rot = _rotvec(np.clip(rng.normal(0.0, 0.15, 3), -0.3, 0.3))
     trans = np.array([25.0, -18.0, 12.0]) + rng.normal(0.0, 3.0, 3)
     return rot, trans
 
@@ -253,7 +264,7 @@ def voxelise(p: dict, pose, atrophy, t: int, rng: np.random.Generator | None):
     if rng is not None:
         # Smooth boundary perturbation (segmentation inconsistency).
         centers = bnd[rng.choice(len(bnd), 40, replace=False)]
-        amps = rng.normal(0.0, 0.3, 40)
+        amps = rng.normal(0.0, 0.2, 40)
         eta = np.zeros(len(q))
         for c, a in zip(centers, amps):
             eta += a * np.exp(-np.sum((q - c) ** 2, axis=1) / (2.0 * 2.0**2))
