@@ -1,0 +1,11 @@
+[0s] audit: install variant and shortcut predictors
+[0s] audit: train split, all predictors
+[0s] audit: install variant and shortcut predictors
+[1s] audit: train split, all predictors
+[0s] audit: install variant and shortcut predictors
+[1s] audit: train split, all predictors
+[726s] audit: train done (rc=0)
+[726s] audit: hidden test, all predictors
+[1481s] audit: test done (rc=0)
+reproduce rc=0
+validate rc=0

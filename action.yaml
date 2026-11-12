@@ -3,4 +3,4 @@ action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Hardening audit iter 2: regenerate richer cohort, shrink-wrap + multi-start alignment, thickness-change metric; rerun reference, baseline, variants, shortcuts on train and hidden test; final reference reproduction + validate."
+notes: "Hardening iter 3: 32-subject dev cohort, hidden-test tmp cleanup; full audit (reference, baseline, variants, shortcuts) on train and hidden test; reference reproduction + validate."
