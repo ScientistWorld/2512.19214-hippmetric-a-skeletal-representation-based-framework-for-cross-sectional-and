@@ -388,7 +388,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--export-public", type=Path, required=True)
     parser.add_argument("--train-seed", type=int, default=20251219)
-    parser.add_argument("--train-subjects", type=int, default=16)
+    parser.add_argument("--train-subjects", type=int, default=32)
     args = parser.parse_args()
     export_public(args.export_public, args.train_seed, args.train_subjects)
 

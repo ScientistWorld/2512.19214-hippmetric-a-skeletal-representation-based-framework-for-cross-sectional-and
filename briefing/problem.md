@@ -11,7 +11,7 @@ Hippocampal atrophy is a major imaging biomarker in ageing and Alzheimer's disea
 ## Data
 
 - `data/hippo_template.npz`: the template (skeletal points, superior/inferior directions and extents, lamellar coordinates, subfield ids, template segmentation).
-- `data/hippo_train.npz`: development cohort of 16 subjects x 4 timepoints (baseline + 3 follow-ups). Subjects differ in shape, size, pose and thickness pattern; about half carry baseline regional thinning; follow-ups lose tissue in a subject-specific region. Segmentations contain boundary inconsistencies, label noise, islands and holes.
+- `data/hippo_train.npz`: development cohort of 32 subjects x 4 timepoints (baseline + 3 follow-ups). Subjects differ in shape, size, pose and thickness pattern; about half carry baseline regional thinning; follow-ups lose tissue in a subject-specific region. Segmentations contain boundary inconsistencies, label noise, islands and holes.
 - `data/hippo_train_labels.npz`: ground truth for the development cohort.
 - The scored test cohort (32 subjects x 4 timepoints from the same population) is not distributed; predictors are run on it by the hidden evaluator.
 

@@ -388,6 +388,9 @@ def main() -> None:
             print(f"[test] {name}: {'FAILED (' + reason + ')' if reason else 'ok'}", file=sys.stderr)
             if reason:
                 print(_tail(log_path), file=sys.stderr)
+            # Keep the temporary area small (container /tmp can be a small tmpfs).
+            out_path.unlink(missing_ok=True)
+            log_path.unlink(missing_ok=True)
     scores = write_scores(args.scores, "test", blocks, status, thresholds)
     diag_path = os.environ.get("EVAL_DIAGNOSTICS")
     if diag_path:
