@@ -1,0 +1,71 @@
+── Scoring ──
+  reference.json — OK (3 experiments, 13 methods)
+  scores.json — OK (4 experiments, 11 methods)
+
+=== subfield_thickness_accuracy (weight: 0.25) ===
+    Local thickness of the hippocampal sheet at every template skeletal point, recomputed from the submitted skeletal points and superior/inferior spoke endpoints, against procedural ground truth on baseline (including disease-thinned subjects) and atrophied follow-up scans, plus the accuracy of measured longitudinal thinning. Validity guards against thickness obtained from geometry that does not reach the true boundary or folds over.
+
+    Method                    Source    thickness_mae_mm *thickness_p95_abs_error_mmsubfield_mean_thickness_error_mmlongitudinal_thickness_change_error_mmvalid_spoke_fraction
+    ------------------------- ----------───────────────────────────────────────────────────────────────────────────
+    boundary_baseline [baseline] paper                   —              —              —              —              —
+                              repro               0.604          1.704          0.302          0.795          0.950
+
+    hippmetric [proposed]     paper               0.500              —              —              —              —
+                              repro               0.473          1.406          0.246          0.702          0.922
+
+
+=== correspondence_stability (weight: 0.5) ===
+    Point-wise anatomical correspondence: distance between each submitted spoke endpoint and the true boundary point carrying the same template coordinate, on baseline scans (cross-sectional) and, inside the eroded anterior region, on follow-up scans (longitudinal).
+
+    Method                    Source    cross_sectional_correspondence_error_mmcross_sectional_p95_correspondence_error_mmlongitudinal_correspondence_error_mm *longitudinal_p95_correspondence_error_mm
+    ------------------------- ----------────────────────────────────────────────────────────────────
+    boundary_baseline [baseline] paper                   —              —              —              —
+                              repro               3.691         10.081          3.244          7.675
+
+    cm_rep [baseline]         paper               4.640              —         10.570              —
+
+    ds_rep [baseline]         paper               3.410              —          4.650              —
+
+    spharm_pdm [baseline]     paper               9.970              —          3.560              —
+
+    hippmetric [proposed]     paper               1.660              —          1.680              —
+                              repro               1.885          4.903          1.537          3.678
+
+
+=== surface_robustness (weight: 0.25) ===
+    Fidelity of the boundary implied by the submitted s-rep (spoke endpoints, bilinearly densified on the template grid) to the true clean boundary, on baseline and atrophied scans.
+
+    Method                    Source       surface_Q_mmsurface_HD_mm * surface_p95_mm
+    ------------------------- ----------─────────────────────────────────────────────
+    boundary_baseline [baseline] paper                   —              —              —
+                              repro               1.623          6.802          4.153
+
+    hippmetric [proposed]     paper                   —          1.809              —
+                              repro               0.484          2.655          1.058
+
+    _paper_hippmetric [proposed] paper               0.003          1.809              —
+
+    _paper_cm_rep [baseline]  paper               0.069         25.035              —
+
+    _paper_ds_rep [baseline]  paper               0.119          9.396              —
+
+    _paper_spharm_pdm [baseline] paper               0.014         17.641              —
+
+  scores_train.json — OK (4 experiments, 11 methods)
+  scores_test.json — OK (4 experiments, 11 methods)
+
+── Structure ──
+  import separation — OK (eval/ and data/ do not import from method/)
+  eval reads method outputs — 1 warning(s):
+    ⚠ eval/test/hidden_cohort.py: looks detached from the method — found 'np.random.default_rng' (regenerating the experiment) and no reference to any path that looks like a method output (predictions, outputs, checkpoints, state_dict, etc.). If a future agent edits method/ and these scores don't change, eval is broken. Read the method's artifacts; do not rerun the science yourself.
+  gitignored imports — OK (all eval/method/baseline imports resolve to tracked files)
+  eval/train ↔ eval/test independence — OK
+  shared/ references — OK (no shared/ paths in committed code)
+  evaluate_{train,test}.sh rewiring — OK
+  evaluate_{train,test}.sh method defaults — OK (no hardcoded method name)
+  scores_train.json ↔ scores_test.json method keys — OK
+  scores_train.json ↔ scores_test.json value differentiation — OK
+  primary metric train/test differentiation — OK
+  primary metric discriminates methods on train — OK
+
+All checks passed.

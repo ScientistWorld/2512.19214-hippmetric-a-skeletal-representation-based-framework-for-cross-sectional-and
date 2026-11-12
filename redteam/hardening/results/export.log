@@ -1,0 +1,10 @@
+total 4162
+drwxrwsr-x+  4 user lab    4096 Nov 11 18:59 .
+drwxrwsr-x+ 27 user lab    4096 Nov 11 19:56 ..
+-rw-r--r--+  1 user lab       0 Mar  3  2026 .gitkeep
+drwxrws---+  2 user lab    4096 Nov 11 20:03 __pycache__
+drwxrwsr-x+  2 user lab    4096 Apr 14  2026 downloads
+-rw-rw----+  1 user lab    7372 Nov 11 20:00 hippo_io.py
+-rw-rw----+  1 user lab   50746 Nov 11 20:14 hippo_template.npz
+-rw-rw----+  1 user lab  130345 Nov 11 20:15 hippo_train.npz
+-rw-rw----+  1 user lab 4704454 Nov 11 20:15 hippo_train_labels.npz

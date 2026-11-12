@@ -1,0 +1,15 @@
+[0s] export public template + visible development cohort
+[54s] audit: install variant and shortcut predictors
+[54s] audit: train split, all predictors
+[464s] audit: train done (rc=0)
+[464s] audit: hidden test, all predictors
+[0s] export public template + visible development cohort
+[67s] audit: install variant and shortcut predictors
+[67s] audit: train split, all predictors
+[583s] audit: train done (rc=0)
+[583s] audit: hidden test, all predictors
+[1523s] audit: test done (rc=0)
+[1523s] audit: remove audit predictors
+[1523s] final reference reproduction
+[1879s] reproduce done (rc=0)
+[1879s] validate done (rc=0)

@@ -1,0 +1,38 @@
+== train ==
+hm_smooth10_fine             d_ok=  +0.483 d_all=  +0.028 thkMAE=0.460 cross=1.838 long=1.456 Q=0.468 HD=2.586 valid=0.933  ok
+hm_smooth15                  d_ok=  +0.313 d_all=  +0.013 thkMAE=0.463 cross=1.886 long=1.537 Q=0.495 HD=2.653 valid=0.935  ok
+hm_smooth10                  d_ok=  +0.255 d_all=  +0.011 thkMAE=0.464 cross=1.885 long=1.536 Q=0.490 HD=2.655 valid=0.933  ok
+hm_independent_followups     d_ok=  +0.210 d_all=  -0.000 thkMAE=0.446 cross=1.885 long=1.552 Q=0.547 HD=2.864 valid=0.936  ok
+hm_smooth05                  d_ok=  +0.129 d_all=  +0.006 thkMAE=0.466 cross=1.884 long=1.534 Q=0.484 HD=2.654 valid=0.928  ok
+hippmetric                   d_ok=  +0.000 d_all=  +0.000 thkMAE=0.473 cross=1.885 long=1.537 Q=0.484 HD=2.655 valid=0.922  ok
+sc_snap_raw_surface          d_ok=  -0.409 d_all=  -0.017 thkMAE=0.511 cross=1.907 long=1.563 Q=0.500 HD=2.691 valid=0.911  ok
+sc_template_thickness        d_ok=  -0.798 d_all=  -0.039 thkMAE=0.437 cross=1.883 long=1.711 Q=0.551 HD=2.576 valid=0.922  ok
+sc_label_drift               d_ok=  -1.751 d_all=  -0.136 thkMAE=0.473 cross=1.885 long=2.482 Q=0.735 HD=3.121 valid=0.805  ok
+hm_no_dense                  d_ok=  -2.927 d_all=  -0.178 thkMAE=0.604 cross=2.400 long=2.087 Q=0.749 HD=4.097 valid=0.837  ok
+boundary_baseline            d_ok=  -7.073 d_all=  -0.509 thkMAE=0.604 cross=3.691 long=3.244 Q=1.623 HD=6.802 valid=0.950  ok
+sc_crash                     d_ok=-102.880 d_all=  -5.245 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: exit code 3
+sc_huge_values               d_ok=-102.880 d_all=  -5.245 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: invalid output: sup_end contains impossible coordinates (> 10000 mm)
+sc_missing_output            d_ok=-102.880 d_all=  -5.245 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: no output file written
+sc_nan_partial               d_ok=-102.880 d_all=  -5.245 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: invalid output: sup_end contains non-finite values
+sc_permute_points            d_ok=-102.880 d_all=  -5.245 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: thickness_mae_mm 1.044 not better than trivial 0.638; longitudinal_thickness_change_error_mm 1.340 not better than trivial 1.213; cross_sectional_correspondence_error_mm 15.853 not better than trivial 3.927; longitudinal_correspondence_error_mm 19.713 not better than trivial 3.282
+sc_template_only             d_ok=-102.880 d_all=  -5.245 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: valid_spoke_fraction 0.396 < 0.5; longitudinal_thickness_change_error_mm 1.213 not better than trivial 1.213; cross_sectional_correspondence_error_mm 3.927 not better than trivial 3.927; longitudinal_correspondence_error_mm 3.282 not better than trivial 3.282; surface_Q_mm 2.103 not better than trivial 2.103
+sc_zero_thickness            d_ok=-102.880 d_all=  -5.245 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: valid_spoke_fraction 0.385 < 0.5; thickness_mae_mm 2.725 not better than trivial 0.638; longitudinal_thickness_change_error_mm 1.213 not better than trivial 1.213
+== test ==
+hm_smooth10_fine             d_ok=  +1.256 d_all=  +0.041 thkMAE=0.479 cross=2.136 long=1.763 Q=0.575 HD=2.934 valid=0.924  ok
+hm_smooth15                  d_ok=  +0.664 d_all=  +0.014 thkMAE=0.489 cross=2.235 long=1.883 Q=0.608 HD=3.113 valid=0.920  ok
+hm_smooth10                  d_ok=  +0.565 d_all=  +0.013 thkMAE=0.492 cross=2.234 long=1.883 Q=0.603 HD=3.113 valid=0.918  ok
+hm_independent_followups     d_ok=  +0.463 d_all=  -0.015 thkMAE=0.469 cross=2.236 long=1.981 Q=0.679 HD=3.446 valid=0.930  ok
+hm_smooth05                  d_ok=  +0.262 d_all=  +0.006 thkMAE=0.500 cross=2.235 long=1.883 Q=0.598 HD=3.113 valid=0.913  ok
+hippmetric                   d_ok=  +0.000 d_all=  +0.000 thkMAE=0.510 cross=2.236 long=1.888 Q=0.598 HD=3.111 valid=0.907  ok
+sc_snap_raw_surface          d_ok=  -0.910 d_all=  -0.018 thkMAE=0.556 cross=2.261 long=1.909 Q=0.621 HD=3.137 valid=0.899  ok
+sc_label_drift               d_ok=  -1.825 d_all=  -0.120 thkMAE=0.510 cross=2.236 long=2.657 Q=0.865 HD=3.641 valid=0.791  ok
+boundary_baseline            d_ok=  -6.153 d_all=  -0.398 thkMAE=0.588 cross=3.777 long=2.940 Q=1.844 HD=7.687 valid=0.952  ok
+hm_no_dense                  d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: thickness_mae_mm 0.620 not better than trivial 0.614
+sc_crash                     d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: exit code 3
+sc_huge_values               d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: invalid output: sup_end contains impossible coordinates (> 10000 mm)
+sc_missing_output            d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: no output file written
+sc_nan_partial               d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: invalid output: sup_end contains non-finite values
+sc_permute_points            d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: thickness_mae_mm 1.035 not better than trivial 0.614; longitudinal_thickness_change_error_mm 1.205 not better than trivial 1.086; cross_sectional_correspondence_error_mm 16.131 not better than trivial 4.009; longitudinal_correspondence_error_mm 17.902 not better than trivial 3.456
+sc_template_only             d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: valid_spoke_fraction 0.413 < 0.5; longitudinal_thickness_change_error_mm 1.086 not better than trivial 1.086; cross_sectional_correspondence_error_mm 4.009 not better than trivial 4.009; longitudinal_correspondence_error_mm 3.456 not better than trivial 3.456; surface_Q_mm 2.104 not better than trivial 2.104
+sc_template_thickness        d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: exit code 1
+sc_zero_thickness            d_ok=-169.033 d_all=  -5.097 thkMAE=5.000 cross=20.000 long=20.000 Q=10.000 HD=30.000 valid=0.000  failed: exit code 1
