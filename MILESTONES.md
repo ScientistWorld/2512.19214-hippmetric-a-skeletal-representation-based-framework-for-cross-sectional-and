@@ -4,6 +4,25 @@
 
 ## Progress Log
 
+### [2026-11-12] - core_claim (hardening iteration)
+- Rebuilt the gym after the red-team audit. Changes:
+  - Hidden segmentation-based test cohort generated in `eval/test/`.
+  - s-rep output contract, with every metric recomputed by the evaluator.
+  - Failure gate with worst values.
+  - Thickness-change metric.
+  - HippMetric restored to the paper's procedure: nonlinear deformation transporting the internal landmarks, ray/mesh spoke cases, E0/E1/E2, anchored follow-ups.
+  - Meaningful boundary-driven baseline.
+- CPU job `bd2946ea-fce` (final audit + reproduction, `validate.py` passes). Hidden-test HippMetric vs boundary baseline:
+
+  | Metric | HippMetric | Boundary baseline |
+  |---|---|---|
+  | Cross-sectional correspondence | 2.24 mm | 3.78 mm |
+  | Longitudinal correspondence | 1.89 mm | 2.94 mm |
+  | Thickness MAE | 0.51 mm | 0.59 mm |
+  | Surface Q | 0.60 mm | 1.84 mm |
+
+  These are the paper's directions. The better variant ranks above the reference and removing the nonlinear deformation fails. Details in `HARDENING.md`.
+
 ### [2026-06-04 13:35] - core_claim
 - CPU container job `922c7a3d-b2d` regenerated data, baseline outputs, HippMetric outputs, full scores, train/test scores, and passed `python validate.py --compare`.
 - The rotation-free atlas scale/translation landmark path restored the core claim after removing vertex-order dependence: HippMetric improved thickness MAE (`0.332 mm` vs boundary `6.971 mm`), cross-sectional correspondence (`0.541 mm` vs `2.038 mm`), longitudinal correspondence (`1.755 mm` vs `2.909 mm`), and surface Q (`0.105 mm` vs `1.308 mm`) while keeping valid spoke fraction `1.000`.

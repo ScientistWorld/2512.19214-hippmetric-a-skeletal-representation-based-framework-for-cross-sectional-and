@@ -1,3 +1,5 @@
+> **Historical.** This file describes the gym before the final hardening iteration (old procedural vertex benchmark). The current benchmark, evaluator and audit are described in `HARDENING.md`, `DESIGN_NOTES.md`, `briefing/` and `scoring/`.
+
 # Progress
 
 ## What Works
