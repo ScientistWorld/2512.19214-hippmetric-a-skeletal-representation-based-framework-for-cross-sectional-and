@@ -1,0 +1,1692 @@
+{
+  "boundary_baseline": {
+    "0": {
+      "thickness_mae_mm": 0.45400799311601747,
+      "cross_sectional_correspondence_error_mm": 2.8161930582713603,
+      "longitudinal_correspondence_error_mm": 3.2909155587413985,
+      "surface_Q_mm": 2.54315649053206,
+      "surface_HD_mm": 9.362333138033316,
+      "valid_spoke_fraction": 0.9508196721311475
+    },
+    "1": {
+      "thickness_mae_mm": 0.5383693025226186,
+      "cross_sectional_correspondence_error_mm": 0.9508050400034564,
+      "longitudinal_correspondence_error_mm": 1.737618972059255,
+      "surface_Q_mm": 1.0953170627525077,
+      "surface_HD_mm": 4.694478511335638,
+      "valid_spoke_fraction": 0.9219034608378871
+    },
+    "2": {
+      "thickness_mae_mm": 0.42662678850403857,
+      "cross_sectional_correspondence_error_mm": 3.370690377635137,
+      "longitudinal_correspondence_error_mm": 1.0674856455095976,
+      "surface_Q_mm": 1.2304608647805706,
+      "surface_HD_mm": 6.000676949047724,
+      "valid_spoke_fraction": 0.967896174863388
+    },
+    "3": {
+      "thickness_mae_mm": 0.40215441855785167,
+      "cross_sectional_correspondence_error_mm": 1.13607683311786,
+      "longitudinal_correspondence_error_mm": 2.0042229628509274,
+      "surface_Q_mm": 0.6419351584131394,
+      "surface_HD_mm": 3.146588039514448,
+      "valid_spoke_fraction": 0.986111111111111
+    },
+    "4": {
+      "thickness_mae_mm": 0.626455274651998,
+      "cross_sectional_correspondence_error_mm": 1.8555288961700915,
+      "longitudinal_correspondence_error_mm": 3.779508682902803,
+      "surface_Q_mm": 3.458210386278055,
+      "surface_HD_mm": 10.602043808724083,
+      "valid_spoke_fraction": 0.9182604735883425
+    },
+    "5": {
+      "thickness_mae_mm": 0.6163499149338283,
+      "cross_sectional_correspondence_error_mm": 2.0294712469979794,
+      "longitudinal_correspondence_error_mm": 2.150345788185856,
+      "surface_Q_mm": 0.7019700310161643,
+      "surface_HD_mm": 3.2095607429797064,
+      "valid_spoke_fraction": 0.9182604735883425
+    },
+    "6": {
+      "thickness_mae_mm": 0.36191971339833096,
+      "cross_sectional_correspondence_error_mm": 1.483432463123644,
+      "longitudinal_correspondence_error_mm": 1.0637747324395683,
+      "surface_Q_mm": 0.4047146854896412,
+      "surface_HD_mm": 2.5320418227973613,
+      "valid_spoke_fraction": 0.9936247723132968
+    },
+    "7": {
+      "thickness_mae_mm": 0.4357632018284513,
+      "cross_sectional_correspondence_error_mm": 1.2157155935461519,
+      "longitudinal_correspondence_error_mm": 1.44753014717645,
+      "surface_Q_mm": 0.4604396721575855,
+      "surface_HD_mm": 2.4048446751930133,
+      "valid_spoke_fraction": 0.9808743169398908
+    },
+    "8": {
+      "thickness_mae_mm": 0.4555806108799566,
+      "cross_sectional_correspondence_error_mm": 2.532354021149944,
+      "longitudinal_correspondence_error_mm": 2.4954809056264984,
+      "surface_Q_mm": 1.8429164788598058,
+      "surface_HD_mm": 6.81171108344338,
+      "valid_spoke_fraction": 0.9052823315118398
+    },
+    "9": {
+      "thickness_mae_mm": 0.5098595402870723,
+      "cross_sectional_correspondence_error_mm": 4.437853825494521,
+      "longitudinal_correspondence_error_mm": 1.4352544428908018,
+      "surface_Q_mm": 0.7452904178010499,
+      "surface_HD_mm": 3.58195715081634,
+      "valid_spoke_fraction": 0.9305555555555556
+    },
+    "10": {
+      "thickness_mae_mm": 0.5113107259390335,
+      "cross_sectional_correspondence_error_mm": 1.7882564231261615,
+      "longitudinal_correspondence_error_mm": 2.264380545837367,
+      "surface_Q_mm": 1.050543193478348,
+      "surface_HD_mm": 5.06413893024493,
+      "valid_spoke_fraction": 0.9797358834244081
+    },
+    "11": {
+      "thickness_mae_mm": 0.4650367870130456,
+      "cross_sectional_correspondence_error_mm": 1.373593487324445,
+      "longitudinal_correspondence_error_mm": 1.7301368296359954,
+      "surface_Q_mm": 0.48880373217629947,
+      "surface_HD_mm": 2.4388236491755837,
+      "valid_spoke_fraction": 0.9681238615664846
+    },
+    "12": {
+      "thickness_mae_mm": 0.40253964081130045,
+      "cross_sectional_correspondence_error_mm": 2.8747870838491076,
+      "longitudinal_correspondence_error_mm": 1.6917627024615942,
+      "surface_Q_mm": 0.7421964876482057,
+      "surface_HD_mm": 4.183127249679775,
+      "valid_spoke_fraction": 0.9694899817850637
+    },
+    "13": {
+      "thickness_mae_mm": 0.5045437881990272,
+      "cross_sectional_correspondence_error_mm": 2.544145678781651,
+      "longitudinal_correspondence_error_mm": 1.177393670068561,
+      "surface_Q_mm": 0.6134230260049054,
+      "surface_HD_mm": 3.105923179316537,
+      "valid_spoke_fraction": 0.9587887067395264
+    },
+    "14": {
+      "thickness_mae_mm": 0.6202723263400949,
+      "cross_sectional_correspondence_error_mm": 1.4909165795460761,
+      "longitudinal_correspondence_error_mm": 2.531326318104423,
+      "surface_Q_mm": 0.8019068626094689,
+      "surface_HD_mm": 3.5258804822182506,
+      "valid_spoke_fraction": 0.9596994535519126
+    },
+    "15": {
+      "thickness_mae_mm": 0.5681750558760285,
+      "cross_sectional_correspondence_error_mm": 3.9634483441905006,
+      "longitudinal_correspondence_error_mm": 1.8802806727953554,
+      "surface_Q_mm": 0.7879467383559686,
+      "surface_HD_mm": 4.261059909929377,
+      "valid_spoke_fraction": 0.9578779599271402
+    }
+  },
+  "hippmetric": {
+    "0": {
+      "thickness_mae_mm": 0.5954061714919744,
+      "cross_sectional_correspondence_error_mm": 2.3311626694859653,
+      "longitudinal_correspondence_error_mm": 2.7637632608782177,
+      "surface_Q_mm": 0.728752623152539,
+      "surface_HD_mm": 3.2964721610551626,
+      "valid_spoke_fraction": 0.8775045537340619
+    },
+    "1": {
+      "thickness_mae_mm": 0.5488437594196524,
+      "cross_sectional_correspondence_error_mm": 0.9981362695224659,
+      "longitudinal_correspondence_error_mm": 0.8518617628386619,
+      "surface_Q_mm": 0.43041268147679557,
+      "surface_HD_mm": 2.4061087869464632,
+      "valid_spoke_fraction": 0.9180327868852458
+    },
+    "2": {
+      "thickness_mae_mm": 0.5350540588312398,
+      "cross_sectional_correspondence_error_mm": 1.6512711151860555,
+      "longitudinal_correspondence_error_mm": 1.3548070191286203,
+      "surface_Q_mm": 0.4999988279974833,
+      "surface_HD_mm": 2.7483094473580323,
+      "valid_spoke_fraction": 0.9326047358834244
+    },
+    "3": {
+      "thickness_mae_mm": 0.4168275995739265,
+      "cross_sectional_correspondence_error_mm": 1.3743191322497248,
+      "longitudinal_correspondence_error_mm": 1.1101495084026454,
+      "surface_Q_mm": 0.36827463211767936,
+      "surface_HD_mm": 1.8574664503070037,
+      "valid_spoke_fraction": 0.9382969034608379
+    },
+    "4": {
+      "thickness_mae_mm": 0.4245653027365911,
+      "cross_sectional_correspondence_error_mm": 0.5536424273349305,
+      "longitudinal_correspondence_error_mm": 1.1671553405411732,
+      "surface_Q_mm": 0.6013004789998689,
+      "surface_HD_mm": 2.435102138824973,
+      "valid_spoke_fraction": 0.8852459016393442
+    },
+    "5": {
+      "thickness_mae_mm": 0.7094610994764331,
+      "cross_sectional_correspondence_error_mm": 1.6225150677108982,
+      "longitudinal_correspondence_error_mm": 1.2892018477993161,
+      "surface_Q_mm": 0.48864419033543866,
+      "surface_HD_mm": 2.140549000898382,
+      "valid_spoke_fraction": 0.8381147540983607
+    },
+    "6": {
+      "thickness_mae_mm": 0.3854025945378234,
+      "cross_sectional_correspondence_error_mm": 1.0120706421414571,
+      "longitudinal_correspondence_error_mm": 0.9837524991397065,
+      "surface_Q_mm": 0.3354302885335725,
+      "surface_HD_mm": 1.914690491659389,
+      "valid_spoke_fraction": 0.9542349726775956
+    },
+    "7": {
+      "thickness_mae_mm": 0.44803967864065597,
+      "cross_sectional_correspondence_error_mm": 0.7083997657638164,
+      "longitudinal_correspondence_error_mm": 0.9196301459266699,
+      "surface_Q_mm": 0.3750232433220559,
+      "surface_HD_mm": 1.8974940647822627,
+      "valid_spoke_fraction": 0.9246357012750457
+    },
+    "8": {
+      "thickness_mae_mm": 0.5135341283308602,
+      "cross_sectional_correspondence_error_mm": 1.664754936058757,
+      "longitudinal_correspondence_error_mm": 1.1938982584911246,
+      "surface_Q_mm": 0.6608115767150001,
+      "surface_HD_mm": 3.4244974289666485,
+      "valid_spoke_fraction": 0.8836520947176685
+    },
+    "9": {
+      "thickness_mae_mm": 0.5606069284496942,
+      "cross_sectional_correspondence_error_mm": 3.526213218924444,
+      "longitudinal_correspondence_error_mm": 1.2456149458365562,
+      "surface_Q_mm": 0.9878417275666841,
+      "surface_HD_mm": 4.819766640242051,
+      "valid_spoke_fraction": 0.8105646630236795
+    },
+    "10": {
+      "thickness_mae_mm": 0.5104497342977127,
+      "cross_sectional_correspondence_error_mm": 1.4128008270132772,
+      "longitudinal_correspondence_error_mm": 1.4067510917649384,
+      "surface_Q_mm": 0.595549627721895,
+      "surface_HD_mm": 3.5944239672924,
+      "valid_spoke_fraction": 0.89867941712204
+    },
+    "11": {
+      "thickness_mae_mm": 0.46879222657031,
+      "cross_sectional_correspondence_error_mm": 0.9876823356819892,
+      "longitudinal_correspondence_error_mm": 0.970775891468311,
+      "surface_Q_mm": 0.45807591695073885,
+      "surface_HD_mm": 2.6344117185915166,
+      "valid_spoke_fraction": 0.9057377049180327
+    },
+    "12": {
+      "thickness_mae_mm": 0.5162918720167196,
+      "cross_sectional_correspondence_error_mm": 2.0833422719541903,
+      "longitudinal_correspondence_error_mm": 1.396392585214578,
+      "surface_Q_mm": 0.7204087314544941,
+      "surface_HD_mm": 4.185323696419046,
+      "valid_spoke_fraction": 0.8998178506375227
+    },
+    "13": {
+      "thickness_mae_mm": 0.5364025149061062,
+      "cross_sectional_correspondence_error_mm": 1.6023750204981049,
+      "longitudinal_correspondence_error_mm": 1.105849267348507,
+      "surface_Q_mm": 0.7535108769329343,
+      "surface_HD_mm": 3.951039572504151,
+      "valid_spoke_fraction": 0.8875227686703098
+    },
+    "14": {
+      "thickness_mae_mm": 0.4403339389851544,
+      "cross_sectional_correspondence_error_mm": 1.392450647286746,
+      "longitudinal_correspondence_error_mm": 1.580215470114723,
+      "surface_Q_mm": 0.37796846570728054,
+      "surface_HD_mm": 2.134597820246481,
+      "valid_spoke_fraction": 0.9118852459016393
+    },
+    "15": {
+      "thickness_mae_mm": 0.5254549844757616,
+      "cross_sectional_correspondence_error_mm": 2.878566706036871,
+      "longitudinal_correspondence_error_mm": 1.989847401575864,
+      "surface_Q_mm": 1.0298923078712316,
+      "surface_HD_mm": 4.8137334724195995,
+      "valid_spoke_fraction": 0.8913934426229508
+    }
+  },
+  "hm_independent_followups": {
+    "0": {
+      "thickness_mae_mm": 0.5073019219753886,
+      "cross_sectional_correspondence_error_mm": 2.3311626694859653,
+      "longitudinal_correspondence_error_mm": 2.5980742726457655,
+      "surface_Q_mm": 2.1667354466221473,
+      "surface_HD_mm": 7.447345586290474,
+      "valid_spoke_fraction": 0.9155282331511839
+    },
+    "1": {
+      "thickness_mae_mm": 0.5122150117077995,
+      "cross_sectional_correspondence_error_mm": 0.9981362695224659,
+      "longitudinal_correspondence_error_mm": 0.9944561886936579,
+      "surface_Q_mm": 0.6363382988720462,
+      "surface_HD_mm": 3.1994366151364906,
+      "valid_spoke_fraction": 0.9061930783242259
+    },
+    "2": {
+      "thickness_mae_mm": 0.46997824111416214,
+      "cross_sectional_correspondence_error_mm": 1.6512711151860555,
+      "longitudinal_correspondence_error_mm": 0.8884080272520842,
+      "surface_Q_mm": 0.4345715323882877,
+      "surface_HD_mm": 2.2561809138244966,
+      "valid_spoke_fraction": 0.956511839708561
+    },
+    "3": {
+      "thickness_mae_mm": 0.37677383259707237,
+      "cross_sectional_correspondence_error_mm": 1.3743191322497248,
+      "longitudinal_correspondence_error_mm": 0.7869233489528534,
+      "surface_Q_mm": 0.40270639065103064,
+      "surface_HD_mm": 2.213470275118672,
+      "valid_spoke_fraction": 0.9663023679417122
+    },
+    "4": {
+      "thickness_mae_mm": 0.4815893492086907,
+      "cross_sectional_correspondence_error_mm": 0.5536424273349305,
+      "longitudinal_correspondence_error_mm": 2.823356550743896,
+      "surface_Q_mm": 3.247986280719113,
+      "surface_HD_mm": 9.914883352926381,
+      "valid_spoke_fraction": 0.8993624772313298
+    },
+    "5": {
+      "thickness_mae_mm": 0.6364707008860906,
+      "cross_sectional_correspondence_error_mm": 1.6225150677108982,
+      "longitudinal_correspondence_error_mm": 1.799323766153969,
+      "surface_Q_mm": 0.5996617609464312,
+      "surface_HD_mm": 2.7536093527244043,
+      "valid_spoke_fraction": 0.8690801457194899
+    },
+    "6": {
+      "thickness_mae_mm": 0.3528861111364064,
+      "cross_sectional_correspondence_error_mm": 1.0120706421414571,
+      "longitudinal_correspondence_error_mm": 0.9751998412066861,
+      "surface_Q_mm": 0.3520425849199879,
+      "surface_HD_mm": 1.956593562339503,
+      "valid_spoke_fraction": 0.9556010928961749
+    },
+    "7": {
+      "thickness_mae_mm": 0.3956884561029181,
+      "cross_sectional_correspondence_error_mm": 0.7083997657638164,
+      "longitudinal_correspondence_error_mm": 1.1209623265188762,
+      "surface_Q_mm": 0.3732436170581976,
+      "surface_HD_mm": 1.9411741564903535,
+      "valid_spoke_fraction": 0.9439890710382515
+    },
+    "8": {
+      "thickness_mae_mm": 0.42683088871196007,
+      "cross_sectional_correspondence_error_mm": 1.664754936058757,
+      "longitudinal_correspondence_error_mm": 1.5533437218770374,
+      "surface_Q_mm": 1.7311264968988245,
+      "surface_HD_mm": 6.297963750288797,
+      "valid_spoke_fraction": 0.9025500910746813
+    },
+    "9": {
+      "thickness_mae_mm": 0.40420543057178865,
+      "cross_sectional_correspondence_error_mm": 3.526213218924444,
+      "longitudinal_correspondence_error_mm": 1.0394249030248572,
+      "surface_Q_mm": 0.600632688254521,
+      "surface_HD_mm": 2.9035304461803273,
+      "valid_spoke_fraction": 0.9193989071038251
+    },
+    "10": {
+      "thickness_mae_mm": 0.45142288559398364,
+      "cross_sectional_correspondence_error_mm": 1.4128008270132772,
+      "longitudinal_correspondence_error_mm": 1.4842528116078262,
+      "surface_Q_mm": 1.0600942754897085,
+      "surface_HD_mm": 4.974580428950817,
+      "valid_spoke_fraction": 0.9398907103825136
+    },
+    "11": {
+      "thickness_mae_mm": 0.41703248425237893,
+      "cross_sectional_correspondence_error_mm": 0.9876823356819892,
+      "longitudinal_correspondence_error_mm": 1.0273225103744537,
+      "surface_Q_mm": 0.4023437395983783,
+      "surface_HD_mm": 2.071490526137393,
+      "valid_spoke_fraction": 0.9485428051001821
+    },
+    "12": {
+      "thickness_mae_mm": 0.44501823019454717,
+      "cross_sectional_correspondence_error_mm": 2.0833422719541903,
+      "longitudinal_correspondence_error_mm": 1.0410372511062682,
+      "surface_Q_mm": 0.496610172119208,
+      "surface_HD_mm": 2.672249017797414,
+      "valid_spoke_fraction": 0.9382969034608379
+    },
+    "13": {
+      "thickness_mae_mm": 0.46402708747849647,
+      "cross_sectional_correspondence_error_mm": 1.6023750204981049,
+      "longitudinal_correspondence_error_mm": 0.6637430190961903,
+      "surface_Q_mm": 0.5331496183793806,
+      "surface_HD_mm": 2.4461126632966006,
+      "valid_spoke_fraction": 0.9264571948998178
+    },
+    "14": {
+      "thickness_mae_mm": 0.36323484357524266,
+      "cross_sectional_correspondence_error_mm": 1.392450647286746,
+      "longitudinal_correspondence_error_mm": 1.4283636646896525,
+      "surface_Q_mm": 0.3976442601077831,
+      "surface_HD_mm": 2.4283112861025846,
+      "valid_spoke_fraction": 0.942167577413479
+    },
+    "15": {
+      "thickness_mae_mm": 0.4622673658306408,
+      "cross_sectional_correspondence_error_mm": 2.878566706036871,
+      "longitudinal_correspondence_error_mm": 1.4993906862893847,
+      "surface_Q_mm": 0.6882049772513079,
+      "surface_HD_mm": 3.4579514715934034,
+      "valid_spoke_fraction": 0.9310109289617486
+    }
+  },
+  "hm_no_dense": {
+    "0": {
+      "thickness_mae_mm": 0.5962567062562151,
+      "cross_sectional_correspondence_error_mm": 2.5911420230393314,
+      "longitudinal_correspondence_error_mm": 2.67668684803787,
+      "surface_Q_mm": 1.0129788733079885,
+      "surface_HD_mm": 4.9125192057688505,
+      "valid_spoke_fraction": 0.8567850637522768
+    },
+    "1": {
+      "thickness_mae_mm": 0.5720228732211036,
+      "cross_sectional_correspondence_error_mm": 1.240891137296953,
+      "longitudinal_correspondence_error_mm": 1.5199031300943904,
+      "surface_Q_mm": 0.4939726354242682,
+      "surface_HD_mm": 2.4140994813273453,
+      "valid_spoke_fraction": 0.8784153005464481
+    },
+    "2": {
+      "thickness_mae_mm": 0.5757956305793677,
+      "cross_sectional_correspondence_error_mm": 1.8205431839419768,
+      "longitudinal_correspondence_error_mm": 1.5293234714918231,
+      "surface_Q_mm": 0.5491999836202124,
+      "surface_HD_mm": 3.2424787405309448,
+      "valid_spoke_fraction": 0.8699908925318762
+    },
+    "3": {
+      "thickness_mae_mm": 0.44657987357195683,
+      "cross_sectional_correspondence_error_mm": 1.3787750540610662,
+      "longitudinal_correspondence_error_mm": 1.0814075404922479,
+      "surface_Q_mm": 0.364203288771663,
+      "surface_HD_mm": 1.794662185222646,
+      "valid_spoke_fraction": 0.9328324225865209
+    },
+    "4": {
+      "thickness_mae_mm": 0.4594207070468413,
+      "cross_sectional_correspondence_error_mm": 0.9661363179655058,
+      "longitudinal_correspondence_error_mm": 1.1411961360103582,
+      "surface_Q_mm": 0.6817173613804197,
+      "surface_HD_mm": 3.037338526010583,
+      "valid_spoke_fraction": 0.802367941712204
+    },
+    "5": {
+      "thickness_mae_mm": 0.7071761449204601,
+      "cross_sectional_correspondence_error_mm": 1.8108344860913266,
+      "longitudinal_correspondence_error_mm": 1.5425743838487558,
+      "surface_Q_mm": 0.5082479101448047,
+      "surface_HD_mm": 2.622565175630964,
+      "valid_spoke_fraction": 0.8224043715846995
+    },
+    "6": {
+      "thickness_mae_mm": 0.4354864363177664,
+      "cross_sectional_correspondence_error_mm": 1.2079912055434388,
+      "longitudinal_correspondence_error_mm": 0.9390957837582311,
+      "surface_Q_mm": 0.3666793588593349,
+      "surface_HD_mm": 2.2036638736419967,
+      "valid_spoke_fraction": 0.9212204007285973
+    },
+    "7": {
+      "thickness_mae_mm": 0.5168518188176878,
+      "cross_sectional_correspondence_error_mm": 1.1413529169693128,
+      "longitudinal_correspondence_error_mm": 1.4461844957697183,
+      "surface_Q_mm": 0.42853430123084174,
+      "surface_HD_mm": 2.024472802466176,
+      "valid_spoke_fraction": 0.8891165755919854
+    },
+    "8": {
+      "thickness_mae_mm": 0.530918083756679,
+      "cross_sectional_correspondence_error_mm": 1.7448469740517132,
+      "longitudinal_correspondence_error_mm": 1.452184809031049,
+      "surface_Q_mm": 0.6778871313460487,
+      "surface_HD_mm": 3.3004320918215466,
+      "valid_spoke_fraction": 0.8406193078324227
+    },
+    "9": {
+      "thickness_mae_mm": 0.6601066181405723,
+      "cross_sectional_correspondence_error_mm": 3.7135118682383137,
+      "longitudinal_correspondence_error_mm": 1.3007581401211963,
+      "surface_Q_mm": 0.8004678690165883,
+      "surface_HD_mm": 3.865884621058288,
+      "valid_spoke_fraction": 0.7955373406193078
+    },
+    "10": {
+      "thickness_mae_mm": 0.5376318950828052,
+      "cross_sectional_correspondence_error_mm": 1.370743380084411,
+      "longitudinal_correspondence_error_mm": 1.5250443907564446,
+      "surface_Q_mm": 0.5326454979643673,
+      "surface_HD_mm": 2.9620256717693505,
+      "valid_spoke_fraction": 0.9045992714025501
+    },
+    "11": {
+      "thickness_mae_mm": 0.5888212686187794,
+      "cross_sectional_correspondence_error_mm": 1.3003631772405697,
+      "longitudinal_correspondence_error_mm": 1.7803813530030546,
+      "surface_Q_mm": 0.4707000354387274,
+      "surface_HD_mm": 2.260194777267393,
+      "valid_spoke_fraction": 0.8818306010928961
+    },
+    "12": {
+      "thickness_mae_mm": 0.5564908693925602,
+      "cross_sectional_correspondence_error_mm": 2.0790831817333824,
+      "longitudinal_correspondence_error_mm": 1.5605985399534061,
+      "surface_Q_mm": 0.6356176888379987,
+      "surface_HD_mm": 3.737212941135508,
+      "valid_spoke_fraction": 0.8993624772313297
+    },
+    "13": {
+      "thickness_mae_mm": 0.5730658317532236,
+      "cross_sectional_correspondence_error_mm": 1.5044691716769287,
+      "longitudinal_correspondence_error_mm": 1.1613014647963198,
+      "surface_Q_mm": 0.49985097231868836,
+      "surface_HD_mm": 2.127830722668402,
+      "valid_spoke_fraction": 0.8870673952641166
+    },
+    "14": {
+      "thickness_mae_mm": 0.4936764000386195,
+      "cross_sectional_correspondence_error_mm": 1.8133689097367423,
+      "longitudinal_correspondence_error_mm": 1.9690623646418335,
+      "surface_Q_mm": 0.4596239931860442,
+      "surface_HD_mm": 2.382502567857477,
+      "valid_spoke_fraction": 0.8825136612021858
+    },
+    "15": {
+      "thickness_mae_mm": 0.6176926690751514,
+      "cross_sectional_correspondence_error_mm": 2.254003833544731,
+      "longitudinal_correspondence_error_mm": 1.8748355368545493,
+      "surface_Q_mm": 0.5273361772760854,
+      "surface_HD_mm": 3.059009208172106,
+      "valid_spoke_fraction": 0.8886612021857924
+    }
+  },
+  "hm_smooth05": {
+    "0": {
+      "thickness_mae_mm": 0.5801642229255893,
+      "cross_sectional_correspondence_error_mm": 2.3288437280905763,
+      "longitudinal_correspondence_error_mm": 2.756309091654902,
+      "surface_Q_mm": 0.7282681435545512,
+      "surface_HD_mm": 3.2834263845653084,
+      "valid_spoke_fraction": 0.8870673952641166
+    },
+    "1": {
+      "thickness_mae_mm": 0.536794870141183,
+      "cross_sectional_correspondence_error_mm": 0.9950291409726261,
+      "longitudinal_correspondence_error_mm": 0.8448498633953095,
+      "surface_Q_mm": 0.42815710089328224,
+      "surface_HD_mm": 2.371702817477185,
+      "valid_spoke_fraction": 0.9262295081967213
+    },
+    "2": {
+      "thickness_mae_mm": 0.5254509180443846,
+      "cross_sectional_correspondence_error_mm": 1.650248718769211,
+      "longitudinal_correspondence_error_mm": 1.3532074018215692,
+      "surface_Q_mm": 0.5017014087391222,
+      "surface_HD_mm": 2.733298235659583,
+      "valid_spoke_fraction": 0.9428506375227688
+    },
+    "3": {
+      "thickness_mae_mm": 0.39801042937746384,
+      "cross_sectional_correspondence_error_mm": 1.3711958254798549,
+      "longitudinal_correspondence_error_mm": 1.111217595456464,
+      "surface_Q_mm": 0.3672512246351575,
+      "surface_HD_mm": 1.85439952222794,
+      "valid_spoke_fraction": 0.9487704918032787
+    },
+    "4": {
+      "thickness_mae_mm": 0.41380128613393097,
+      "cross_sectional_correspondence_error_mm": 0.5522716214524491,
+      "longitudinal_correspondence_error_mm": 1.161424866429167,
+      "surface_Q_mm": 0.6004099786610562,
+      "surface_HD_mm": 2.4096709603069417,
+      "valid_spoke_fraction": 0.8888888888888888
+    },
+    "5": {
+      "thickness_mae_mm": 0.7022149720249302,
+      "cross_sectional_correspondence_error_mm": 1.6200371726673835,
+      "longitudinal_correspondence_error_mm": 1.2864655551018662,
+      "surface_Q_mm": 0.4882371364466687,
+      "surface_HD_mm": 1.93012314933843,
+      "valid_spoke_fraction": 0.8485883424408014
+    },
+    "6": {
+      "thickness_mae_mm": 0.37830279466393213,
+      "cross_sectional_correspondence_error_mm": 1.0101169576315023,
+      "longitudinal_correspondence_error_mm": 0.9806705815502004,
+      "surface_Q_mm": 0.33693808467312114,
+      "surface_HD_mm": 1.7464466703045365,
+      "valid_spoke_fraction": 0.9601548269581057
+    },
+    "7": {
+      "thickness_mae_mm": 0.43299781931497217,
+      "cross_sectional_correspondence_error_mm": 0.7047022872018687,
+      "longitudinal_correspondence_error_mm": 0.9093558936857663,
+      "surface_Q_mm": 0.37393184051687217,
+      "surface_HD_mm": 1.8686245069737062,
+      "valid_spoke_fraction": 0.932832422586521
+    },
+    "8": {
+      "thickness_mae_mm": 0.5024421235253854,
+      "cross_sectional_correspondence_error_mm": 1.6617815765846713,
+      "longitudinal_correspondence_error_mm": 1.1897025814347337,
+      "surface_Q_mm": 0.6603649545727935,
+      "surface_HD_mm": 3.4175683074765115,
+      "valid_spoke_fraction": 0.8929872495446265
+    },
+    "9": {
+      "thickness_mae_mm": 0.5383014956444877,
+      "cross_sectional_correspondence_error_mm": 3.52373099638927,
+      "longitudinal_correspondence_error_mm": 1.2317547245414546,
+      "surface_Q_mm": 0.9882248559282185,
+      "surface_HD_mm": 4.8177530492420795,
+      "valid_spoke_fraction": 0.825136612021858
+    },
+    "10": {
+      "thickness_mae_mm": 0.5024388723983041,
+      "cross_sectional_correspondence_error_mm": 1.4124399815328215,
+      "longitudinal_correspondence_error_mm": 1.3922227967448553,
+      "surface_Q_mm": 0.5960298154461569,
+      "surface_HD_mm": 3.595100868273861,
+      "valid_spoke_fraction": 0.9068761384335156
+    },
+    "11": {
+      "thickness_mae_mm": 0.45307685375982165,
+      "cross_sectional_correspondence_error_mm": 0.9843819108293003,
+      "longitudinal_correspondence_error_mm": 0.9671194592210988,
+      "surface_Q_mm": 0.4583911067270343,
+      "surface_HD_mm": 2.6311657865239475,
+      "valid_spoke_fraction": 0.9146174863387978
+    },
+    "12": {
+      "thickness_mae_mm": 0.49174539145645024,
+      "cross_sectional_correspondence_error_mm": 2.0805182349454134,
+      "longitudinal_correspondence_error_mm": 1.3842493932393616,
+      "surface_Q_mm": 0.7187385782467779,
+      "surface_HD_mm": 4.171193241622046,
+      "valid_spoke_fraction": 0.9064207650273224
+    },
+    "13": {
+      "thickness_mae_mm": 0.5236949394468471,
+      "cross_sectional_correspondence_error_mm": 1.6006342493584917,
+      "longitudinal_correspondence_error_mm": 1.0985928501545803,
+      "surface_Q_mm": 0.7540109450320737,
+      "surface_HD_mm": 3.9714465954344345,
+      "valid_spoke_fraction": 0.8989071038251366
+    },
+    "14": {
+      "thickness_mae_mm": 0.4198822345380456,
+      "cross_sectional_correspondence_error_mm": 1.3903266472460802,
+      "longitudinal_correspondence_error_mm": 1.5642462319329453,
+      "surface_Q_mm": 0.37771224867735065,
+      "surface_HD_mm": 2.0400428193233395,
+      "valid_spoke_fraction": 0.918943533697632
+    },
+    "15": {
+      "thickness_mae_mm": 0.5119293908954509,
+      "cross_sectional_correspondence_error_mm": 2.8757537334410737,
+      "longitudinal_correspondence_error_mm": 1.9884091918517963,
+      "surface_Q_mm": 1.0295753547867847,
+      "surface_HD_mm": 4.818157776895796,
+      "valid_spoke_fraction": 0.9020947176684881
+    }
+  },
+  "hm_smooth10": {
+    "0": {
+      "thickness_mae_mm": 0.5609824877256053,
+      "cross_sectional_correspondence_error_mm": 2.3293678828306965,
+      "longitudinal_correspondence_error_mm": 2.753206148448085,
+      "surface_Q_mm": 0.7313024048377225,
+      "surface_HD_mm": 3.2738965189453904,
+      "valid_spoke_fraction": 0.8977686703096539
+    },
+    "1": {
+      "thickness_mae_mm": 0.5252896415423917,
+      "cross_sectional_correspondence_error_mm": 0.9923691494666665,
+      "longitudinal_correspondence_error_mm": 0.8600583052413677,
+      "surface_Q_mm": 0.42926909280918457,
+      "surface_HD_mm": 2.2964611123558334,
+      "valid_spoke_fraction": 0.9355646630236794
+    },
+    "2": {
+      "thickness_mae_mm": 0.5103164920506669,
+      "cross_sectional_correspondence_error_mm": 1.6493069201004131,
+      "longitudinal_correspondence_error_mm": 1.353752022951882,
+      "surface_Q_mm": 0.5068085513088187,
+      "surface_HD_mm": 2.7045301378571462,
+      "valid_spoke_fraction": 0.9453551912568307
+    },
+    "3": {
+      "thickness_mae_mm": 0.37202763929556126,
+      "cross_sectional_correspondence_error_mm": 1.3669544391091437,
+      "longitudinal_correspondence_error_mm": 1.1333976615095016,
+      "surface_Q_mm": 0.3699121946891123,
+      "surface_HD_mm": 1.8645714278468584,
+      "valid_spoke_fraction": 0.9503642987249545
+    },
+    "4": {
+      "thickness_mae_mm": 0.3988934891567512,
+      "cross_sectional_correspondence_error_mm": 0.5508757567686489,
+      "longitudinal_correspondence_error_mm": 1.1585231209865727,
+      "surface_Q_mm": 0.6003662096549955,
+      "surface_HD_mm": 2.440983710619393,
+      "valid_spoke_fraction": 0.8973132969034607
+    },
+    "5": {
+      "thickness_mae_mm": 0.6891808680930014,
+      "cross_sectional_correspondence_error_mm": 1.617668653254477,
+      "longitudinal_correspondence_error_mm": 1.2869434055909486,
+      "surface_Q_mm": 0.4895381261837296,
+      "surface_HD_mm": 1.959121429966856,
+      "valid_spoke_fraction": 0.8501821493624772
+    },
+    "6": {
+      "thickness_mae_mm": 0.3858166262635509,
+      "cross_sectional_correspondence_error_mm": 1.0116970647814236,
+      "longitudinal_correspondence_error_mm": 0.9888207789332769,
+      "surface_Q_mm": 0.34750733613611884,
+      "surface_HD_mm": 1.7849248980801962,
+      "valid_spoke_fraction": 0.9663023679417122
+    },
+    "7": {
+      "thickness_mae_mm": 0.423846831304766,
+      "cross_sectional_correspondence_error_mm": 0.7015681522221268,
+      "longitudinal_correspondence_error_mm": 0.9003727305136509,
+      "surface_Q_mm": 0.37704888694561,
+      "surface_HD_mm": 1.8261885001708218,
+      "valid_spoke_fraction": 0.9403460837887067
+    },
+    "8": {
+      "thickness_mae_mm": 0.4881187349921941,
+      "cross_sectional_correspondence_error_mm": 1.6585372001141752,
+      "longitudinal_correspondence_error_mm": 1.1960524386265516,
+      "surface_Q_mm": 0.6638071573359797,
+      "surface_HD_mm": 3.4058426599843514,
+      "valid_spoke_fraction": 0.9009562841530054
+    },
+    "9": {
+      "thickness_mae_mm": 0.5143671740447472,
+      "cross_sectional_correspondence_error_mm": 3.520922135082771,
+      "longitudinal_correspondence_error_mm": 1.2271793587353221,
+      "surface_Q_mm": 0.9932977066436239,
+      "surface_HD_mm": 4.81457357012984,
+      "valid_spoke_fraction": 0.840846994535519
+    },
+    "10": {
+      "thickness_mae_mm": 0.4927663910994889,
+      "cross_sectional_correspondence_error_mm": 1.4155723863158518,
+      "longitudinal_correspondence_error_mm": 1.3703131662471904,
+      "surface_Q_mm": 0.5989065037117601,
+      "surface_HD_mm": 3.595523574440686,
+      "valid_spoke_fraction": 0.91643897996357
+    },
+    "11": {
+      "thickness_mae_mm": 0.44597233026749666,
+      "cross_sectional_correspondence_error_mm": 0.9845852526700711,
+      "longitudinal_correspondence_error_mm": 0.9851908109140964,
+      "surface_Q_mm": 0.46608319620176997,
+      "surface_HD_mm": 2.646271183893617,
+      "valid_spoke_fraction": 0.9200819672131147
+    },
+    "12": {
+      "thickness_mae_mm": 0.46718612464971954,
+      "cross_sectional_correspondence_error_mm": 2.079536883017219,
+      "longitudinal_correspondence_error_mm": 1.3827282074593563,
+      "surface_Q_mm": 0.7209359450777062,
+      "surface_HD_mm": 4.121985675225057,
+      "valid_spoke_fraction": 0.9153005464480874
+    },
+    "13": {
+      "thickness_mae_mm": 0.5076567985689575,
+      "cross_sectional_correspondence_error_mm": 1.5997273407955737,
+      "longitudinal_correspondence_error_mm": 1.088910526749169,
+      "surface_Q_mm": 0.7532695851408123,
+      "surface_HD_mm": 3.982797495434787,
+      "valid_spoke_fraction": 0.9036885245901639
+    },
+    "14": {
+      "thickness_mae_mm": 0.4037310115831856,
+      "cross_sectional_correspondence_error_mm": 1.3890420360666695,
+      "longitudinal_correspondence_error_mm": 1.537675290279853,
+      "surface_Q_mm": 0.38462978086389066,
+      "surface_HD_mm": 1.9691950425924878,
+      "valid_spoke_fraction": 0.9264571948998178
+    },
+    "15": {
+      "thickness_mae_mm": 0.499333938710777,
+      "cross_sectional_correspondence_error_mm": 2.8735128763274327,
+      "longitudinal_correspondence_error_mm": 1.996558004007312,
+      "surface_Q_mm": 1.032448012796987,
+      "surface_HD_mm": 4.837520546406559,
+      "valid_spoke_fraction": 0.9075591985428051
+    }
+  },
+  "hm_smooth10_fine": {
+    "0": {
+      "thickness_mae_mm": 0.5684006128828397,
+      "cross_sectional_correspondence_error_mm": 2.320133125735217,
+      "longitudinal_correspondence_error_mm": 2.80849354842351,
+      "surface_Q_mm": 0.7234526686149638,
+      "surface_HD_mm": 3.7088994871446985,
+      "valid_spoke_fraction": 0.896174863387978
+    },
+    "1": {
+      "thickness_mae_mm": 0.5380614549536974,
+      "cross_sectional_correspondence_error_mm": 1.0188754921296188,
+      "longitudinal_correspondence_error_mm": 0.7498037869880285,
+      "surface_Q_mm": 0.4427887829822088,
+      "surface_HD_mm": 2.425605191860709,
+      "valid_spoke_fraction": 0.9328324225865209
+    },
+    "2": {
+      "thickness_mae_mm": 0.5169107807125264,
+      "cross_sectional_correspondence_error_mm": 1.7236774806802293,
+      "longitudinal_correspondence_error_mm": 1.468490661381715,
+      "surface_Q_mm": 0.5728535289355929,
+      "surface_HD_mm": 3.637084752346524,
+      "valid_spoke_fraction": 0.9439890710382514
+    },
+    "3": {
+      "thickness_mae_mm": 0.3806909978619652,
+      "cross_sectional_correspondence_error_mm": 1.4445336406669538,
+      "longitudinal_correspondence_error_mm": 1.38183421036325,
+      "surface_Q_mm": 0.3961672446584259,
+      "surface_HD_mm": 2.0781331139899715,
+      "valid_spoke_fraction": 0.9417122040072861
+    },
+    "4": {
+      "thickness_mae_mm": 0.3965671867220689,
+      "cross_sectional_correspondence_error_mm": 0.5492081032408549,
+      "longitudinal_correspondence_error_mm": 1.1731221128830736,
+      "surface_Q_mm": 0.6061562191120919,
+      "surface_HD_mm": 2.476544642360065,
+      "valid_spoke_fraction": 0.8884335154826959
+    },
+    "5": {
+      "thickness_mae_mm": 0.6882484588628313,
+      "cross_sectional_correspondence_error_mm": 1.577527660558884,
+      "longitudinal_correspondence_error_mm": 1.1658334939075539,
+      "surface_Q_mm": 0.4974524500373896,
+      "surface_HD_mm": 2.0207449534037383,
+      "valid_spoke_fraction": 0.843351548269581
+    },
+    "6": {
+      "thickness_mae_mm": 0.3875909257753838,
+      "cross_sectional_correspondence_error_mm": 1.0089947471327847,
+      "longitudinal_correspondence_error_mm": 1.0754341095783904,
+      "surface_Q_mm": 0.3504596752436292,
+      "surface_HD_mm": 1.8365788831048677,
+      "valid_spoke_fraction": 0.9637978142076503
+    },
+    "7": {
+      "thickness_mae_mm": 0.42543324013169237,
+      "cross_sectional_correspondence_error_mm": 0.7415779388654745,
+      "longitudinal_correspondence_error_mm": 0.8503433900458965,
+      "surface_Q_mm": 0.37917992692823105,
+      "surface_HD_mm": 1.96013481836101,
+      "valid_spoke_fraction": 0.9339708561020036
+    },
+    "8": {
+      "thickness_mae_mm": 0.48686311708672675,
+      "cross_sectional_correspondence_error_mm": 1.616077471675816,
+      "longitudinal_correspondence_error_mm": 1.1844196107092113,
+      "surface_Q_mm": 0.6614590828471555,
+      "surface_HD_mm": 3.3058743896635785,
+      "valid_spoke_fraction": 0.9036885245901639
+    },
+    "9": {
+      "thickness_mae_mm": 0.5019293456433471,
+      "cross_sectional_correspondence_error_mm": 3.4334500110098016,
+      "longitudinal_correspondence_error_mm": 1.313286819737602,
+      "surface_Q_mm": 1.0110022517154136,
+      "surface_HD_mm": 4.945609076787438,
+      "valid_spoke_fraction": 0.8533697632058288
+    },
+    "10": {
+      "thickness_mae_mm": 0.4858001505792857,
+      "cross_sectional_correspondence_error_mm": 1.3846471895979746,
+      "longitudinal_correspondence_error_mm": 1.3002643673499055,
+      "surface_Q_mm": 0.5683967664939831,
+      "surface_HD_mm": 3.436163239164797,
+      "valid_spoke_fraction": 0.9175774134790529
+    },
+    "11": {
+      "thickness_mae_mm": 0.43013103489028315,
+      "cross_sectional_correspondence_error_mm": 1.0493223192306893,
+      "longitudinal_correspondence_error_mm": 0.893227122698384,
+      "surface_Q_mm": 0.48967563460999686,
+      "surface_HD_mm": 2.9949235443878406,
+      "valid_spoke_fraction": 0.9143897996357013
+    },
+    "12": {
+      "thickness_mae_mm": 0.4621310133495423,
+      "cross_sectional_correspondence_error_mm": 2.068764475548142,
+      "longitudinal_correspondence_error_mm": 1.2170722803447251,
+      "surface_Q_mm": 0.7319106988197085,
+      "surface_HD_mm": 4.480767700060624,
+      "valid_spoke_fraction": 0.918488160291439
+    },
+    "13": {
+      "thickness_mae_mm": 0.501917841377774,
+      "cross_sectional_correspondence_error_mm": 1.6150419197073074,
+      "longitudinal_correspondence_error_mm": 1.1165783021143298,
+      "surface_Q_mm": 0.7957888650618938,
+      "surface_HD_mm": 4.198202611915341,
+      "valid_spoke_fraction": 0.9032331511839709
+    },
+    "14": {
+      "thickness_mae_mm": 0.4113445714758998,
+      "cross_sectional_correspondence_error_mm": 1.405172302156464,
+      "longitudinal_correspondence_error_mm": 1.5127604387366607,
+      "surface_Q_mm": 0.3980702922590074,
+      "surface_HD_mm": 2.0445642004455187,
+      "valid_spoke_fraction": 0.9253187613843352
+    },
+    "15": {
+      "thickness_mae_mm": 0.4875881785508598,
+      "cross_sectional_correspondence_error_mm": 3.060465792987006,
+      "longitudinal_correspondence_error_mm": 2.0838795146882014,
+      "surface_Q_mm": 1.1773543209742077,
+      "surface_HD_mm": 5.385760515870213,
+      "valid_spoke_fraction": 0.9043715846994536
+    }
+  },
+  "hm_smooth15": {
+    "0": {
+      "thickness_mae_mm": 0.550309536751459,
+      "cross_sectional_correspondence_error_mm": 2.332496233575613,
+      "longitudinal_correspondence_error_mm": 2.7490015751940278,
+      "surface_Q_mm": 0.7370259796912784,
+      "surface_HD_mm": 3.272949448006003,
+      "valid_spoke_fraction": 0.9007285974499089
+    },
+    "1": {
+      "thickness_mae_mm": 0.5200036522791104,
+      "cross_sectional_correspondence_error_mm": 0.9908484830607925,
+      "longitudinal_correspondence_error_mm": 0.865849896491274,
+      "surface_Q_mm": 0.4329389749574243,
+      "surface_HD_mm": 2.2601309627889026,
+      "valid_spoke_fraction": 0.9373861566484518
+    },
+    "2": {
+      "thickness_mae_mm": 0.49702563544647654,
+      "cross_sectional_correspondence_error_mm": 1.64870609187586,
+      "longitudinal_correspondence_error_mm": 1.349625824492301,
+      "surface_Q_mm": 0.5107782533119124,
+      "surface_HD_mm": 2.675451713389493,
+      "valid_spoke_fraction": 0.945127504553734
+    },
+    "3": {
+      "thickness_mae_mm": 0.35889697340944754,
+      "cross_sectional_correspondence_error_mm": 1.3650439918032162,
+      "longitudinal_correspondence_error_mm": 1.1371591015536804,
+      "surface_Q_mm": 0.37081491436799685,
+      "surface_HD_mm": 1.8907467212534508,
+      "valid_spoke_fraction": 0.9510473588342441
+    },
+    "4": {
+      "thickness_mae_mm": 0.3904119579666062,
+      "cross_sectional_correspondence_error_mm": 0.548797922294672,
+      "longitudinal_correspondence_error_mm": 1.1576007735762237,
+      "surface_Q_mm": 0.6000428931746604,
+      "surface_HD_mm": 2.4537708628781116,
+      "valid_spoke_fraction": 0.8984517304189436
+    },
+    "5": {
+      "thickness_mae_mm": 0.6736128976565665,
+      "cross_sectional_correspondence_error_mm": 1.6163730750882388,
+      "longitudinal_correspondence_error_mm": 1.2844365914608258,
+      "surface_Q_mm": 0.4911813013716101,
+      "surface_HD_mm": 2.0094433513333234,
+      "valid_spoke_fraction": 0.848816029143898
+    },
+    "6": {
+      "thickness_mae_mm": 0.3856818831266141,
+      "cross_sectional_correspondence_error_mm": 1.0134624258303537,
+      "longitudinal_correspondence_error_mm": 0.9918334200595403,
+      "surface_Q_mm": 0.3547810339497406,
+      "surface_HD_mm": 1.7906144065705412,
+      "valid_spoke_fraction": 0.9681238615664846
+    },
+    "7": {
+      "thickness_mae_mm": 0.41719053252216026,
+      "cross_sectional_correspondence_error_mm": 0.7004012334261659,
+      "longitudinal_correspondence_error_mm": 0.8911290305170457,
+      "surface_Q_mm": 0.3804419811613183,
+      "surface_HD_mm": 1.7938262512439018,
+      "valid_spoke_fraction": 0.9414845173041894
+    },
+    "8": {
+      "thickness_mae_mm": 0.47985530909326274,
+      "cross_sectional_correspondence_error_mm": 1.657609843907125,
+      "longitudinal_correspondence_error_mm": 1.2014037350933788,
+      "surface_Q_mm": 0.6683994464650835,
+      "surface_HD_mm": 3.4024441423483696,
+      "valid_spoke_fraction": 0.9045992714025501
+    },
+    "9": {
+      "thickness_mae_mm": 0.5038854758657233,
+      "cross_sectional_correspondence_error_mm": 3.5206010717573815,
+      "longitudinal_correspondence_error_mm": 1.2258206004979366,
+      "surface_Q_mm": 0.9985090273455142,
+      "surface_HD_mm": 4.813060672246489,
+      "valid_spoke_fraction": 0.8469945355191257
+    },
+    "10": {
+      "thickness_mae_mm": 0.48272692568170106,
+      "cross_sectional_correspondence_error_mm": 1.4184563964013666,
+      "longitudinal_correspondence_error_mm": 1.3521808380856692,
+      "surface_Q_mm": 0.600980777302144,
+      "surface_HD_mm": 3.5945439014460216,
+      "valid_spoke_fraction": 0.918488160291439
+    },
+    "11": {
+      "thickness_mae_mm": 0.4435087724679031,
+      "cross_sectional_correspondence_error_mm": 0.9859427151045819,
+      "longitudinal_correspondence_error_mm": 0.9942165329681196,
+      "surface_Q_mm": 0.4728481812879451,
+      "surface_HD_mm": 2.640273390646397,
+      "valid_spoke_fraction": 0.9205373406193078
+    },
+    "12": {
+      "thickness_mae_mm": 0.464481446998585,
+      "cross_sectional_correspondence_error_mm": 2.082109146670168,
+      "longitudinal_correspondence_error_mm": 1.3894577942813502,
+      "surface_Q_mm": 0.7247439508825146,
+      "surface_HD_mm": 4.093879131237132,
+      "valid_spoke_fraction": 0.9187158469945356
+    },
+    "13": {
+      "thickness_mae_mm": 0.4953708485388448,
+      "cross_sectional_correspondence_error_mm": 1.598667242279334,
+      "longitudinal_correspondence_error_mm": 1.0790409894729502,
+      "surface_Q_mm": 0.7508533648894081,
+      "surface_HD_mm": 3.9788928322072565,
+      "valid_spoke_fraction": 0.9052823315118398
+    },
+    "14": {
+      "thickness_mae_mm": 0.3994797930166686,
+      "cross_sectional_correspondence_error_mm": 1.388763378704912,
+      "longitudinal_correspondence_error_mm": 1.524652631685073,
+      "surface_Q_mm": 0.39004613629682144,
+      "surface_HD_mm": 1.969594694880383,
+      "valid_spoke_fraction": 0.9310109289617486
+    },
+    "15": {
+      "thickness_mae_mm": 0.4921706931475885,
+      "cross_sectional_correspondence_error_mm": 2.874095673227254,
+      "longitudinal_correspondence_error_mm": 2.0026891444897656,
+      "surface_Q_mm": 1.034580240822457,
+      "surface_HD_mm": 4.847070141822087,
+      "valid_spoke_fraction": 0.9084699453551912
+    }
+  },
+  "sc_label_drift": {
+    "0": {
+      "thickness_mae_mm": 0.5954061714919743,
+      "cross_sectional_correspondence_error_mm": 2.3311626694859653,
+      "longitudinal_correspondence_error_mm": 3.6319051991600815,
+      "surface_Q_mm": 1.0283073102945308,
+      "surface_HD_mm": 3.937516976568761,
+      "valid_spoke_fraction": 0.7240437158469946
+    },
+    "1": {
+      "thickness_mae_mm": 0.5488437594196524,
+      "cross_sectional_correspondence_error_mm": 0.9981362695224659,
+      "longitudinal_correspondence_error_mm": 2.22266000861298,
+      "surface_Q_mm": 0.686294458902807,
+      "surface_HD_mm": 3.128467856071815,
+      "valid_spoke_fraction": 0.8060109289617486
+    },
+    "2": {
+      "thickness_mae_mm": 0.5350540588312398,
+      "cross_sectional_correspondence_error_mm": 1.6512711151860555,
+      "longitudinal_correspondence_error_mm": 2.0922913578345947,
+      "surface_Q_mm": 0.7389031220339336,
+      "surface_HD_mm": 2.836573981554059,
+      "valid_spoke_fraction": 0.7991803278688524
+    },
+    "3": {
+      "thickness_mae_mm": 0.4168275995739265,
+      "cross_sectional_correspondence_error_mm": 1.3743191322497248,
+      "longitudinal_correspondence_error_mm": 2.598920290519673,
+      "surface_Q_mm": 0.71574885243946,
+      "surface_HD_mm": 2.858069126005909,
+      "valid_spoke_fraction": 0.8119307832422588
+    },
+    "4": {
+      "thickness_mae_mm": 0.4245653027365911,
+      "cross_sectional_correspondence_error_mm": 0.5536424273349305,
+      "longitudinal_correspondence_error_mm": 2.5771617764909185,
+      "surface_Q_mm": 1.0134301836312822,
+      "surface_HD_mm": 3.1240294798100674,
+      "valid_spoke_fraction": 0.7210837887067395
+    },
+    "5": {
+      "thickness_mae_mm": 0.7094610994764331,
+      "cross_sectional_correspondence_error_mm": 1.6225150677108982,
+      "longitudinal_correspondence_error_mm": 2.3509522064994353,
+      "surface_Q_mm": 0.7735682402880248,
+      "surface_HD_mm": 2.8686114692024773,
+      "valid_spoke_fraction": 0.680327868852459
+    },
+    "6": {
+      "thickness_mae_mm": 0.3854025945378234,
+      "cross_sectional_correspondence_error_mm": 1.0120706421414571,
+      "longitudinal_correspondence_error_mm": 2.031229343234301,
+      "surface_Q_mm": 0.6423248906847174,
+      "surface_HD_mm": 2.4651341821690793,
+      "valid_spoke_fraction": 0.8101092896174863
+    },
+    "7": {
+      "thickness_mae_mm": 0.44803967864065597,
+      "cross_sectional_correspondence_error_mm": 0.7083997657638164,
+      "longitudinal_correspondence_error_mm": 1.6914245854821512,
+      "surface_Q_mm": 0.6120381907315043,
+      "surface_HD_mm": 2.390800021720466,
+      "valid_spoke_fraction": 0.8037340619307832
+    },
+    "8": {
+      "thickness_mae_mm": 0.5135341283308602,
+      "cross_sectional_correspondence_error_mm": 1.664754936058757,
+      "longitudinal_correspondence_error_mm": 2.2590628593490325,
+      "surface_Q_mm": 1.0438419802437215,
+      "surface_HD_mm": 4.09967694434333,
+      "valid_spoke_fraction": 0.7106102003642988
+    },
+    "9": {
+      "thickness_mae_mm": 0.5606069284496942,
+      "cross_sectional_correspondence_error_mm": 3.526213218924444,
+      "longitudinal_correspondence_error_mm": 1.9960281573708756,
+      "surface_Q_mm": 1.2632061748636816,
+      "surface_HD_mm": 5.255400354533091,
+      "valid_spoke_fraction": 0.6974043715846995
+    },
+    "10": {
+      "thickness_mae_mm": 0.5104497342977127,
+      "cross_sectional_correspondence_error_mm": 1.4128008270132772,
+      "longitudinal_correspondence_error_mm": 2.288668762812778,
+      "surface_Q_mm": 0.8315161194685441,
+      "surface_HD_mm": 3.648025245230058,
+      "valid_spoke_fraction": 0.7470400728597449
+    },
+    "11": {
+      "thickness_mae_mm": 0.46879222657031,
+      "cross_sectional_correspondence_error_mm": 0.9876823356819892,
+      "longitudinal_correspondence_error_mm": 2.4157266101259705,
+      "surface_Q_mm": 0.6211314032695533,
+      "surface_HD_mm": 2.5287398448793725,
+      "valid_spoke_fraction": 0.8105646630236794
+    },
+    "12": {
+      "thickness_mae_mm": 0.5162918720167196,
+      "cross_sectional_correspondence_error_mm": 2.0833422719541903,
+      "longitudinal_correspondence_error_mm": 1.3283835383441647,
+      "surface_Q_mm": 0.8858946984428113,
+      "surface_HD_mm": 4.268048285997691,
+      "valid_spoke_fraction": 0.7978142076502732
+    },
+    "13": {
+      "thickness_mae_mm": 0.5364025149061062,
+      "cross_sectional_correspondence_error_mm": 1.6023750204981049,
+      "longitudinal_correspondence_error_mm": 1.7536782322970546,
+      "surface_Q_mm": 0.9712033647283005,
+      "surface_HD_mm": 4.076071008238197,
+      "valid_spoke_fraction": 0.74408014571949
+    },
+    "14": {
+      "thickness_mae_mm": 0.4403339389851544,
+      "cross_sectional_correspondence_error_mm": 1.392450647286746,
+      "longitudinal_correspondence_error_mm": 2.660105474965078,
+      "surface_Q_mm": 0.6818169532942341,
+      "surface_HD_mm": 2.7620575189587466,
+      "valid_spoke_fraction": 0.813752276867031
+    },
+    "15": {
+      "thickness_mae_mm": 0.5254549844757617,
+      "cross_sectional_correspondence_error_mm": 2.878566706036871,
+      "longitudinal_correspondence_error_mm": 2.2581344085159047,
+      "surface_Q_mm": 1.055671857514374,
+      "surface_HD_mm": 4.7097102787693075,
+      "valid_spoke_fraction": 0.8328779599271403
+    }
+  },
+  "sc_permute_points": {
+    "0": {
+      "thickness_mae_mm": 1.2518621568236494,
+      "cross_sectional_correspondence_error_mm": 19.05301886633336,
+      "longitudinal_correspondence_error_mm": 14.937166427105254,
+      "surface_Q_mm": 0.728752623152539,
+      "surface_HD_mm": 3.2964721610551626,
+      "valid_spoke_fraction": 0.8775045537340619
+    },
+    "1": {
+      "thickness_mae_mm": 1.5039615807641906,
+      "cross_sectional_correspondence_error_mm": 15.61335406439614,
+      "longitudinal_correspondence_error_mm": 17.354866155598113,
+      "surface_Q_mm": 0.43041268147679557,
+      "surface_HD_mm": 2.4061087869464632,
+      "valid_spoke_fraction": 0.9180327868852458
+    },
+    "2": {
+      "thickness_mae_mm": 1.0055968552324654,
+      "cross_sectional_correspondence_error_mm": 17.24108250558885,
+      "longitudinal_correspondence_error_mm": 17.530408943123593,
+      "surface_Q_mm": 0.4999988279974833,
+      "surface_HD_mm": 2.7483094473580323,
+      "valid_spoke_fraction": 0.9326047358834244
+    },
+    "3": {
+      "thickness_mae_mm": 1.0757326922341224,
+      "cross_sectional_correspondence_error_mm": 17.449188749654812,
+      "longitudinal_correspondence_error_mm": 19.066445113765884,
+      "surface_Q_mm": 0.36827463211767936,
+      "surface_HD_mm": 1.8574664503070037,
+      "valid_spoke_fraction": 0.9382969034608379
+    },
+    "4": {
+      "thickness_mae_mm": 0.9895157087908699,
+      "cross_sectional_correspondence_error_mm": 15.95097824527503,
+      "longitudinal_correspondence_error_mm": 16.217596865954917,
+      "surface_Q_mm": 0.6013004789998689,
+      "surface_HD_mm": 2.435102138824973,
+      "valid_spoke_fraction": 0.8852459016393442
+    },
+    "5": {
+      "thickness_mae_mm": 1.138704827787067,
+      "cross_sectional_correspondence_error_mm": 12.105175369353244,
+      "longitudinal_correspondence_error_mm": 16.637561753597645,
+      "surface_Q_mm": 0.48864419033543866,
+      "surface_HD_mm": 2.140549000898382,
+      "valid_spoke_fraction": 0.8381147540983607
+    },
+    "6": {
+      "thickness_mae_mm": 1.2622497102535917,
+      "cross_sectional_correspondence_error_mm": 18.391229793951567,
+      "longitudinal_correspondence_error_mm": 16.1590883688778,
+      "surface_Q_mm": 0.3354302885335725,
+      "surface_HD_mm": 1.914690491659389,
+      "valid_spoke_fraction": 0.9542349726775956
+    },
+    "7": {
+      "thickness_mae_mm": 1.174451517277691,
+      "cross_sectional_correspondence_error_mm": 15.863919422605859,
+      "longitudinal_correspondence_error_mm": 19.26694366230704,
+      "surface_Q_mm": 0.3750232433220559,
+      "surface_HD_mm": 1.8974940647822627,
+      "valid_spoke_fraction": 0.9246357012750457
+    },
+    "8": {
+      "thickness_mae_mm": 1.309906296550448,
+      "cross_sectional_correspondence_error_mm": 16.546654920823418,
+      "longitudinal_correspondence_error_mm": 16.251188178419397,
+      "surface_Q_mm": 0.6608115767150001,
+      "surface_HD_mm": 3.4244974289666485,
+      "valid_spoke_fraction": 0.8836520947176685
+    },
+    "9": {
+      "thickness_mae_mm": 1.2498126149688011,
+      "cross_sectional_correspondence_error_mm": 13.721930067657219,
+      "longitudinal_correspondence_error_mm": 18.834864276285096,
+      "surface_Q_mm": 0.9878417275666841,
+      "surface_HD_mm": 4.819766640242051,
+      "valid_spoke_fraction": 0.8105646630236795
+    },
+    "10": {
+      "thickness_mae_mm": 1.1169479264869586,
+      "cross_sectional_correspondence_error_mm": 14.396732283981477,
+      "longitudinal_correspondence_error_mm": 11.4534996545118,
+      "surface_Q_mm": 0.595549627721895,
+      "surface_HD_mm": 3.5944239672924,
+      "valid_spoke_fraction": 0.89867941712204
+    },
+    "11": {
+      "thickness_mae_mm": 1.1962811006004295,
+      "cross_sectional_correspondence_error_mm": 16.162682835693865,
+      "longitudinal_correspondence_error_mm": 25.023580141851443,
+      "surface_Q_mm": 0.4580759169507388,
+      "surface_HD_mm": 2.6344117185915166,
+      "valid_spoke_fraction": 0.9057377049180327
+    },
+    "12": {
+      "thickness_mae_mm": 1.2236839644405602,
+      "cross_sectional_correspondence_error_mm": 17.815418488152368,
+      "longitudinal_correspondence_error_mm": 23.905374380230032,
+      "surface_Q_mm": 0.7204087314544941,
+      "surface_HD_mm": 4.185323696419046,
+      "valid_spoke_fraction": 0.8998178506375227
+    },
+    "13": {
+      "thickness_mae_mm": 1.1160749571186366,
+      "cross_sectional_correspondence_error_mm": 14.03033066795324,
+      "longitudinal_correspondence_error_mm": 17.435732248554075,
+      "surface_Q_mm": 0.7535108769329343,
+      "surface_HD_mm": 3.951039572504151,
+      "valid_spoke_fraction": 0.8875227686703098
+    },
+    "14": {
+      "thickness_mae_mm": 1.1977595813265025,
+      "cross_sectional_correspondence_error_mm": 17.310938997825996,
+      "longitudinal_correspondence_error_mm": 19.802733363119398,
+      "surface_Q_mm": 0.37796846570728054,
+      "surface_HD_mm": 2.134597820246481,
+      "valid_spoke_fraction": 0.9118852459016393
+    },
+    "15": {
+      "thickness_mae_mm": 1.1511549775051193,
+      "cross_sectional_correspondence_error_mm": 15.656719115331418,
+      "longitudinal_correspondence_error_mm": 16.36894147546081,
+      "surface_Q_mm": 1.0298923078712316,
+      "surface_HD_mm": 4.8137334724195995,
+      "valid_spoke_fraction": 0.8913934426229508
+    }
+  },
+  "sc_snap_raw_surface": {
+    "0": {
+      "thickness_mae_mm": 1.645792501915957,
+      "cross_sectional_correspondence_error_mm": 2.359140689356697,
+      "longitudinal_correspondence_error_mm": 2.79024691668169,
+      "surface_Q_mm": 1.979447403956868,
+      "surface_HD_mm": 6.858326297223889,
+      "valid_spoke_fraction": 0.8369763205828779
+    },
+    "1": {
+      "thickness_mae_mm": 0.6830629840500207,
+      "cross_sectional_correspondence_error_mm": 1.0477105498593229,
+      "longitudinal_correspondence_error_mm": 0.8833901326653443,
+      "surface_Q_mm": 0.5297744225862361,
+      "surface_HD_mm": 2.8210901670052024,
+      "valid_spoke_fraction": 0.9027777777777778
+    },
+    "2": {
+      "thickness_mae_mm": 0.5720609822557334,
+      "cross_sectional_correspondence_error_mm": 1.690383970849449,
+      "longitudinal_correspondence_error_mm": 1.3809277351330376,
+      "surface_Q_mm": 0.5303836781026248,
+      "surface_HD_mm": 2.861905344054712,
+      "valid_spoke_fraction": 0.9052823315118397
+    },
+    "3": {
+      "thickness_mae_mm": 0.45634743724821225,
+      "cross_sectional_correspondence_error_mm": 1.4337664719718755,
+      "longitudinal_correspondence_error_mm": 1.1381760652300559,
+      "surface_Q_mm": 0.41304849146642275,
+      "surface_HD_mm": 1.8292648662699595,
+      "valid_spoke_fraction": 0.9212204007285975
+    },
+    "4": {
+      "thickness_mae_mm": 4.096008537494234,
+      "cross_sectional_correspondence_error_mm": 0.6266174486595087,
+      "longitudinal_correspondence_error_mm": 1.2077359102830036,
+      "surface_Q_mm": 2.832111568176825,
+      "surface_HD_mm": 9.068118445099902,
+      "valid_spoke_fraction": 0.8900273224043715
+    },
+    "5": {
+      "thickness_mae_mm": 0.7521484761878386,
+      "cross_sectional_correspondence_error_mm": 1.6477138734594907,
+      "longitudinal_correspondence_error_mm": 1.312340437456727,
+      "surface_Q_mm": 0.5220560744712766,
+      "surface_HD_mm": 2.4155455716984178,
+      "valid_spoke_fraction": 0.8123861566484518
+    },
+    "6": {
+      "thickness_mae_mm": 0.4345044696986842,
+      "cross_sectional_correspondence_error_mm": 1.0473732486057103,
+      "longitudinal_correspondence_error_mm": 1.02665140040434,
+      "surface_Q_mm": 0.367013039725491,
+      "surface_HD_mm": 1.886284258253311,
+      "valid_spoke_fraction": 0.9437613843351549
+    },
+    "7": {
+      "thickness_mae_mm": 0.48528305549668727,
+      "cross_sectional_correspondence_error_mm": 0.7920433961967397,
+      "longitudinal_correspondence_error_mm": 0.958801340830583,
+      "surface_Q_mm": 0.39037755256451323,
+      "surface_HD_mm": 1.9926718606148321,
+      "valid_spoke_fraction": 0.9137067395264117
+    },
+    "8": {
+      "thickness_mae_mm": 1.2371152303582724,
+      "cross_sectional_correspondence_error_mm": 1.7007968657518042,
+      "longitudinal_correspondence_error_mm": 1.2181031622006369,
+      "surface_Q_mm": 1.522645740614876,
+      "surface_HD_mm": 5.8620154036952545,
+      "valid_spoke_fraction": 0.889799635701275
+    },
+    "9": {
+      "thickness_mae_mm": 0.5942167066804742,
+      "cross_sectional_correspondence_error_mm": 3.53489866766354,
+      "longitudinal_correspondence_error_mm": 1.2662784648645584,
+      "surface_Q_mm": 0.9687230259359155,
+      "surface_HD_mm": 4.793568342802658,
+      "valid_spoke_fraction": 0.8060109289617488
+    },
+    "10": {
+      "thickness_mae_mm": 0.6069307499820934,
+      "cross_sectional_correspondence_error_mm": 1.4348293929765605,
+      "longitudinal_correspondence_error_mm": 1.4780084914577574,
+      "surface_Q_mm": 0.7663615726187725,
+      "surface_HD_mm": 4.084843789979692,
+      "valid_spoke_fraction": 0.8966302367941712
+    },
+    "11": {
+      "thickness_mae_mm": 0.5163314912006111,
+      "cross_sectional_correspondence_error_mm": 1.032180818616254,
+      "longitudinal_correspondence_error_mm": 1.0026420298371124,
+      "surface_Q_mm": 0.48833024443155715,
+      "surface_HD_mm": 2.7646460654936442,
+      "valid_spoke_fraction": 0.88683970856102
+    },
+    "12": {
+      "thickness_mae_mm": 0.5570720693511395,
+      "cross_sectional_correspondence_error_mm": 2.1104633366920753,
+      "longitudinal_correspondence_error_mm": 1.4227642457758856,
+      "surface_Q_mm": 0.7208615900845543,
+      "surface_HD_mm": 4.128113764223709,
+      "valid_spoke_fraction": 0.88683970856102
+    },
+    "13": {
+      "thickness_mae_mm": 0.6128154817324016,
+      "cross_sectional_correspondence_error_mm": 1.6229541361712905,
+      "longitudinal_correspondence_error_mm": 1.117948834564623,
+      "surface_Q_mm": 0.7716448230264201,
+      "surface_HD_mm": 3.8646881731489193,
+      "valid_spoke_fraction": 0.8406193078324227
+    },
+    "14": {
+      "thickness_mae_mm": 0.4763947521640711,
+      "cross_sectional_correspondence_error_mm": 1.4190017035702218,
+      "longitudinal_correspondence_error_mm": 1.641968754013618,
+      "surface_Q_mm": 0.3960769581051625,
+      "surface_HD_mm": 2.1142986313789445,
+      "valid_spoke_fraction": 0.9077868852459017
+    },
+    "15": {
+      "thickness_mae_mm": 0.5829790497260485,
+      "cross_sectional_correspondence_error_mm": 2.912769287182671,
+      "longitudinal_correspondence_error_mm": 2.02218757564696,
+      "surface_Q_mm": 1.0398711912173844,
+      "surface_HD_mm": 4.865334896918968,
+      "valid_spoke_fraction": 0.8588342440801457
+    }
+  },
+  "sc_template_only": {
+    "0": {
+      "thickness_mae_mm": 0.2055550548512154,
+      "cross_sectional_correspondence_error_mm": 2.3975540597865503,
+      "longitudinal_correspondence_error_mm": 1.1414417116085767,
+      "surface_Q_mm": 1.0249957581332994,
+      "surface_HD_mm": 4.299958289389318,
+      "valid_spoke_fraction": 0.8267304189435337
+    },
+    "1": {
+      "thickness_mae_mm": 0.20786085102238666,
+      "cross_sectional_correspondence_error_mm": 3.0995355249470835,
+      "longitudinal_correspondence_error_mm": 2.947530485706228,
+      "surface_Q_mm": 1.9746106759211246,
+      "surface_HD_mm": 5.050474100551362,
+      "valid_spoke_fraction": 0.42896174863387976
+    },
+    "2": {
+      "thickness_mae_mm": 0.36459813551568004,
+      "cross_sectional_correspondence_error_mm": 2.413224334117056,
+      "longitudinal_correspondence_error_mm": 3.1561967856969084,
+      "surface_Q_mm": 1.0963246386247545,
+      "surface_HD_mm": 4.145918591389272,
+      "valid_spoke_fraction": 0.6215846994535519
+    },
+    "3": {
+      "thickness_mae_mm": 0.4937625218971541,
+      "cross_sectional_correspondence_error_mm": 3.5084712438660377,
+      "longitudinal_correspondence_error_mm": 2.6586199704180205,
+      "surface_Q_mm": 2.5971362367949147,
+      "surface_HD_mm": 6.88742605600195,
+      "valid_spoke_fraction": 0.31079234972677594
+    },
+    "4": {
+      "thickness_mae_mm": 0.5776048945818258,
+      "cross_sectional_correspondence_error_mm": 1.3331186166045565,
+      "longitudinal_correspondence_error_mm": 1.5577511565157944,
+      "surface_Q_mm": 0.9412586715052617,
+      "surface_HD_mm": 2.5795611480558724,
+      "valid_spoke_fraction": 0.6632513661202186
+    },
+    "5": {
+      "thickness_mae_mm": 0.29994027585356803,
+      "cross_sectional_correspondence_error_mm": 4.39741441411395,
+      "longitudinal_correspondence_error_mm": 2.022719005244754,
+      "surface_Q_mm": 1.6696355837463446,
+      "surface_HD_mm": 7.814725157057583,
+      "valid_spoke_fraction": 0.5061475409836066
+    },
+    "6": {
+      "thickness_mae_mm": 0.2547419722022973,
+      "cross_sectional_correspondence_error_mm": 1.7342073978914767,
+      "longitudinal_correspondence_error_mm": 1.2040869226198438,
+      "surface_Q_mm": 1.049887873020409,
+      "surface_HD_mm": 2.815598762393945,
+      "valid_spoke_fraction": 0.6518670309653917
+    },
+    "7": {
+      "thickness_mae_mm": 0.12021496037569737,
+      "cross_sectional_correspondence_error_mm": 1.7685902478699302,
+      "longitudinal_correspondence_error_mm": 1.675776765756084,
+      "surface_Q_mm": 0.9384839551487076,
+      "surface_HD_mm": 3.107558070154569,
+      "valid_spoke_fraction": 0.7636612021857923
+    },
+    "8": {
+      "thickness_mae_mm": 0.1634330131685112,
+      "cross_sectional_correspondence_error_mm": 2.2532908743895255,
+      "longitudinal_correspondence_error_mm": 2.0045038258962675,
+      "surface_Q_mm": 1.1640011075910026,
+      "surface_HD_mm": 3.272488151159968,
+      "valid_spoke_fraction": 0.6359289617486339
+    },
+    "9": {
+      "thickness_mae_mm": 0.15273488470484609,
+      "cross_sectional_correspondence_error_mm": 2.716051130961472,
+      "longitudinal_correspondence_error_mm": 1.5048335536462398,
+      "surface_Q_mm": 0.951029589583332,
+      "surface_HD_mm": 4.296916742174732,
+      "valid_spoke_fraction": 0.7832422586520947
+    },
+    "10": {
+      "thickness_mae_mm": 0.2933696106672107,
+      "cross_sectional_correspondence_error_mm": 1.4490153305066535,
+      "longitudinal_correspondence_error_mm": 2.0268516218949544,
+      "surface_Q_mm": 0.7880547567625655,
+      "surface_HD_mm": 2.9403193923850957,
+      "valid_spoke_fraction": 0.7427140255009108
+    },
+    "11": {
+      "thickness_mae_mm": 0.3024618557240718,
+      "cross_sectional_correspondence_error_mm": 2.7478254242124414,
+      "longitudinal_correspondence_error_mm": 3.0833410600134488,
+      "surface_Q_mm": 1.4929329443549375,
+      "surface_HD_mm": 4.527645961887433,
+      "valid_spoke_fraction": 0.4701730418943534
+    },
+    "12": {
+      "thickness_mae_mm": 0.347525825203118,
+      "cross_sectional_correspondence_error_mm": 2.796869813400803,
+      "longitudinal_correspondence_error_mm": 2.0761627027870904,
+      "surface_Q_mm": 1.4504294765529862,
+      "surface_HD_mm": 4.20866490114243,
+      "valid_spoke_fraction": 0.48998178506375223
+    },
+    "13": {
+      "thickness_mae_mm": 0.2248239210238294,
+      "cross_sectional_correspondence_error_mm": 1.8648383917876947,
+      "longitudinal_correspondence_error_mm": 1.2876752275910837,
+      "surface_Q_mm": 0.8240176466330226,
+      "surface_HD_mm": 3.065677893072679,
+      "valid_spoke_fraction": 0.7206284153005464
+    },
+    "14": {
+      "thickness_mae_mm": 0.12240560883749245,
+      "cross_sectional_correspondence_error_mm": 1.8107384824966428,
+      "longitudinal_correspondence_error_mm": 2.6815457855485163,
+      "surface_Q_mm": 1.1928241896382905,
+      "surface_HD_mm": 4.370513892232745,
+      "valid_spoke_fraction": 0.6703096539162113
+    },
+    "15": {
+      "thickness_mae_mm": 0.15087087518107148,
+      "cross_sectional_correspondence_error_mm": 2.319163929339394,
+      "longitudinal_correspondence_error_mm": 1.7617807928949711,
+      "surface_Q_mm": 0.7122221815987759,
+      "surface_HD_mm": 2.972370170418059,
+      "valid_spoke_fraction": 0.8793260473588342
+    }
+  },
+  "sc_zero_thickness": {
+    "0": {
+      "thickness_mae_mm": 2.6719784821860344,
+      "cross_sectional_correspondence_error_mm": 2.8910073254599657,
+      "longitudinal_correspondence_error_mm": 3.296455638614031,
+      "surface_Q_mm": 1.496657377800597,
+      "surface_HD_mm": 3.874946704802475,
+      "valid_spoke_fraction": 0.4644808743169399
+    },
+    "1": {
+      "thickness_mae_mm": 2.7943579944865085,
+      "cross_sectional_correspondence_error_mm": 1.7708705245821579,
+      "longitudinal_correspondence_error_mm": 1.968434085208304,
+      "surface_Q_mm": 1.380760559140062,
+      "surface_HD_mm": 3.2349654437774378,
+      "valid_spoke_fraction": 0.40710382513661203
+    },
+    "2": {
+      "thickness_mae_mm": 2.337377599951131,
+      "cross_sectional_correspondence_error_mm": 2.0685891461081334,
+      "longitudinal_correspondence_error_mm": 1.8273599911873584,
+      "surface_Q_mm": 1.1546393408660192,
+      "surface_HD_mm": 3.1447926792668026,
+      "valid_spoke_fraction": 0.6425318761384335
+    },
+    "3": {
+      "thickness_mae_mm": 2.2067807380293236,
+      "cross_sectional_correspondence_error_mm": 1.8109781602414181,
+      "longitudinal_correspondence_error_mm": 1.7889353589114794,
+      "surface_Q_mm": 1.0881529405193442,
+      "surface_HD_mm": 2.380944116182534,
+      "valid_spoke_fraction": 0.6479963570127505
+    },
+    "4": {
+      "thickness_mae_mm": 2.12256777188817,
+      "cross_sectional_correspondence_error_mm": 1.208544159643849,
+      "longitudinal_correspondence_error_mm": 1.8718458541779655,
+      "surface_Q_mm": 1.1765683756572407,
+      "surface_HD_mm": 3.0470565774560914,
+      "valid_spoke_fraction": 0.6457194899817851
+    },
+    "5": {
+      "thickness_mae_mm": 2.4938705877311027,
+      "cross_sectional_correspondence_error_mm": 2.0291875112875624,
+      "longitudinal_correspondence_error_mm": 1.9685355310744892,
+      "surface_Q_mm": 1.116666410853873,
+      "surface_HD_mm": 2.701808419119715,
+      "valid_spoke_fraction": 0.7076502732240437
+    },
+    "6": {
+      "thickness_mae_mm": 2.6708305178444243,
+      "cross_sectional_correspondence_error_mm": 1.748227043288639,
+      "longitudinal_correspondence_error_mm": 1.8114639439393574,
+      "surface_Q_mm": 1.3356116633700128,
+      "surface_HD_mm": 2.854781588085216,
+      "valid_spoke_fraction": 0.4089253187613844
+    },
+    "7": {
+      "thickness_mae_mm": 2.63245124075365,
+      "cross_sectional_correspondence_error_mm": 1.5007092488599105,
+      "longitudinal_correspondence_error_mm": 2.0064437886397566,
+      "surface_Q_mm": 1.3003179243919232,
+      "surface_HD_mm": 2.7931041001486117,
+      "valid_spoke_fraction": 0.4977231329690346
+    },
+    "8": {
+      "thickness_mae_mm": 2.662790327069972,
+      "cross_sectional_correspondence_error_mm": 2.235454208066447,
+      "longitudinal_correspondence_error_mm": 2.2610450735359353,
+      "surface_Q_mm": 1.4036777170262977,
+      "surface_HD_mm": 3.6833448619773,
+      "valid_spoke_fraction": 0.46038251366120225
+    },
+    "9": {
+      "thickness_mae_mm": 2.696367641507168,
+      "cross_sectional_correspondence_error_mm": 3.945109381842703,
+      "longitudinal_correspondence_error_mm": 2.2198514507708875,
+      "surface_Q_mm": 1.6574851356087201,
+      "surface_HD_mm": 5.134185009293237,
+      "valid_spoke_fraction": 0.5091074681238615
+    },
+    "10": {
+      "thickness_mae_mm": 2.4276102695525887,
+      "cross_sectional_correspondence_error_mm": 2.019372733314988,
+      "longitudinal_correspondence_error_mm": 1.8987494608032502,
+      "surface_Q_mm": 1.3130909996140114,
+      "surface_HD_mm": 3.8133696585932335,
+      "valid_spoke_fraction": 0.5414389799635702
+    },
+    "11": {
+      "thickness_mae_mm": 2.885744460727782,
+      "cross_sectional_correspondence_error_mm": 1.7999003030024197,
+      "longitudinal_correspondence_error_mm": 2.0248641366396116,
+      "surface_Q_mm": 1.4221444051026804,
+      "surface_HD_mm": 3.2881803837351855,
+      "valid_spoke_fraction": 0.29918032786885246
+    },
+    "12": {
+      "thickness_mae_mm": 2.97139123804148,
+      "cross_sectional_correspondence_error_mm": 2.6831468742467934,
+      "longitudinal_correspondence_error_mm": 2.425754940828868,
+      "surface_Q_mm": 1.5721618962460657,
+      "surface_HD_mm": 4.33997531519225,
+      "valid_spoke_fraction": 0.29508196721311475
+    },
+    "13": {
+      "thickness_mae_mm": 2.482838801347493,
+      "cross_sectional_correspondence_error_mm": 2.1828785864300095,
+      "longitudinal_correspondence_error_mm": 1.8883324436459896,
+      "surface_Q_mm": 1.381467875827989,
+      "surface_HD_mm": 3.949323601280928,
+      "valid_spoke_fraction": 0.5405282331511839
+    },
+    "14": {
+      "thickness_mae_mm": 2.608492429247754,
+      "cross_sectional_correspondence_error_mm": 1.9438932251920606,
+      "longitudinal_correspondence_error_mm": 2.181586292676202,
+      "surface_Q_mm": 1.3057423762449623,
+      "surface_HD_mm": 2.971339635827412,
+      "valid_spoke_fraction": 0.447632058287796
+    },
+    "15": {
+      "thickness_mae_mm": 2.6138028926428114,
+      "cross_sectional_correspondence_error_mm": 3.408464704678965,
+      "longitudinal_correspondence_error_mm": 2.615278689580611,
+      "surface_Q_mm": 1.6353429277463425,
+      "surface_HD_mm": 5.28498009882881,
+      "valid_spoke_fraction": 0.5318761384335156
+    }
+  }
+}

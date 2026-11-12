@@ -1,0 +1,1320 @@
+{
+  "train": {
+    "status": {
+      "boundary_baseline": "ok",
+      "hippmetric": "ok",
+      "hm_independent_followups": "ok",
+      "hm_no_dense": "ok",
+      "hm_smooth05": "ok",
+      "hm_smooth10": "ok",
+      "hm_smooth10_fine": "ok",
+      "hm_smooth15": "ok",
+      "sc_crash": "failed: exit code 3",
+      "sc_huge_values": "failed: invalid output: sup_end contains impossible coordinates (> 10000 mm)",
+      "sc_label_drift": "failed: longitudinal_correspondence_error_mm 2.271 not better than trivial 2.015",
+      "sc_missing_output": "failed: no output file written",
+      "sc_nan_partial": "failed: invalid output: sup_end contains non-finite values",
+      "sc_permute_points": "failed: thickness_mae_mm 1.185 not better than trivial 0.685; cross_sectional_correspondence_error_mm 16.082 not better than trivial 2.413; longitudinal_correspondence_error_mm 17.900 not better than trivial 2.015",
+      "sc_snap_raw_surface": "failed: thickness_mae_mm 0.894 not better than trivial 0.685",
+      "sc_template_only": "failed: cross_sectional_correspondence_error_mm 2.413 not better than trivial 2.413; longitudinal_correspondence_error_mm 2.015 not better than trivial 2.015; surface_Q_mm 1.242 not better than trivial 1.242",
+      "sc_zero_thickness": "failed: thickness_mae_mm 2.580 not better than trivial 0.685; longitudinal_correspondence_error_mm 2.121 not better than trivial 2.015; surface_Q_mm 1.359 not better than trivial 1.242"
+    },
+    "delta_successful_population": {
+      "boundary_baseline": -4.451383595540736,
+      "hippmetric": 0.0,
+      "hm_independent_followups": 0.16474978698158388,
+      "hm_no_dense": -1.2970468018244825,
+      "hm_smooth05": 0.3008891242078603,
+      "hm_smooth10": 0.6443976183734051,
+      "hm_smooth10_fine": 0.4326541341084921,
+      "hm_smooth15": 0.7883202171947296,
+      "sc_crash": -229.13210879114092,
+      "sc_huge_values": -229.13210879114092,
+      "sc_label_drift": -229.13210879114092,
+      "sc_missing_output": -229.13210879114092,
+      "sc_nan_partial": -229.13210879114092,
+      "sc_permute_points": -229.13210879114092,
+      "sc_snap_raw_surface": -229.13210879114092,
+      "sc_template_only": -229.13210879114092,
+      "sc_zero_thickness": -229.13210879114092
+    },
+    "delta_all_population": {
+      "boundary_baseline": -0.15992806987685182,
+      "hippmetric": 0.0,
+      "hm_independent_followups": -0.028312066820305133,
+      "hm_no_dense": -0.022326709893971487,
+      "hm_smooth05": 0.007974717501916563,
+      "hm_smooth10": 0.016536695701948927,
+      "hm_smooth10_fine": 0.008529045624101183,
+      "hm_smooth15": 0.019816962844205404,
+      "sc_crash": -4.776490961452181,
+      "sc_huge_values": -4.776490961452181,
+      "sc_label_drift": -4.776490961452181,
+      "sc_missing_output": -4.776490961452181,
+      "sc_nan_partial": -4.776490961452181,
+      "sc_permute_points": -4.776490961452181,
+      "sc_snap_raw_surface": -4.776490961452181,
+      "sc_template_only": -4.776490961452181,
+      "sc_zero_thickness": -4.776490961452181
+    },
+    "metrics": {
+      "boundary_baseline": {
+        "thickness_mae_mm": 0.49368531767866836,
+        "thickness_p95_abs_error_mm": 1.332954530860292,
+        "subfield_mean_thickness_error_mm": 0.27160779742271907,
+        "valid_spoke_fraction": 0.9542065118397086,
+        "cross_sectional_correspondence_error_mm": 2.2414543095205053,
+        "cross_sectional_p95_correspondence_error_mm": 5.389600444071666,
+        "longitudinal_correspondence_error_mm": 1.9525866009292707,
+        "longitudinal_p95_correspondence_error_mm": 5.1619223232429015,
+        "surface_Q_mm": 1.100576955522111,
+        "surface_HD_mm": 4.682824332653091,
+        "surface_p95_mm": 2.6605327822611167
+      },
+      "hippmetric": {
+        "thickness_mae_mm": 0.5084666620462883,
+        "thickness_p95_abs_error_mm": 1.60963039181704,
+        "subfield_mean_thickness_error_mm": 0.28060305101130545,
+        "valid_spoke_fraction": 0.8973702185792349,
+        "cross_sectional_correspondence_error_mm": 1.6124814408031058,
+        "cross_sectional_p95_correspondence_error_mm": 4.315410717414575,
+        "longitudinal_correspondence_error_mm": 1.317184864244883,
+        "longitudinal_p95_correspondence_error_mm": 2.7539817532955597,
+        "surface_Q_mm": 0.5882435123034807,
+        "surface_HD_mm": 3.0158741786570977,
+        "surface_p95_mm": 1.3221981617291765
+      },
+      "hm_independent_followups": {
+        "thickness_mae_mm": 0.44793392755859796,
+        "thickness_p95_abs_error_mm": 1.385199635715174,
+        "subfield_mean_thickness_error_mm": 0.26003339059772007,
+        "valid_spoke_fraction": 0.928805214025501,
+        "cross_sectional_correspondence_error_mm": 1.6124814408031058,
+        "cross_sectional_p95_correspondence_error_mm": 4.315410717414575,
+        "longitudinal_correspondence_error_mm": 1.334343119274404,
+        "longitudinal_p95_correspondence_error_mm": 3.609528362411274,
+        "surface_Q_mm": 0.882693258767272,
+        "surface_HD_mm": 3.683430212824882,
+        "surface_p95_mm": 2.0816677383381563
+      },
+      "hm_no_dense": {
+        "thickness_mae_mm": 0.5542496141618618,
+        "thickness_p95_abs_error_mm": 1.6873008264036313,
+        "subfield_mean_thickness_error_mm": 0.29891199594412543,
+        "valid_spoke_fraction": 0.8720827641165756,
+        "cross_sectional_correspondence_error_mm": 1.7461285513259817,
+        "cross_sectional_p95_correspondence_error_mm": 3.9528989422786096,
+        "longitudinal_correspondence_error_mm": 1.5072712254393723,
+        "longitudinal_p95_correspondence_error_mm": 2.8554446753684144,
+        "surface_Q_mm": 0.5631039423827551,
+        "surface_HD_mm": 2.8716807870218486,
+        "surface_p95_mm": 1.231600670179652
+      },
+      "hm_smooth05": {
+        "thickness_mae_mm": 0.49445303839319865,
+        "thickness_p95_abs_error_mm": 1.5229134114038996,
+        "subfield_mean_thickness_error_mm": 0.2798580075668216,
+        "valid_spoke_fraction": 0.9063353825136612,
+        "cross_sectional_correspondence_error_mm": 1.610125798912037,
+        "cross_sectional_p95_correspondence_error_mm": 4.309701231358774,
+        "longitudinal_correspondence_error_mm": 1.3105246981347374,
+        "longitudinal_p95_correspondence_error_mm": 2.7023476262991113,
+        "surface_Q_mm": 0.5879964235960637,
+        "surface_HD_mm": 2.978757543227853,
+        "surface_p95_mm": 1.320181971466701
+      },
+      "hm_smooth10": {
+        "thickness_mae_mm": 0.4803429112093039,
+        "thickness_p95_abs_error_mm": 1.375486589013776,
+        "subfield_mean_thickness_error_mm": 0.27726065107255227,
+        "valid_spoke_fraction": 0.9134079007285975,
+        "cross_sectional_correspondence_error_mm": 1.60882775805771,
+        "cross_sectional_p95_correspondence_error_mm": 4.304823129644436,
+        "longitudinal_correspondence_error_mm": 1.311501830351068,
+        "longitudinal_p95_correspondence_error_mm": 2.6434090071614165,
+        "surface_Q_mm": 0.5915706681461139,
+        "surface_HD_mm": 2.9702742177468675,
+        "surface_p95_mm": 1.3208778473618685
+      },
+      "hm_smooth10_fine": {
+        "thickness_mae_mm": 0.4793505569285453,
+        "thickness_p95_abs_error_mm": 1.3653570053496922,
+        "subfield_mean_thickness_error_mm": 0.2777578095461236,
+        "valid_spoke_fraction": 0.9115437158469946,
+        "cross_sectional_correspondence_error_mm": 1.6260918544327012,
+        "cross_sectional_p95_correspondence_error_mm": 4.38529239995663,
+        "longitudinal_correspondence_error_mm": 1.3272079034112554,
+        "longitudinal_p95_correspondence_error_mm": 2.707179737953972,
+        "surface_Q_mm": 0.6126355255808688,
+        "surface_HD_mm": 3.183474445054183,
+        "surface_p95_mm": 1.3691886697618472
+      },
+      "hm_smooth15": {
+        "thickness_mae_mm": 0.47216327087304477,
+        "thickness_p95_abs_error_mm": 1.3165591581921698,
+        "subfield_mean_thickness_error_mm": 0.27693747031189647,
+        "valid_spoke_fraction": 0.9153290072859745,
+        "cross_sectional_correspondence_error_mm": 1.6088984328129394,
+        "cross_sectional_p95_correspondence_error_mm": 4.303156258421025,
+        "longitudinal_correspondence_error_mm": 1.310300225833264,
+        "longitudinal_p95_correspondence_error_mm": 2.6269777453302985,
+        "surface_Q_mm": 0.5949354035798643,
+        "surface_HD_mm": 2.967918289018616,
+        "surface_p95_mm": 1.3227201743725963
+      },
+      "sc_crash": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_huge_values": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_label_drift": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_missing_output": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_nan_partial": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_permute_points": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_snap_raw_surface": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_template_only": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_zero_thickness": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      }
+    },
+    "failure_thresholds": {
+      "trivial_thickness_mae_mm": 0.6847895203507286,
+      "trivial_cross_sectional_error_mm": 2.4131193260182044,
+      "trivial_longitudinal_error_mm": 2.014771404120006,
+      "trivial_surface_Q_mm": 1.241740330350608,
+      "min_valid_spoke_fraction": 0.5
+    },
+    "paired_vs_reference": {
+      "boundary_baseline": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.014781344367620096,
+          "se": 0.023524514129022945,
+          "z": -0.6283379238589195,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.6289728687173997,
+          "se": 0.12640397359084335,
+          "z": 4.975894751167555,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.6511095175510524,
+          "se": 0.17155582344092038,
+          "z": 3.7953215722535854,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.5123334432186303,
+          "se": 0.2070116827550604,
+          "z": 2.4749011089622006,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 1.6669501539959939,
+          "se": 0.6339386350297282,
+          "z": 2.629513429036902,
+          "n": 16
+        }
+      },
+      "hm_independent_followups": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.060532734487690545,
+          "se": 0.010624325812821111,
+          "z": -5.697560066789508,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.0,
+          "se": 0.0,
+          "z": Infinity,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.024619787110240307,
+          "se": 0.13181722152224237,
+          "z": 0.18677215940320857,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.29444974646379135,
+          "se": 0.19870623708928883,
+          "z": 1.4818344445397558,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.6675560341677843,
+          "se": 0.6057147284176659,
+          "z": 1.102096420722126,
+          "n": 16
+        }
+      },
+      "hm_no_dense": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.04578295211557337,
+          "se": 0.008580750928831142,
+          "z": 5.335541433995435,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.13364711052287565,
+          "se": 0.06515188358049748,
+          "z": 2.0513161428057543,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.19817950576197715,
+          "se": 0.06875506729542422,
+          "z": 2.8823985425022833,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": -0.025139569920725635,
+          "se": 0.04369024025760674,
+          "z": -0.5754047076074086,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.14419339163524902,
+          "se": 0.217490096510824,
+          "z": -0.662988310495659,
+          "n": 16
+        }
+      },
+      "hm_smooth05": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.014013623653089783,
+          "se": 0.0013286357495222426,
+          "z": -10.547378134397537,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": -0.0023556418910687313,
+          "se": 0.00022369594089825755,
+          "z": -10.530552685084865,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.006866763640846429,
+          "se": 0.001292162252062947,
+          "z": -5.314165175374523,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": -0.00024708870741689884,
+          "se": 0.0002629696261837593,
+          "z": -0.9396093039438589,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.03711663542924473,
+          "se": 0.01623409615627979,
+          "z": -2.286338276670057,
+          "n": 16
+        }
+      },
+      "hm_smooth10": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.02812375083698464,
+          "se": 0.003052812082225482,
+          "z": -9.212408127159465,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": -0.0036536827453958337,
+          "se": 0.0006503855649117578,
+          "z": -5.61771807757073,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.006874019954717314,
+          "se": 0.004401089528517062,
+          "z": -1.5618905069248843,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.0033271558426331387,
+          "se": 0.000905403297308787,
+          "z": 3.674777695776841,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.045599960910230095,
+          "se": 0.01702508270004998,
+          "z": -2.678398790397431,
+          "n": 16
+        }
+      },
+      "hm_smooth10_fine": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.029116105117743235,
+          "se": 0.003719263522310753,
+          "z": -7.828459839719451,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.013610413629595287,
+          "se": 0.015824969418712247,
+          "z": 0.8600593953440215,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.0021764079074484757,
+          "se": 0.02852079496867041,
+          "z": -0.07630951065141141,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.024392013277387988,
+          "se": 0.009881245552656317,
+          "z": 2.4685160537105393,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.16760026639708575,
+          "se": 0.07229484234857489,
+          "z": 2.3182880127048175,
+          "n": 16
+        }
+      },
+      "hm_smooth15": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.03630339117324361,
+          "se": 0.003468973162669804,
+          "z": -10.46516922180616,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": -0.0035830079901661427,
+          "se": 0.0009908164291629374,
+          "z": -3.6162177823324377,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.008347988534403203,
+          "se": 0.0061376457338172315,
+          "z": -1.3601287686591967,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.006691891276383588,
+          "se": 0.0014514320274313381,
+          "z": 4.610544035070328,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.047955889638481186,
+          "se": 0.017464543006016423,
+          "z": -2.7459000571592793,
+          "n": 16
+        }
+      },
+      "sc_label_drift": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.0,
+          "se": 1.0134903240813529e-17,
+          "z": 0.0,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.0,
+          "se": 0.0,
+          "z": Infinity,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.9266666571965863,
+          "se": 0.1058263835924367,
+          "z": 8.75648043275679,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.2595626002484868,
+          "se": 0.023185883237104573,
+          "z": 11.19485497249061,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.4189341072211791,
+          "se": 0.08591095620655712,
+          "z": 4.876375793256555,
+          "n": 16
+        }
+      },
+      "sc_permute_points": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.6767643672137805,
+          "se": 0.03406219840949596,
+          "z": 19.868487614267146,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 14.46935320885801,
+          "se": 0.5263131490373352,
+          "z": 27.49190901903839,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 16.557270294518293,
+          "se": 0.8540274523687768,
+          "z": 19.38728110975139,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": -3.469446951953614e-18,
+          "se": 3.469446951953614e-18,
+          "z": -1.0,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.0,
+          "se": 0.0,
+          "z": Infinity,
+          "n": 16
+        }
+      },
+      "sc_snap_raw_surface": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.3858498364251165,
+          "se": 0.23072052806808158,
+          "z": 1.672368903001379,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.03830880029584487,
+          "se": 0.004958022062688399,
+          "z": 7.726629654219935,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.03365657503601997,
+          "se": 0.003765513161529662,
+          "z": 8.9381111132135,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.3016769487643255,
+          "se": 0.1564413409265236,
+          "z": 1.9283710237821041,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.8722955637092783,
+          "se": 0.46095088432787346,
+          "z": 1.8923828836584164,
+          "n": 16
+        }
+      },
+      "sc_template_only": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.24084764574566497,
+          "se": 0.04190517745738159,
+          "z": -5.747443642032345,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.8006378852150984,
+          "se": 0.24512173998113235,
+          "z": 3.2662867246157994,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.716321942335573,
+          "se": 0.23362529483755345,
+          "z": 3.066114663798082,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.6534968180471273,
+          "se": 0.15767059738387468,
+          "z": 4.1446967848804634,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 1.1313644013095907,
+          "se": 0.5113289138058026,
+          "z": 2.2125961798031066,
+          "n": 16
+        }
+      },
+      "sc_zero_thickness": {
+        "thickness_mae_mm": {
+          "mean_diff": 2.0714866500166735,
+          "se": 0.05730824291439392,
+          "z": 36.14639962197105,
+          "n": 16
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.5904143802122706,
+          "se": 0.03368559917052718,
+          "z": 17.527204346979428,
+          "n": 16
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.7953293989852802,
+          "se": 0.05715127507358572,
+          "z": 13.916214431983285,
+          "n": 16
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.770536983072528,
+          "se": 0.03614636859332052,
+          "z": 21.317134004297056,
+          "n": 16
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.5151944584408549,
+          "se": 0.0697850740314486,
+          "z": 7.382588119182661,
+          "n": 16
+        }
+      }
+    }
+  },
+  "test": {
+    "status": {
+      "boundary_baseline": "failed: cross_sectional_correspondence_error_mm 3.281 not better than trivial 2.698; surface_Q_mm 1.466 not better than trivial 1.452",
+      "hippmetric": "ok",
+      "hm_independent_followups": "ok",
+      "hm_no_dense": "ok",
+      "hm_smooth05": "ok",
+      "hm_smooth10": "ok",
+      "hm_smooth10_fine": "ok",
+      "hm_smooth15": "ok",
+      "sc_crash": "failed: exit code 3",
+      "sc_huge_values": "failed: invalid output: sup_end contains impossible coordinates (> 10000 mm)",
+      "sc_label_drift": "failed: longitudinal_correspondence_error_mm 2.336 not better than trivial 2.245",
+      "sc_missing_output": "failed: no output file written",
+      "sc_nan_partial": "failed: invalid output: sup_end contains non-finite values",
+      "sc_permute_points": "failed: thickness_mae_mm 1.166 not better than trivial 0.668; cross_sectional_correspondence_error_mm 15.685 not better than trivial 2.698; longitudinal_correspondence_error_mm 16.899 not better than trivial 2.245",
+      "sc_snap_raw_surface": "failed: thickness_mae_mm 0.899 not better than trivial 0.668",
+      "sc_template_only": "failed: cross_sectional_correspondence_error_mm 2.698 not better than trivial 2.698; longitudinal_correspondence_error_mm 2.245 not better than trivial 2.245; surface_Q_mm 1.452 not better than trivial 1.452",
+      "sc_zero_thickness": "failed: exit code 1"
+    },
+    "delta_successful_population": {
+      "boundary_baseline": -519.950745356062,
+      "hippmetric": 0.0,
+      "hm_independent_followups": -0.636052380813157,
+      "hm_no_dense": -1.7843897772949984,
+      "hm_smooth05": 0.29901954370179645,
+      "hm_smooth10": 0.6572348502948344,
+      "hm_smooth10_fine": 1.6818438308777839,
+      "hm_smooth15": 0.8293834922114741,
+      "sc_crash": -519.950745356062,
+      "sc_huge_values": -519.950745356062,
+      "sc_label_drift": -519.950745356062,
+      "sc_missing_output": -519.950745356062,
+      "sc_nan_partial": -519.950745356062,
+      "sc_permute_points": -519.950745356062,
+      "sc_snap_raw_surface": -519.950745356062,
+      "sc_template_only": -519.950745356062,
+      "sc_zero_thickness": -519.950745356062
+    },
+    "delta_all_population": {
+      "boundary_baseline": -4.8203425318214626,
+      "hippmetric": 0.0,
+      "hm_independent_followups": -0.01873742779352327,
+      "hm_no_dense": -0.00689464749591749,
+      "hm_smooth05": 0.006655381807468689,
+      "hm_smooth10": 0.0148006724706111,
+      "hm_smooth10_fine": 0.020295370922102516,
+      "hm_smooth15": 0.018464331783309997,
+      "sc_crash": -4.8203425318214626,
+      "sc_huge_values": -4.8203425318214626,
+      "sc_label_drift": -4.8203425318214626,
+      "sc_missing_output": -4.8203425318214626,
+      "sc_nan_partial": -4.8203425318214626,
+      "sc_permute_points": -4.8203425318214626,
+      "sc_snap_raw_surface": -4.8203425318214626,
+      "sc_template_only": -4.8203425318214626,
+      "sc_zero_thickness": -4.8203425318214626
+    },
+    "metrics": {
+      "boundary_baseline": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "hippmetric": {
+        "thickness_mae_mm": 0.52064156236026,
+        "thickness_p95_abs_error_mm": 1.6350059589678525,
+        "subfield_mean_thickness_error_mm": 0.3020831372075087,
+        "valid_spoke_fraction": 0.8912013319672132,
+        "cross_sectional_correspondence_error_mm": 2.284058518585668,
+        "cross_sectional_p95_correspondence_error_mm": 7.37773952823808,
+        "longitudinal_correspondence_error_mm": 1.3503397043800534,
+        "longitudinal_p95_correspondence_error_mm": 3.3463532012225787,
+        "surface_Q_mm": 1.0209739860339146,
+        "surface_HD_mm": 4.656903841978872,
+        "surface_p95_mm": 2.5228602652715786
+      },
+      "hm_independent_followups": {
+        "thickness_mae_mm": 0.4736082793447915,
+        "thickness_p95_abs_error_mm": 1.5058204781018991,
+        "subfield_mean_thickness_error_mm": 0.285141851973629,
+        "valid_spoke_fraction": 0.9249274248633881,
+        "cross_sectional_correspondence_error_mm": 2.284058518585668,
+        "cross_sectional_p95_correspondence_error_mm": 7.37773952823808,
+        "longitudinal_correspondence_error_mm": 1.483348811612864,
+        "longitudinal_p95_correspondence_error_mm": 4.652619549045013,
+        "surface_Q_mm": 1.097490927842862,
+        "surface_HD_mm": 4.68569736724507,
+        "surface_p95_mm": 2.661655247102906
+      },
+      "hm_no_dense": {
+        "thickness_mae_mm": 0.5732302994957615,
+        "thickness_p95_abs_error_mm": 1.7525841475100243,
+        "subfield_mean_thickness_error_mm": 0.3126779199979258,
+        "valid_spoke_fraction": 0.8565289162112932,
+        "cross_sectional_correspondence_error_mm": 2.3822757713796405,
+        "cross_sectional_p95_correspondence_error_mm": 7.2928450254424915,
+        "longitudinal_correspondence_error_mm": 1.605404786281832,
+        "longitudinal_p95_correspondence_error_mm": 3.607026065546955,
+        "surface_Q_mm": 0.8005392278699897,
+        "surface_HD_mm": 3.853943196160788,
+        "surface_p95_mm": 1.880302714025869
+      },
+      "hm_smooth05": {
+        "thickness_mae_mm": 0.5089731696064833,
+        "thickness_p95_abs_error_mm": 1.556258851599755,
+        "subfield_mean_thickness_error_mm": 0.30112404883564997,
+        "valid_spoke_fraction": 0.9000668829690347,
+        "cross_sectional_correspondence_error_mm": 2.282257676005743,
+        "cross_sectional_p95_correspondence_error_mm": 7.377936082488546,
+        "longitudinal_correspondence_error_mm": 1.3433239219703619,
+        "longitudinal_p95_correspondence_error_mm": 3.33635606054736,
+        "surface_Q_mm": 1.020368702688648,
+        "surface_HD_mm": 4.637640866237291,
+        "surface_p95_mm": 2.5211877981863644
+      },
+      "hm_smooth10": {
+        "thickness_mae_mm": 0.4956301058746197,
+        "thickness_p95_abs_error_mm": 1.41489967402613,
+        "subfield_mean_thickness_error_mm": 0.29741176307810946,
+        "valid_spoke_fraction": 0.9081924521857925,
+        "cross_sectional_correspondence_error_mm": 2.281919937112543,
+        "cross_sectional_p95_correspondence_error_mm": 7.375509123160151,
+        "longitudinal_correspondence_error_mm": 1.3446100099541884,
+        "longitudinal_p95_correspondence_error_mm": 3.326593387061841,
+        "surface_Q_mm": 1.0220902658143385,
+        "surface_HD_mm": 4.6148082072092835,
+        "surface_p95_mm": 2.519971755378135
+      },
+      "hm_smooth10_fine": {
+        "thickness_mae_mm": 0.4890866603201478,
+        "thickness_p95_abs_error_mm": 1.3919441598993705,
+        "subfield_mean_thickness_error_mm": 0.2939320681035573,
+        "valid_spoke_fraction": 0.909117429417122,
+        "cross_sectional_correspondence_error_mm": 2.2447979420809525,
+        "cross_sectional_p95_correspondence_error_mm": 7.217511486994008,
+        "longitudinal_correspondence_error_mm": 1.3190368011993299,
+        "longitudinal_p95_correspondence_error_mm": 3.255080222610433,
+        "surface_Q_mm": 1.041760845279593,
+        "surface_HD_mm": 4.706159070828191,
+        "surface_p95_mm": 2.5773987733529884
+      },
+      "hm_smooth15": {
+        "thickness_mae_mm": 0.4860038221668735,
+        "thickness_p95_abs_error_mm": 1.351536453523635,
+        "subfield_mean_thickness_error_mm": 0.2949275802138982,
+        "valid_spoke_fraction": 0.9106827755009108,
+        "cross_sectional_correspondence_error_mm": 2.282410114607001,
+        "cross_sectional_p95_correspondence_error_mm": 7.378105066081992,
+        "longitudinal_correspondence_error_mm": 1.3460750502834353,
+        "longitudinal_p95_correspondence_error_mm": 3.314321999244444,
+        "surface_Q_mm": 1.0245317632761706,
+        "surface_HD_mm": 4.6073466334822655,
+        "surface_p95_mm": 2.523176451524356
+      },
+      "sc_crash": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_huge_values": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_label_drift": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_missing_output": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_nan_partial": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_permute_points": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_snap_raw_surface": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_template_only": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      },
+      "sc_zero_thickness": {
+        "thickness_mae_mm": 5.0,
+        "thickness_p95_abs_error_mm": 10.0,
+        "subfield_mean_thickness_error_mm": 5.0,
+        "valid_spoke_fraction": 0.0,
+        "cross_sectional_correspondence_error_mm": 20.0,
+        "cross_sectional_p95_correspondence_error_mm": 30.0,
+        "longitudinal_correspondence_error_mm": 20.0,
+        "longitudinal_p95_correspondence_error_mm": 30.0,
+        "surface_Q_mm": 10.0,
+        "surface_HD_mm": 30.0,
+        "surface_p95_mm": 15.0
+      }
+    },
+    "failure_thresholds": {
+      "trivial_thickness_mae_mm": 0.6677764708976937,
+      "trivial_cross_sectional_error_mm": 2.698106824983324,
+      "trivial_longitudinal_error_mm": 2.2448039274436047,
+      "trivial_surface_Q_mm": 1.4515487407259853,
+      "min_valid_spoke_fraction": 0.5
+    },
+    "paired_vs_reference": {
+      "boundary_baseline": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.011462935584200256,
+          "se": 0.0161285173239003,
+          "z": 0.7107246967589341,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.9968014759711866,
+          "se": 0.13527386475058661,
+          "z": 7.368766153085487,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.8084896081401249,
+          "se": 0.18163842532042723,
+          "z": 4.451093466120252,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.44499176201766794,
+          "se": 0.2108881601445154,
+          "z": 2.110084139919132,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": 1.4975796182853875,
+          "se": 0.6546364831336111,
+          "z": 2.287650714357959,
+          "n": 32
+        }
+      },
+      "hm_independent_followups": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.04703328301546858,
+          "se": 0.014507928638125911,
+          "z": -3.2419020101786353,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.0,
+          "se": 0.0,
+          "z": Infinity,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.10006998876044093,
+          "se": 0.1708650955516425,
+          "z": 0.5856666537853288,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.07651694180894736,
+          "se": 0.20179808848565725,
+          "z": 0.37917575128262815,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.02879352526619775,
+          "se": 0.6252502952720344,
+          "z": 0.04605119819043067,
+          "n": 32
+        }
+      },
+      "hm_no_dense": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.05258873713550155,
+          "se": 0.00773085988674704,
+          "z": 6.802443441725552,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.09821725279397242,
+          "se": 0.09699854500017006,
+          "z": 1.012564186337024,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.25197615073978114,
+          "se": 0.054123558416963556,
+          "z": 4.655572510561428,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": -0.22043475816392505,
+          "se": 0.1239023238310942,
+          "z": -1.7791010801736498,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.8029606458180841,
+          "se": 0.39729413910870953,
+          "z": -2.021073473722637,
+          "n": 32
+        }
+      },
+      "hm_smooth05": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.01166839275377669,
+          "se": 0.0006396848940463059,
+          "z": -18.240844613304297,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": -0.001800842579925176,
+          "se": 0.00017151246047006477,
+          "z": -10.499776954919781,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.007056991808866084,
+          "se": 0.0006604432909316271,
+          "z": -10.685235062213183,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": -0.0006052833452665878,
+          "se": 0.0003915163295819497,
+          "z": -1.5459977005630712,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.019262975741581576,
+          "se": 0.006203343262733253,
+          "z": -3.105257105036313,
+          "n": 32
+        }
+      },
+      "hm_smooth10": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.02501145648564035,
+          "se": 0.0021123672296180893,
+          "z": -11.840486888334448,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": -0.0021385814731248055,
+          "se": 0.0004249568488105819,
+          "z": -5.032467364887784,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.005611116102679621,
+          "se": 0.0023486203166413725,
+          "z": -2.389111625630386,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.0011162797804238518,
+          "se": 0.0011448961078878589,
+          "z": 0.97500530636199,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.04209563476958943,
+          "se": 0.012092882885597539,
+          "z": -3.4810255890036577,
+          "n": 32
+        }
+      },
+      "hm_smooth10_fine": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.031554902040112146,
+          "se": 0.0030507096735009585,
+          "z": -10.343462806114916,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": -0.03926057650471569,
+          "se": 0.018029233838564696,
+          "z": -2.177606483795055,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.031748255456547296,
+          "se": 0.01735812921315573,
+          "z": -1.829013660785823,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.020786859245678323,
+          "se": 0.00794355112363611,
+          "z": 2.6168219883204165,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.04925522884931786,
+          "se": 0.04083304171888917,
+          "z": 1.2062591170261172,
+          "n": 32
+        }
+      },
+      "hm_smooth15": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.03463774019338659,
+          "se": 0.0031629500242096073,
+          "z": -10.951086779198242,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": -0.001648403978667003,
+          "se": 0.0006441597545211031,
+          "z": -2.5589987066057853,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": -0.004013272116058744,
+          "se": 0.003512393978424048,
+          "z": -1.1426030623875036,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.00355777724225596,
+          "se": 0.001687415134285847,
+          "z": 2.108418473893618,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.04955720849660703,
+          "se": 0.014436599899870605,
+          "z": -3.4327479351319568,
+          "n": 32
+        }
+      },
+      "sc_label_drift": {
+        "thickness_mae_mm": {
+          "mean_diff": 6.938893903907228e-18,
+          "se": 1.1888583061452834e-17,
+          "z": 0.5836602955995386,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.0,
+          "se": 0.0,
+          "z": Infinity,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.9867655817527539,
+          "se": 0.07380462427133237,
+          "z": 13.369969585171903,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.19847138113163626,
+          "se": 0.02356798368804352,
+          "z": 8.421228721077421,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.18124574220779507,
+          "se": 0.08253338817071769,
+          "z": 2.1960293430931737,
+          "n": 32
+        }
+      },
+      "sc_permute_points": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.6449439082423554,
+          "se": 0.023679410737483406,
+          "z": 27.236484699403402,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 13.400798672288456,
+          "se": 0.5964739955685257,
+          "z": 22.466693890846933,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 15.797610619677117,
+          "se": 0.8931445162299659,
+          "z": 17.687630985364034,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 3.469446951953614e-18,
+          "se": 2.413376247596176e-18,
+          "z": 1.4375905768565218,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.0,
+          "se": 0.0,
+          "z": Infinity,
+          "n": 32
+        }
+      },
+      "sc_snap_raw_surface": {
+        "thickness_mae_mm": {
+          "mean_diff": 0.3782598658498181,
+          "se": 0.14878227233647887,
+          "z": 2.542371882816547,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.02806610939975882,
+          "se": 0.0030831524751274665,
+          "z": 9.103055922850032,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.05093383817044741,
+          "se": 0.009554070489415032,
+          "z": 5.331113919127672,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.29989328435853474,
+          "se": 0.11031668884103135,
+          "z": 2.7184761209674013,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": 0.9171325510368467,
+          "se": 0.30075141980073766,
+          "z": 3.0494703953334326,
+          "n": 32
+        }
+      },
+      "sc_template_only": {
+        "thickness_mae_mm": {
+          "mean_diff": -0.2255619085080693,
+          "se": 0.022518494481317923,
+          "z": -10.016740181951453,
+          "n": 32
+        },
+        "cross_sectional_correspondence_error_mm": {
+          "mean_diff": 0.4140483063976566,
+          "se": 0.3611906604813352,
+          "z": 1.1463427815267468,
+          "n": 32
+        },
+        "longitudinal_correspondence_error_mm": {
+          "mean_diff": 0.8775504036281293,
+          "se": 0.1322700285333768,
+          "z": 6.634537040314387,
+          "n": 32
+        },
+        "surface_Q_mm": {
+          "mean_diff": 0.4305747546920707,
+          "se": 0.22264204052355108,
+          "z": 1.933932844307203,
+          "n": 32
+        },
+        "surface_HD_mm": {
+          "mean_diff": -0.08904510464407318,
+          "se": 0.7759067424753271,
+          "z": -0.114762638045905,
+          "n": 32
+        }
+      }
+    }
+  }
+}

@@ -1,52 +1,92 @@
 {
+  "_slice": "train",
+  "_methods": {
+    "boundary_baseline": {
+      "status": "ok",
+      "reason": null,
+      "raw": {
+        "thickness_mae_mm": 0.49368531767866836,
+        "thickness_p95_abs_error_mm": 1.332954530860292,
+        "subfield_mean_thickness_error_mm": 0.27160779742271907,
+        "valid_spoke_fraction": 0.9542065118397086,
+        "cross_sectional_correspondence_error_mm": 2.2414543095205053,
+        "cross_sectional_p95_correspondence_error_mm": 5.389600444071666,
+        "longitudinal_correspondence_error_mm": 1.9525866009292707,
+        "longitudinal_p95_correspondence_error_mm": 5.1619223232429015,
+        "surface_Q_mm": 1.100576955522111,
+        "surface_HD_mm": 4.682824332653091,
+        "surface_p95_mm": 2.6605327822611167
+      }
+    },
+    "hippmetric": {
+      "status": "ok",
+      "reason": null,
+      "raw": {
+        "thickness_mae_mm": 0.5084666620462883,
+        "thickness_p95_abs_error_mm": 1.60963039181704,
+        "subfield_mean_thickness_error_mm": 0.28060305101130545,
+        "valid_spoke_fraction": 0.8973702185792349,
+        "cross_sectional_correspondence_error_mm": 1.6124814408031058,
+        "cross_sectional_p95_correspondence_error_mm": 4.315410717414575,
+        "longitudinal_correspondence_error_mm": 1.317184864244883,
+        "longitudinal_p95_correspondence_error_mm": 2.7539817532955597,
+        "surface_Q_mm": 0.5882435123034807,
+        "surface_HD_mm": 3.0158741786570977,
+        "surface_p95_mm": 1.3221981617291765
+      }
+    }
+  },
+  "_failure_thresholds": {
+    "trivial_thickness_mae_mm": 0.6847895203507286,
+    "trivial_cross_sectional_error_mm": 2.4131193260182044,
+    "trivial_longitudinal_error_mm": 2.014771404120006,
+    "trivial_surface_Q_mm": 1.241740330350608,
+    "min_valid_spoke_fraction": 0.5
+  },
   "experiments": {
     "subfield_thickness_accuracy": {
       "results": {
         "boundary_baseline": {
-          "thickness_mae_mm": 6.970534023122446,
-          "thickness_p95_abs_error_mm": 8.48495464879406,
-          "valid_spoke_fraction": 1.0
+          "thickness_mae_mm": 0.49368531767866836,
+          "thickness_p95_abs_error_mm": 1.332954530860292,
+          "subfield_mean_thickness_error_mm": 0.27160779742271907,
+          "valid_spoke_fraction": 0.9542065118397086
         },
         "hippmetric": {
-          "thickness_mae_mm": 0.3319731761714867,
-          "thickness_p95_abs_error_mm": 0.8566144427508754,
-          "valid_spoke_fraction": 1.0
+          "thickness_mae_mm": 0.5084666620462883,
+          "thickness_p95_abs_error_mm": 1.60963039181704,
+          "subfield_mean_thickness_error_mm": 0.28060305101130545,
+          "valid_spoke_fraction": 0.8973702185792349
         }
       }
     },
     "correspondence_stability": {
       "results": {
         "boundary_baseline": {
-          "cross_sectional_correspondence_error_mm": 2.0378672878991493,
-          "cross_sectional_p95_correspondence_error_mm": 3.6069158835840955,
-          "longitudinal_correspondence_error_mm": 2.9093419582824445,
-          "longitudinal_p95_correspondence_error_mm": 4.825360439992271,
-          "valid_spoke_fraction": 1.0
+          "cross_sectional_correspondence_error_mm": 2.2414543095205053,
+          "cross_sectional_p95_correspondence_error_mm": 5.389600444071666,
+          "longitudinal_correspondence_error_mm": 1.9525866009292707,
+          "longitudinal_p95_correspondence_error_mm": 5.1619223232429015
         },
         "hippmetric": {
-          "cross_sectional_correspondence_error_mm": 0.5405724220004939,
-          "cross_sectional_p95_correspondence_error_mm": 1.1829402462026954,
-          "longitudinal_correspondence_error_mm": 1.7545195391500412,
-          "longitudinal_p95_correspondence_error_mm": 2.999229886855745,
-          "valid_spoke_fraction": 1.0
+          "cross_sectional_correspondence_error_mm": 1.6124814408031058,
+          "cross_sectional_p95_correspondence_error_mm": 4.315410717414575,
+          "longitudinal_correspondence_error_mm": 1.317184864244883,
+          "longitudinal_p95_correspondence_error_mm": 2.7539817532955597
         }
       }
     },
     "surface_robustness": {
       "results": {
         "boundary_baseline": {
-          "surface_Q_mm": 1.3075222001620723,
-          "surface_q_mm": 3.642030363429306,
-          "surface_HD_mm": 7.284060726858612,
-          "surface_p95_mm": 2.913583611606004,
-          "valid_spoke_fraction": 1.0
+          "surface_Q_mm": 1.100576955522111,
+          "surface_HD_mm": 4.682824332653091,
+          "surface_p95_mm": 2.6605327822611167
         },
         "hippmetric": {
-          "surface_Q_mm": 0.10529608338625451,
-          "surface_q_mm": 0.8392592725209284,
-          "surface_HD_mm": 1.6785185450418567,
-          "surface_p95_mm": 0.2303809452163003,
-          "valid_spoke_fraction": 1.0
+          "surface_Q_mm": 0.5882435123034807,
+          "surface_HD_mm": 3.0158741786570977,
+          "surface_p95_mm": 1.3221981617291765
         }
       }
     }

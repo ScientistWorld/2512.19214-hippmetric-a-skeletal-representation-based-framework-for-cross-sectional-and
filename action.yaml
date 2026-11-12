@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
-# Do NOT sleep, poll, or wait for jobs. The system reads this file
-# only after your turn ends.
-action: pending
+action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: ""
+notes: "Hardening audit: regenerate public template/train cohort, run reference, baseline, variants and shortcuts through train and hidden-test evaluators, analyze, rerun reference end to end, validate."
