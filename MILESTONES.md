@@ -20,6 +20,7 @@
   | Thickness change | 0.482 mm | 0.434 mm | not significant |
 
 - Nonrigid follow-up registration beats the reference beyond noise (Δ +0.417). Details in `HARDENING.md`.
+- Final job `31ed8f71-066` reran the reference from the final code (scores identical; `validate.py` passes).
 
 ### [2026-11-12] - core_claim (hardening iteration)
 - Rebuilt the gym after the red-team audit. Changes:

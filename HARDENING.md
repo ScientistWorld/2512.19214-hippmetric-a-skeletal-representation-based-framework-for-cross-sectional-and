@@ -55,7 +55,7 @@ It asked for:
   - `real_surface_Q_mm` (0.6) → `surface_robustness`.
 - Experiment weights stay 0.25 / 0.50 / 0.25.
 - The paper's simulated-atrophy numbers (1.68 mm vs 3.56–10.57 mm) stay on the procedural `longitudinal_correspondence_error_mm`. They are not targets for the real-anatomy metrics: the paper scores against manual landmarks, while the gym scores against exact positions and adds warps (note in `reference.json`).
-- An earlier draft used a separate fourth experiment. `validate.py` needs a paper value on each experiment's primary metric, and no paper value is on this scale. The fourth experiment was therefore folded into the three existing ones. Values are identical; the saved score files were regrouped with `redteam/hardening/regroup_scores.py`, and the final job reran the evaluators from the final code.
+- An earlier draft used a separate fourth experiment. `validate.py` needs a paper value on each experiment's primary metric, and no paper value is on this scale. The fourth experiment was therefore folded into the three existing ones. Values are identical; the saved score files were regrouped with `redteam/hardening/regroup_scores.py`. The final job `31ed8f71-066` reran `scripts/run.sh` (reference and boundary baseline, train/full/test, `validate.py`) from the final code and reproduced every scored value exactly; `scoring/scores_{train,test}.json` come from that run.
 
 **Method.**
 - The reference is unchanged. It is the paper's procedure: follow-ups are rigidly registered to the baseline, baseline spokes are reused and lengths re-measured.
