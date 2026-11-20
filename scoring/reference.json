@@ -41,8 +41,8 @@
   },
   "experiments": {
     "subfield_thickness_accuracy": {
-      "description": "Local thickness of the hippocampal sheet at every template skeletal point, recomputed from the submitted skeletal points and superior/inferior spoke endpoints, against procedural ground truth on baseline (including disease-thinned subjects) and atrophied follow-up scans, plus the accuracy of measured longitudinal thinning. Validity guards against thickness obtained from geometry that does not reach the true boundary or folds over.",
-      "weight": 0.2,
+      "description": "Local thickness of the hippocampal sheet at every template skeletal point, recomputed from the submitted skeletal points and superior/inferior spoke endpoints. Procedural cohort: point-wise and subfield thickness against known ground truth on baseline (including disease-thinned subjects) and atrophied follow-up scans, and the accuracy of measured longitudinal thinning. Real-anatomy cohort (held-out MSD Task04 hippocampi with hidden, known head atrophy, warps and poses on follow-ups): accuracy of the measured thickness change of each spoke. Validity on both cohorts guards against thickness obtained from geometry that does not reach the true boundary or folds over.",
+      "weight": 0.25,
       "primary_metric": "thickness_mae_mm",
       "metrics": {
         "thickness_mae_mm": {
@@ -69,6 +69,16 @@
           "higher_is_better": true,
           "coefficient": 0.4,
           "description": "Fraction of spokes whose endpoint lies within 1 mm of the true boundary and whose endpoint grid preserves the skeletal ordering (no local fold-over). Computed by the evaluator from geometry; below 0.5 the run is failed."
+        },
+        "real_thickness_change_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.8,
+          "description": "Mean absolute error of the measured follow-up-minus-baseline thickness of each spoke against the true change of the same spoke, inside the atrophic region. Doing no better than reporting no change fails the run."
+        },
+        "real_valid_spoke_fraction": {
+          "higher_is_better": true,
+          "coefficient": 0.3,
+          "description": "Fraction of real-anatomy spokes whose endpoint lies within 1 mm of the true boundary and whose endpoint grid preserves the skeletal ordering. Below 0.5 the run fails."
         }
       },
       "results": {
@@ -82,8 +92,8 @@
       }
     },
     "correspondence_stability": {
-      "description": "Point-wise anatomical correspondence: distance between each submitted spoke endpoint and the true boundary point carrying the same template coordinate, on baseline scans (cross-sectional) and, inside the eroded anterior region, on follow-up scans (longitudinal).",
-      "weight": 0.35,
+      "description": "Point-wise anatomical correspondence. Procedural cohort: distance between each submitted spoke endpoint and the true boundary point carrying the same template coordinate, on baseline scans (cross-sectional) and inside the eroded anterior region on follow-up scans (longitudinal). Real-anatomy cohort: each submitted baseline endpoint is followed through the hidden, known follow-up change (head erosion along the true normals, smooth warp, new pose); the error is the distance between the submitted follow-up endpoint and the true follow-up position of the same anatomical point, inside the atrophic region and in the stable region.",
+      "weight": 0.5,
       "primary_metric": "longitudinal_correspondence_error_mm",
       "metrics": {
         "cross_sectional_correspondence_error_mm": {
@@ -105,6 +115,21 @@
           "higher_is_better": false,
           "coefficient": -0.45,
           "description": "95th percentile of the longitudinal correspondence error."
+        },
+        "real_longitudinal_correspondence_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Mean distance between each submitted follow-up endpoint and the true follow-up position of the anatomical point its baseline endpoint marked, over endpoints inside the atrophic region (erosion >= 30% of its peak)."
+        },
+        "real_longitudinal_p95_correspondence_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "95th percentile of the atrophic-region longitudinal correspondence error."
+        },
+        "real_stable_correspondence_error_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "The same correspondence error over endpoints outside the atrophic region (erosion < 5% of its peak), where only the warp and pose act: correspondence must not drift where no tissue is lost."
         }
       },
       "results": {
@@ -131,11 +156,12 @@
           "cross_sectional_correspondence_error_mm": 1.66,
           "longitudinal_correspondence_error_mm": 1.68
         }
-      }
+      },
+      "_note": "The paper's longitudinal numbers (1.68 mm HippMetric; 3.56 SPHARM-PDM, 4.65 ds-rep, 10.57 cm-rep) come from its simulated-atrophy study on 15 real ADNI baselines with manual landmarks; they are listed on longitudinal_correspondence_error_mm. The real-anatomy metrics measure the same kind of study against exact known positions (no manual-landmark noise) with smooth warps added, so the paper values are not targets for them."
     },
     "surface_robustness": {
-      "description": "Fidelity of the boundary implied by the submitted s-rep (spoke endpoints, bilinearly densified on the template grid) to the true clean boundary, on baseline and atrophied scans.",
-      "weight": 0.15,
+      "description": "Fidelity of the boundary implied by the submitted s-rep (spoke endpoints, bilinearly densified on the template grid) to the true clean boundary: on baseline and atrophied procedural scans (Q, HD, p95), and on every real-anatomy scan (Q).",
+      "weight": 0.25,
       "primary_metric": "surface_HD_mm",
       "metrics": {
         "surface_Q_mm": {
@@ -152,6 +178,11 @@
           "higher_is_better": false,
           "coefficient": -0.5,
           "description": "95th percentile of the bidirectional nearest distances, a tail measure less brittle than the maximum."
+        },
+        "real_surface_Q_mm": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Root-mean-square of the bidirectional nearest distances between the implied boundary (endpoints densified on the template grid) and the true noise-free boundary, averaged over all real-anatomy scans."
         }
       },
       "results": {
@@ -181,67 +212,6 @@
           "type": "baseline",
           "surface_Q_mm": 0.014,
           "surface_HD_mm": 17.641
-        }
-      }
-    },
-    "real_anatomy_longitudinal": {
-      "description": "Longitudinal tracking on real hippocampal anatomy: held-out real hippocampus labels (MSD Task04, manual) are the baselines; each subject's three follow-ups carry hidden, known progressive tissue loss in the head (erosion along the true boundary normals), an independent smooth warp and a new scanner pose. Each submitted baseline endpoint is followed through the known change: the evaluator scores where the same anatomical point is reported on the follow-ups, the measured thickness change of the same spoke, the implied boundary and the measurement validity.",
-      "weight": 0.3,
-      "primary_metric": "real_longitudinal_correspondence_error_mm",
-      "metrics": {
-        "real_longitudinal_correspondence_error_mm": {
-          "higher_is_better": false,
-          "coefficient": -1.0,
-          "description": "Mean distance between each submitted follow-up endpoint and the true follow-up position of the anatomical point its baseline endpoint marked, over endpoints inside the atrophic region (erosion >= 30% of its peak)."
-        },
-        "real_longitudinal_p95_correspondence_error_mm": {
-          "higher_is_better": false,
-          "coefficient": -0.4,
-          "description": "95th percentile of the atrophic-region longitudinal correspondence error."
-        },
-        "real_stable_correspondence_error_mm": {
-          "higher_is_better": false,
-          "coefficient": -0.5,
-          "description": "The same correspondence error over endpoints outside the atrophic region (erosion < 5% of its peak), where only the warp and pose act: correspondence must not drift where no tissue is lost."
-        },
-        "real_thickness_change_error_mm": {
-          "higher_is_better": false,
-          "coefficient": -0.8,
-          "description": "Mean absolute error of the measured follow-up-minus-baseline thickness of each spoke against the true change of the same spoke, inside the atrophic region. Doing no better than reporting no change fails the run."
-        },
-        "real_surface_Q_mm": {
-          "higher_is_better": false,
-          "coefficient": -0.5,
-          "description": "Root-mean-square of the bidirectional nearest distances between the implied boundary (endpoints densified on the template grid) and the true noise-free boundary, averaged over all real-anatomy scans."
-        },
-        "real_valid_spoke_fraction": {
-          "higher_is_better": true,
-          "coefficient": 0.3,
-          "description": "Fraction of real-anatomy spokes whose endpoint lies within 1 mm of the true boundary and whose endpoint grid preserves the skeletal ordering. Below 0.5 the run fails."
-        }
-      },
-      "results": {
-        "boundary_baseline": {
-          "type": "baseline"
-        },
-        "hippmetric": {
-          "type": "proposed"
-        },
-        "_paper_hippmetric": {
-          "type": "proposed",
-          "real_longitudinal_correspondence_error_mm": 1.68
-        },
-        "_paper_cm_rep": {
-          "type": "baseline",
-          "real_longitudinal_correspondence_error_mm": 10.57
-        },
-        "_paper_ds_rep": {
-          "type": "baseline",
-          "real_longitudinal_correspondence_error_mm": 4.65
-        },
-        "_paper_spharm_pdm": {
-          "type": "baseline",
-          "real_longitudinal_correspondence_error_mm": 3.56
         }
       }
     }

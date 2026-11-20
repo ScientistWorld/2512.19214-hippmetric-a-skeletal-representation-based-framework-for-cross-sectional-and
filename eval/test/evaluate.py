@@ -64,22 +64,19 @@ EXPERIMENTS = {
         "subfield_mean_thickness_error_mm",
         "longitudinal_thickness_change_error_mm",
         "valid_spoke_fraction",
+        "real_thickness_change_error_mm",
+        "real_valid_spoke_fraction",
     ),
     "correspondence_stability": (
         "cross_sectional_correspondence_error_mm",
         "cross_sectional_p95_correspondence_error_mm",
         "longitudinal_correspondence_error_mm",
         "longitudinal_p95_correspondence_error_mm",
-    ),
-    "surface_robustness": ("surface_Q_mm", "surface_HD_mm", "surface_p95_mm"),
-    "real_anatomy_longitudinal": (
         "real_longitudinal_correspondence_error_mm",
         "real_longitudinal_p95_correspondence_error_mm",
         "real_stable_correspondence_error_mm",
-        "real_thickness_change_error_mm",
-        "real_surface_Q_mm",
-        "real_valid_spoke_fraction",
     ),
+    "surface_robustness": ("surface_Q_mm", "surface_HD_mm", "surface_p95_mm", "real_surface_Q_mm"),
 }
 WORST = {
     "thickness_mae_mm": 5.0,
@@ -346,7 +343,8 @@ def gate(metrics: dict, thresholds: dict) -> str | None:
         if not metrics[metric] < thresholds[key]:
             reasons.append(f"{metric} {metrics[metric]:.3f} not better than trivial {thresholds[key]:.3f}")
     # Real cohort: the measured thickness change must beat reporting no change on the same spokes.
-    if not metrics["real_thickness_change_error_mm"] < metrics["real_nochange_thickness_change_error_mm"]:
+    # (1e-6 mm margin: reusing baseline lengths must not pass on floating-point noise.)
+    if not metrics["real_thickness_change_error_mm"] < metrics["real_nochange_thickness_change_error_mm"] - 1e-6:
         reasons.append(
             f"real_thickness_change_error_mm {metrics['real_thickness_change_error_mm']:.3f} not better than "
             f"no change {metrics['real_nochange_thickness_change_error_mm']:.3f}"

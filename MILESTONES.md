@@ -4,6 +4,23 @@
 
 ## Progress Log
 
+### [2026-11-20] - core_claim (final hardening iteration)
+- Added a real-anatomy cohort, following REVIEW.md:
+  - baselines are MSD Task04 manual hippocampus labels (228 development cases; 32 held out only in `eval/test/`);
+  - a real-anatomy template is built from the development mean shape;
+  - follow-ups are generated at evaluation time with hidden, known head erosion along the true normals, smooth warps and new poses;
+  - metrics: longitudinal correspondence (atrophic and stable regions), thickness change, surface Q and validity, filed under the three existing experiments.
+- CPU job `c01cb6af-92b`: build, smoke test, reference run and full variant/shortcut audit on both cohorts. Hidden test, real anatomy, HippMetric vs boundary baseline:
+
+  | Metric | HippMetric | Boundary baseline | Paired difference |
+  |---|---|---|---|
+  | Longitudinal correspondence | 0.678 mm | 1.133 mm | +0.424 ± 0.080 |
+  | Stable region | 0.593 mm | 0.759 mm | |
+  | Surface Q | 0.921 mm | 1.314 mm | |
+  | Thickness change | 0.482 mm | 0.434 mm | not significant |
+
+- Nonrigid follow-up registration beats the reference beyond noise (Δ +0.417). Details in `HARDENING.md`.
+
 ### [2026-11-12] - core_claim (hardening iteration)
 - Rebuilt the gym after the red-team audit. Changes:
   - Hidden segmentation-based test cohort generated in `eval/test/`.
