@@ -1,0 +1,4 @@
+[template] 260 labelled cases: 228 development, 32 held out
+[template] round 0: mean alignment residual 0.673 mm over 228 subjects
+[template] round 1: mean alignment residual 0.647 mm over 228 subjects
+[template] mean shape volume 2832 mm^3; thickness [2.64, 5.58, 8.06] mm; skeleton inside 1.000; |phi| at spoke ends 0.000 mm; subfields [216, 225, 108]

@@ -1,0 +1,25 @@
+[job 0s] build real-anatomy files
+[job 0s] build real-anatomy files
+[job 222s] smoke test
+[job 286s] reference run (scripts/reproduce.sh)
+[job 1422s] reference run rc=0
+[job 1422s] audit
+[0s] audit: install variant and shortcut predictors
+[0s] audit: train split, all predictors
+[job 0s] audit
+[0s] audit: install variant and shortcut predictors
+[0s] audit: train split, all predictors
+[job 0s] audit
+[0s] audit: install variant and shortcut predictors
+[1s] audit: train split, all predictors
+[2048s] audit: train done (rc=0)
+[2048s] audit: hidden test, all predictors
+[job 0s] audit
+[0s] audit: install variant and shortcut predictors
+[0s] audit: hidden test, all predictors
+[job 0s] audit
+[0s] audit: install variant and shortcut predictors
+[0s] audit: hidden test, all predictors
+[2306s] audit: test done (rc=0)
+[job 2309s] audit done
+[job 2309s] validate rc=1
