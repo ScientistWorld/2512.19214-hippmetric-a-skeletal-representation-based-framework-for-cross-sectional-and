@@ -4,4 +4,4 @@
 # The evaluators discover every scripts/predict_<name>.sh and score it as <name>.
 set -e
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-python "$ROOT/method/hippmetric.py" --input "$1" --output "$2" --template "$ROOT/data/hippo_template.npz"
+python "$ROOT/method/hippmetric.py" --input "$1" --output "$2"

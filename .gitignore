@@ -12,6 +12,10 @@ core.*
 !data/hippo_template.npz
 !data/hippo_train.npz
 !data/hippo_train_labels.npz
+!data/hippo_real_anatomy.npz
+!data/hippo_real_template.npz
+!eval/test/real_heldout.npz
+!eval/test/real_template.npz
 *.h5
 *.hdf5
 *.pkl

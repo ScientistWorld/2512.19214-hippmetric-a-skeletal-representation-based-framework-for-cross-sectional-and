@@ -52,7 +52,7 @@ def main() -> None:
         sys.exit(0)
     if mode == "template_only":
         scans = hippo_io.load_scans(args.input)
-        tpl = hippo_io.load_template(ROOT / "data/hippo_template.npz")
+        tpl = hippo_io.load_template(hippo_io.template_path(scans["cohort"]))
         tc = tpl["origin"] + tpl["spacing"] * np.argwhere(tpl["mask"]).mean(axis=0)
         skel = tpl["skeleton"].astype(float)
         sup = skel + tpl["sup_dir"] * tpl["sup_len"][:, None]
@@ -87,7 +87,7 @@ def main() -> None:
         # Keep the reference correspondence but report the template's spoke lengths,
         # scaled by the scan's size, instead of the measured lengths.
         scans = hippo_io.load_scans(args.input)
-        tpl = hippo_io.load_template(ROOT / "data/hippo_template.npz")
+        tpl = hippo_io.load_template(hippo_io.template_path(scans["cohort"]))
         tvol = tpl["mask"].sum() * tpl["spacing"] ** 3
         for i, (m, s) in enumerate(zip(scans["masks"], scans["spacing"])):
             k = float((m.sum() * float(s) ** 3 / tvol) ** (1.0 / 3.0))

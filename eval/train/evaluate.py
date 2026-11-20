@@ -1,10 +1,20 @@
 #!/usr/bin/env python3
-"""Train-split scorer: runs every predictor on the visible development cohort.
+"""Train-split scorer: runs every predictor on the visible development cohorts.
+
+Two development cohorts:
+
+* procedural: ``data/hippo_train.npz`` with ground truth ``data/hippo_train_labels.npz``;
+* real anatomy: 32 development hippocampi from ``data/hippo_real_anatomy.npz``
+  (MSD Task04 manual labels) as baselines, each with three follow-ups carrying
+  known tissue loss, smooth warps and new poses, generated here at evaluation
+  time by ``real_cohort.py`` with a public development seed
+  (``--export-real-inputs PATH`` writes the method-visible scans).
 
 A predictor is any ``scripts/predict_<name>.sh`` taking ``INPUT_NPZ OUTPUT_NPZ``.
-It reads scans in the format documented in ``data/hippo_io.py`` and writes, per
-scan, the skeletal point and superior/inferior spoke endpoints at every template
-skeletal point:
+It is called once per cohort. It reads scans in the format documented in
+``data/hippo_io.py`` (the ``cohort`` entry says which template applies) and
+writes, per scan, the skeletal point and superior/inferior spoke endpoints at
+every template skeletal point:
 
     subjects (N, 2), skeleton (N, 549, 3), sup_end (N, 549, 3), inf_end (N, 549, 3)
 
@@ -12,7 +22,8 @@ Every scored number is recomputed here from those raw coordinates. Nothing a
 predictor reports about itself is read. A predictor that crashes, writes
 malformed / non-finite / absurd coordinates, leaves fewer than half of its
 spokes valid, or does worse than a trivial evaluator-side predictor on any
-task receives the worst value of every scored metric in every experiment.
+task, in either cohort, receives the worst value of every scored metric in
+every experiment.
 """
 
 from __future__ import annotations
@@ -28,6 +39,13 @@ import numpy as np
 from scipy.spatial import cKDTree
 
 ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import real_cohort as rc  # noqa: E402
+
+DEV_REAL_SEED = 20251220
+N_DEV_REAL_SUBJECTS = 32
+N_TIMEPOINTS = 4
 GRID_SHAPE = (61, 9)
 N_POINTS = GRID_SHAPE[0] * GRID_SHAPE[1]
 ADHERENCE_MM = 1.0
@@ -48,6 +66,14 @@ EXPERIMENTS = {
         "longitudinal_p95_correspondence_error_mm",
     ),
     "surface_robustness": ("surface_Q_mm", "surface_HD_mm", "surface_p95_mm"),
+    "real_anatomy_longitudinal": (
+        "real_longitudinal_correspondence_error_mm",
+        "real_longitudinal_p95_correspondence_error_mm",
+        "real_stable_correspondence_error_mm",
+        "real_thickness_change_error_mm",
+        "real_surface_Q_mm",
+        "real_valid_spoke_fraction",
+    ),
 }
 WORST = {
     "thickness_mae_mm": 5.0,
@@ -62,13 +88,22 @@ WORST = {
     "surface_Q_mm": 10.0,
     "surface_HD_mm": 30.0,
     "surface_p95_mm": 15.0,
+    "real_longitudinal_correspondence_error_mm": 20.0,
+    "real_longitudinal_p95_correspondence_error_mm": 30.0,
+    "real_stable_correspondence_error_mm": 20.0,
+    "real_thickness_change_error_mm": 5.0,
+    "real_surface_Q_mm": 10.0,
+    "real_valid_spoke_fraction": 0.0,
 }
+HIGHER_IS_BETTER = {"valid_spoke_fraction", "real_valid_spoke_fraction"}
 GATED = {
     "thickness_mae_mm": "trivial_thickness_mae_mm",
     "longitudinal_thickness_change_error_mm": "trivial_thickness_change_error_mm",
     "cross_sectional_correspondence_error_mm": "trivial_cross_sectional_error_mm",
     "longitudinal_correspondence_error_mm": "trivial_longitudinal_error_mm",
     "surface_Q_mm": "trivial_surface_Q_mm",
+    "real_longitudinal_correspondence_error_mm": "trivial_real_longitudinal_error_mm",
+    "real_surface_Q_mm": "trivial_real_surface_Q_mm",
 }
 
 
@@ -295,11 +330,21 @@ def failure_thresholds(template, centroids, labels, subjects, subfield_id) -> di
 
 def gate(metrics: dict, thresholds: dict) -> str | None:
     reasons = []
-    if metrics["valid_spoke_fraction"] < MIN_VALIDITY:
-        reasons.append(f"valid_spoke_fraction {metrics['valid_spoke_fraction']:.3f} < {MIN_VALIDITY}")
+    for name in WORST:
+        if not np.isfinite(metrics[name]):
+            reasons.append(f"{name} is not finite")
+    for name in ("valid_spoke_fraction", "real_valid_spoke_fraction"):
+        if not metrics[name] >= MIN_VALIDITY:
+            reasons.append(f"{name} {metrics[name]:.3f} < {MIN_VALIDITY}")
     for metric, key in GATED.items():
         if not metrics[metric] < thresholds[key]:
             reasons.append(f"{metric} {metrics[metric]:.3f} not better than trivial {thresholds[key]:.3f}")
+    # Real cohort: the measured thickness change must beat reporting no change on the same spokes.
+    if not metrics["real_thickness_change_error_mm"] < metrics["real_nochange_thickness_change_error_mm"]:
+        reasons.append(
+            f"real_thickness_change_error_mm {metrics['real_thickness_change_error_mm']:.3f} not better than "
+            f"no change {metrics['real_nochange_thickness_change_error_mm']:.3f}"
+        )
     return "; ".join(reasons) or None
 
 
@@ -312,8 +357,14 @@ def finalize(metrics: dict | None) -> dict:
         if not np.isfinite(value):
             out[name] = worst
         else:
-            out[name] = max(value, worst) if name == "valid_spoke_fraction" else min(value, worst)
+            out[name] = max(value, worst) if name in HIGHER_IS_BETTER else min(value, worst)
     return out
+
+
+def _finite_or_none(metrics: dict | None) -> dict | None:
+    if metrics is None:
+        return None
+    return {k: (float(v) if np.isfinite(v) else None) for k, v in metrics.items()}
 
 
 def write_scores(path: Path, slice_name: str, blocks: dict, status: dict, thresholds: dict) -> dict:
@@ -333,15 +384,48 @@ def write_scores(path: Path, slice_name: str, blocks: dict, status: dict, thresh
     return scores
 
 
+def dev_real_cohort(anatomy_path: Path):
+    """The public real-anatomy development cohort (every 7th development subject, 32 in all)."""
+    anatomy = rc.load_anatomy(anatomy_path)[::7][:N_DEV_REAL_SUBJECTS]
+    return rc.make_cohort(anatomy, DEV_REAL_SEED, N_TIMEPOINTS)
+
+
+def _score_predictor(name, script, outputs_dir, proc, real, timeout):
+    """Run one predictor on both cohorts; return (metrics or None, failure reason, diagnostics)."""
+    results, diags = {}, {}
+    for cohort in ("procedural", "real"):
+        spec = proc if cohort == "procedural" else real
+        out_path = outputs_dir / cohort / f"{name}.npz"
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        reason = run_predictor(script, spec["input_path"], out_path, outputs_dir / "logs" / f"{name}_{cohort}.log", timeout)
+        if reason is None:
+            try:
+                results[cohort], diags[cohort] = spec["score"](load_prediction(out_path, spec["subjects"]))
+            except Exception as exc:  # malformed output counts as a failed run
+                reason = f"invalid output: {exc}"
+        if reason:
+            return None, f"{cohort} cohort: {reason}", diags
+    return {**results["procedural"], **results["real"]}, None, diags
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--inputs", type=Path, default=ROOT / "data/hippo_train.npz")
     parser.add_argument("--labels", type=Path, default=ROOT / "data/hippo_train_labels.npz")
     parser.add_argument("--template", type=Path, default=ROOT / "data/hippo_template.npz")
+    parser.add_argument("--real-anatomy", type=Path, default=ROOT / "data/hippo_real_anatomy.npz")
+    parser.add_argument("--real-template", type=Path, default=ROOT / "data/hippo_real_template.npz")
     parser.add_argument("--outputs-dir", type=Path, default=ROOT / "checkpoints/train")
     parser.add_argument("--scores", type=Path, default=ROOT / "scoring/scores_train.json")
-    parser.add_argument("--timeout", type=float, default=3600.0)
+    parser.add_argument("--timeout", type=float, default=7200.0, help="per predictor call, seconds")
+    parser.add_argument("--export-real-inputs", type=Path, default=None, help="write the real development scans and exit")
     args = parser.parse_args()
+
+    real_inputs, real = dev_real_cohort(args.real_anatomy)
+    if args.export_real_inputs is not None:
+        args.export_real_inputs.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(args.export_real_inputs, **real_inputs)
+        return
 
     with np.load(args.inputs, allow_pickle=False) as z:
         inputs = {k: np.asarray(z[k]) for k in z.files}
@@ -355,21 +439,27 @@ def main() -> None:
     subfield_id = template["subfield_id"].astype(np.int64)
     thresholds = failure_thresholds(template, scan_centroids(inputs), labels, subjects, subfield_id)
 
+    with np.load(args.real_template, allow_pickle=False) as z:
+        real_template = {k: np.asarray(z[k]) for k in z.files}
+    head_ids = real_template["subfield_id"].astype(np.int64) == 0
+    trivial_real, _ = rc.score(rc.trivial_prediction(real_template, real_inputs), real, head_ids)
+    thresholds["trivial_real_longitudinal_error_mm"] = trivial_real["real_longitudinal_correspondence_error_mm"]
+    thresholds["trivial_real_surface_Q_mm"] = trivial_real["real_surface_Q_mm"]
+
     predictors = discover_predictors()
     if not predictors:
         raise FileNotFoundError("no scripts/predict_*.sh predictors found")
+    args.outputs_dir.mkdir(parents=True, exist_ok=True)
+    proc = {"input_path": args.inputs, "subjects": subjects, "score": lambda p: compute_metrics(p, labels, subjects, subfield_id)}
+    real_spec = {"input_path": args.outputs_dir / "real_scans.npz", "subjects": real["subjects"], "score": lambda p: rc.score(p, real, head_ids)}
+    np.savez_compressed(real_spec["input_path"], **real_inputs)
     blocks, status, diagnostics = {}, {}, {}
     for name, script in predictors.items():
-        out_path = args.outputs_dir / f"{name}.npz"
-        reason = run_predictor(script, args.inputs, out_path, args.outputs_dir / "logs" / f"{name}.log", args.timeout)
-        metrics = None
+        metrics, reason, diag = _score_predictor(name, script, args.outputs_dir, proc, real_spec, args.timeout)
         if reason is None:
-            try:
-                metrics, diagnostics[name] = compute_metrics(load_prediction(out_path, subjects), labels, subjects, subfield_id)
-                reason = gate(metrics, thresholds)
-            except Exception as exc:  # malformed output counts as a failed run
-                reason = f"invalid output: {exc}"
-        status[name] = {"status": "failed" if reason else "ok", "reason": reason, "raw": metrics}
+            reason = gate(metrics, thresholds)
+        diagnostics[name] = diag
+        status[name] = {"status": "failed" if reason else "ok", "reason": reason, "raw": _finite_or_none(metrics)}
         blocks[name] = finalize(None if reason else metrics)
         print(f"[train] {name}: {'FAILED (' + reason + ')' if reason else 'ok'}", file=sys.stderr)
     scores = write_scores(args.scores, "train", blocks, status, thresholds)

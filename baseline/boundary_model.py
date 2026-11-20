@@ -105,9 +105,9 @@ def _scan(row):
     return row, 0.5 * (sup + inf), sup, inf
 
 
-def run(input_path: Path, template_path: Path, output_path: Path, workers: int = 0) -> None:
+def run(input_path: Path, template_path: Path | None, output_path: Path, workers: int = 0) -> None:
     scans = hippo_io.load_scans(input_path)
-    tpl = hippo_io.load_template(template_path)
+    tpl = hippo_io.load_template(template_path or hippo_io.template_path(scans["cohort"]))
     sv, _, sn = hippo_io.surface_from_mask(tpl["mask"], tpl["origin"], tpl["spacing"])
     skel = tpl["skeleton"].astype(float)
     _STATE.update(
@@ -143,7 +143,7 @@ def run(input_path: Path, template_path: Path, output_path: Path, workers: int =
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", type=Path, default=ROOT / "data/hippo_train.npz")
-    parser.add_argument("--template", type=Path, default=ROOT / "data/hippo_template.npz")
+    parser.add_argument("--template", type=Path, default=None, help="default: the public template of the input's cohort")
     parser.add_argument("--output", type=Path, default=ROOT / "checkpoints/boundary_baseline_train.npz")
     parser.add_argument("--workers", type=int, default=0)
     args = parser.parse_args()

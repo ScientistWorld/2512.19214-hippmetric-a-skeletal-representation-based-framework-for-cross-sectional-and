@@ -34,7 +34,7 @@ import argparse
 import itertools
 import multiprocessing as mp
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 import numpy as np
@@ -61,6 +61,11 @@ class Config:
     e2_threshold: float = 0.6  # rad, "large angular deviation" corrected by E2
     max_ray: float = 10.0  # mm
     anchor_followups: bool = True  # baseline-anchored longitudinal model
+    # Variants (not the paper's procedure, which registers follow-ups rigidly):
+    followup_nonrigid: bool = False  # add a coarse Gaussian-kernel flow after the rigid follow-up registration
+    followup_widths: tuple = (10.0, 8.5, 7.0)  # mm, kernel widths of that flow
+    followup_iters: int = 6
+    static_followups: bool = False  # ablation: reuse baseline spoke lengths on follow-ups (no re-measurement)
     length_smoothing: float = 0.0  # grid units; 0 = paper procedure
     smooth_iterations: int = 20  # Taubin iterations in surface refinement
     workers: int = 0
@@ -456,6 +461,18 @@ def process_subject(rows):
         tf = similarity_icp(vb, nb, vf, nf, with_scale=False, trim=0.8, multistart=False)
         pf = apply(tf, p)
         dsf, dif = ds @ tf[1].T, di @ tf[1].T
+        if cfg.static_followups:
+            out[row] = _emit(pf, dsf, dif, ls, li, valid, cfg)
+            continue
+        if cfg.followup_nonrigid:
+            # Variant: smooth nonrigid baseline -> follow-up flow (wide kernels only) that carries
+            # the skeletal points and spoke ends; lengths are then re-measured along the spokes.
+            fcfg = replace(cfg, widths=cfg.followup_widths, iters_per_width=cfg.followup_iters, match_threshold=0.0)
+            k = len(pf)
+            internal = np.vstack([pf, pf + dsf * ls[:, None], pf + dif * li[:, None]])
+            _, internal, _, _ = dense_deformation(apply(tf, vb), fb, internal, vf, nf, fcfg)
+            pf = internal[:k]
+            dsf, dif = _unit(internal[k : 2 * k] - pf), _unit(internal[2 * k :] - pf)
         mesh = MeshQuery(vf, ff, nf)
         p2, ds2, di2, ls2, li2, valid2 = e0_cases(pf, dsf, dif, mesh, cfg.max_ray)
         p2 = np.where(valid2[:, None], p2, pf)
@@ -474,9 +491,9 @@ def _available_cpus() -> int:
         return os.cpu_count() or 1
 
 
-def run(input_path: Path, template_path: Path, output_path: Path, cfg: Config) -> None:
+def run(input_path: Path, template_path: Path | None, output_path: Path, cfg: Config) -> None:
     scans = hippo_io.load_scans(input_path)
-    tpl = hippo_io.load_template(template_path)
+    tpl = hippo_io.load_template(template_path or hippo_io.template_path(scans["cohort"]))
     sv, sf, sn = hippo_io.surface_from_mask(tpl["mask"], tpl["origin"], tpl["spacing"], cfg.smooth_iterations)
     skel = tpl["skeleton"].astype(float)
     internal = np.concatenate(
@@ -521,10 +538,12 @@ def run(input_path: Path, template_path: Path, output_path: Path, cfg: Config) -
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--input", type=Path, default=ROOT / "data/hippo_train.npz")
-    parser.add_argument("--template", type=Path, default=ROOT / "data/hippo_template.npz")
+    parser.add_argument("--template", type=Path, default=None, help="default: the public template of the input's cohort")
     parser.add_argument("--output", type=Path, default=ROOT / "checkpoints/hippmetric_train.npz")
     parser.add_argument("--no-dense", action="store_true", help="ablation: similarity alignment only")
     parser.add_argument("--independent-followups", action="store_true", help="ablation: refit every scan independently")
+    parser.add_argument("--nonrigid-followups", action="store_true", help="variant: nonrigid follow-up -> baseline registration")
+    parser.add_argument("--static-followups", action="store_true", help="ablation: no re-measurement on follow-ups")
     parser.add_argument("--length-smoothing", type=float, default=0.0)
     parser.add_argument("--match-threshold", type=float, default=Config.match_threshold)
     parser.add_argument("--iters-per-width", type=int, default=Config.iters_per_width)
@@ -533,6 +552,8 @@ def main() -> None:
     cfg = Config(
         dense=not args.no_dense,
         anchor_followups=not args.independent_followups,
+        followup_nonrigid=args.nonrigid_followups,
+        static_followups=args.static_followups,
         length_smoothing=args.length_smoothing,
         match_threshold=args.match_threshold,
         iters_per_width=args.iters_per_width,

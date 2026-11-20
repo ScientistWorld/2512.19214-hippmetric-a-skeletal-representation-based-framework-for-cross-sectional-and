@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Public I/O and surface utilities for the hippocampal segmentation benchmark.
 
-Scan files (``data/hippo_train.npz`` and the hidden test file handed to a
-predictor) store one binary hippocampal segmentation per scan on an isotropic
-0.5 mm grid:
+Scan files (``data/hippo_train.npz``, the real-anatomy development scans and
+the hidden test files handed to a predictor) store one binary hippocampal
+segmentation per scan on an isotropic 0.5 mm grid:
 
+- ``cohort``        scalar string, ``"procedural"`` or ``"real"`` (missing means
+                    procedural). Each cohort has its own template:
+                    ``data/hippo_template.npz`` (procedural sheet) and
+                    ``data/hippo_real_template.npz`` (mean of real hippocampi).
 - ``subjects``      (N, 2) int: subject id, timepoint (0 = baseline).
 - ``mask_bits``     packed bits of all masks (``np.packbits`` of each C-order mask).
 - ``mask_offsets``  (N + 1,) byte offsets of each scan in ``mask_bits``.
@@ -12,10 +16,10 @@ predictor) store one binary hippocampal segmentation per scan on an isotropic
 - ``origins``       (N, 3) world position (mm) of voxel (0, 0, 0)'s centre.
 - ``spacing``       (N,) voxel size (mm).
 
-The template file (``data/hippo_template.npz``) holds the reference skeletal
-grid (61 x 9 points, u-major), its superior/inferior spoke directions and
-lengths, lamellar coordinates, subfield ids, and the template segmentation in
-the same encoding (``mask_bits``, ``mask_shape``, ``origin``, ``spacing``).
+A template file holds the reference skeletal grid (61 x 9 points, u-major,
+u = 0 at the head), its superior/inferior spoke directions and lengths,
+lamellar coordinates, subfield ids, and the template segmentation in the same
+encoding (``mask_bits``, ``mask_shape``, ``origin``, ``spacing``).
 
 These helpers only decode inputs and turn masks into surfaces. They contain no
 ground truth and no evaluation logic.
@@ -28,6 +32,15 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage, sparse
 from scipy.sparse.csgraph import connected_components
+
+
+DATA_DIR = Path(__file__).resolve().parent
+TEMPLATES = {"procedural": DATA_DIR / "hippo_template.npz", "real": DATA_DIR / "hippo_real_template.npz"}
+
+
+def template_path(cohort: str) -> Path:
+    """Public template of a cohort ("procedural" or "real")."""
+    return TEMPLATES[str(cohort)]
 
 
 def _unpack(bits: np.ndarray, shape) -> np.ndarray:
@@ -44,8 +57,9 @@ def load_scans(path: str | Path) -> dict:
         shapes = np.asarray(z["mask_shapes"])
         origins = np.asarray(z["origins"], dtype=float)
         spacing = np.asarray(z["spacing"], dtype=float)
+        cohort = str(z["cohort"]) if "cohort" in z.files else "procedural"
     masks = [_unpack(bits[offsets[i] : offsets[i + 1]], shapes[i]) for i in range(len(subjects))]
-    return {"subjects": subjects, "masks": masks, "origins": origins, "spacing": spacing}
+    return {"subjects": subjects, "masks": masks, "origins": origins, "spacing": spacing, "cohort": cohort}
 
 
 def load_template(path: str | Path) -> dict:

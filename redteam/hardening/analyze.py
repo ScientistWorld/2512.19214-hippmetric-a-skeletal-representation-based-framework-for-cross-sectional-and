@@ -47,17 +47,29 @@ def delta_table(scores: dict, coeff: dict, population: list[str]) -> dict:
     return out
 
 
+PAIRED = {
+    "procedural": ("thickness_mae_mm", "longitudinal_thickness_change_error_mm", "cross_sectional_correspondence_error_mm", "longitudinal_correspondence_error_mm", "surface_Q_mm", "surface_HD_mm"),
+    "real": ("real_longitudinal_correspondence_error_mm", "real_stable_correspondence_error_mm", "real_thickness_change_error_mm", "real_surface_Q_mm", "real_valid_spoke_fraction"),
+}
+
+
+def _ok(x) -> bool:
+    return x is not None and isinstance(x, (int, float)) and math.isfinite(x)
+
+
 def paired(diag: dict, method: str) -> dict:
+    """Per-subject paired differences (method - reference) on the same subjects."""
     res = {}
     if method not in diag or REFERENCE not in diag:
         return res
-    ref, alt = diag[REFERENCE], diag[method]
-    for met in ("thickness_mae_mm", "longitudinal_thickness_change_error_mm", "cross_sectional_correspondence_error_mm", "longitudinal_correspondence_error_mm", "surface_Q_mm", "surface_HD_mm"):
-        diffs = [alt[s][met] - ref[s][met] for s in ref if s in alt and ref[s][met] is not None and alt[s][met] is not None]
-        if len(diffs) > 1:
-            mean = statistics.fmean(diffs)
-            se = statistics.stdev(diffs) / math.sqrt(len(diffs))
-            res[met] = {"mean_diff": mean, "se": se, "z": mean / se if se > 0 else float("inf"), "n": len(diffs)}
+    for cohort, mets in PAIRED.items():
+        ref, alt = diag[REFERENCE].get(cohort, {}), diag[method].get(cohort, {})
+        for met in mets:
+            diffs = [alt[s][met] - ref[s][met] for s in ref if s in alt and _ok(ref[s].get(met)) and _ok(alt[s].get(met))]
+            if len(diffs) > 1:
+                mean = statistics.fmean(diffs)
+                se = statistics.stdev(diffs) / math.sqrt(len(diffs))
+                res[met] = {"mean_diff": mean, "se": se, "z": mean / se if se > 0 else float("inf"), "n": len(diffs)}
     return res
 
 
@@ -90,11 +102,17 @@ def main() -> None:
         for m, d in sorted(block["delta_successful_population"].items(), key=lambda kv: -kv[1]):
             mt = block["metrics"][m]
             print(
-                f"{m:28s} d_ok={d:+8.3f} d_all={block['delta_all_population'][m]:+8.3f} "
-                f"thkMAE={mt['thickness_mae_mm']:.3f} cross={mt['cross_sectional_correspondence_error_mm']:.3f} "
-                f"long={mt['longitudinal_correspondence_error_mm']:.3f} Q={mt['surface_Q_mm']:.3f} "
-                f"HD={mt['surface_HD_mm']:.3f} valid={mt['valid_spoke_fraction']:.3f}  {block['status'][m]}"
+                f"{m:26s} d_ok={d:+8.3f} d_all={block['delta_all_population'][m]:+8.3f} "
+                f"thk={mt['thickness_mae_mm']:.3f} dthk={mt['longitudinal_thickness_change_error_mm']:.3f} "
+                f"cross={mt['cross_sectional_correspondence_error_mm']:.3f} long={mt['longitudinal_correspondence_error_mm']:.3f} "
+                f"Q={mt['surface_Q_mm']:.3f} HD={mt['surface_HD_mm']:.3f} val={mt['valid_spoke_fraction']:.3f} | "
+                f"R:long={mt['real_longitudinal_correspondence_error_mm']:.3f} p95={mt['real_longitudinal_p95_correspondence_error_mm']:.3f} "
+                f"stab={mt['real_stable_correspondence_error_mm']:.3f} dthk={mt['real_thickness_change_error_mm']:.3f} "
+                f"Q={mt['real_surface_Q_mm']:.3f} val={mt['real_valid_spoke_fraction']:.3f}  {block['status'][m]}"
             )
+        for m, pr in sorted(block.get("paired_vs_reference", {}).items()):
+            if pr:
+                print(f"   paired {m:24s} " + " ".join(f"{k.replace('_error_mm', '').replace('_mm', '')}={v['mean_diff']:+.3f}+-{v['se']:.3f}" for k, v in pr.items()))
     sys.stdout.flush()
 
 
