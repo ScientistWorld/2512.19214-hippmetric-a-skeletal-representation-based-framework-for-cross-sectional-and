@@ -1,4 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
-action: done
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
+gpus: 0
+test: false
 milestone: core_claim
-notes: "Hardened gym: hidden segmentation test cohort, s-rep output contract with evaluator-recomputed metrics, failure gate with worst values, thickness-change metric, paper-faithful HippMetric; better variant ranks above reference, shortcuts fail or lose (HARDENING.md)."
+notes: ""
