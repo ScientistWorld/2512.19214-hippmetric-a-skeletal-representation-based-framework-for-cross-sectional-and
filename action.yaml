@@ -3,6 +3,6 @@
 # only after your turn ends.
 action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim
-notes: "Hardening: build real-anatomy (MSD Task04) template/dev/held-out files, smoke test, reference run (train/test scores), variant+shortcut audit on both cohorts, validate"
+notes: "Final check: reference + boundary baseline rerun from the final evaluator code (scripts/run.sh = reproduce.sh + validate) to regenerate scores_train/test.json"
