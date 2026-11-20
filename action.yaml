@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: true
+action: done
 milestone: core_claim
-notes: "Final check: reference + boundary baseline rerun from the final evaluator code (scripts/run.sh = reproduce.sh + validate) to regenerate scores_train/test.json"
+notes: "Hardened: real-anatomy (MSD Task04) longitudinal cohort with hidden erosion/warp follow-ups added to all three experiments; reference beats boundary baseline on real longitudinal correspondence (+0.42+-0.08 mm paired); nonrigid follow-up variant beats reference beyond noise; all shortcuts fail or lose; validate passes."
